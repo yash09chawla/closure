@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HVOPS Cases</title>
+<link rel="icon" href="/static/img/logo.png">
+<link rel="stylesheet" href="/static/css/hvops.css">
+</head>
+<body>
+<nav class="topnav">
+  <a class="brand" href="/"><img src="/static/img/logo.png" alt=""> HV OPS</a>
+  <div class="menu"><span>Operation</span><span class="on">Education [2]-TL</span><span>Education [2]-USER</span><span>Rolodex</span></div>
+  <div class="right"><div class="avatar">SG</div><span>Sumit Gaur ▾</span></div>
+</nav>
+<div class="page">
+  <div class="hero">
+    <h1>Education — Closure queue</h1>
+    <button class="btn-light" onclick="demo()">Load Anna University demo case</button>
+    <button class="btn-red" onclick="openNew()">＋ Inject case</button>
+  </div>
+  <div class="stats" id="stats"></div>
+  <div class="card"><table class="list" id="list"></table></div>
+  <p class="eh-sub" style="margin-top:10px">Local prototype — replica of HVOPS with the Auto-Close Engine. Data stays in <code>data/</code> on this machine.</p>
+</div>
+
+<div class="modal-bg" id="modal"><div class="modal">
+  <h3>Inject a new education case</h3>
+  <p class="eh-sub" style="margin-top:-6px">Initiation data as received from the client (MOHRE API). Documents are dropped on the case page.</p>
+  <div class="grid2" id="newForm"></div>
+  <div style="display:flex;gap:10px;margin-top:16px;justify-content:flex-end">
+    <button class="btn-light" onclick="closeNew()">Cancel</button><button class="btn-red" onclick="createCase()">Create case</button></div>
+</div></div>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const FIELDS = [["case_ref","Case ID *","e.g. 235720-22479/2026-EDU-1"],["client","Client","MOHRE-Direct API"],
+  ["applicant_full_name","Applicant Full Name *",""],["passport_name","Full Name on Passport",""],
+  ["institute_name","Institute / University claimed *",""],["country_code","Institution Country (Code)","IND"],
+  ["country_name","Institution Country Name","Republic of India"],["study_level","Degree / Study Level","Bachelor"],
+  ["cert_title","Qualification Certificate Title",""],["subjects","Subjects/Major",""],
+  ["study_start","Study Start Date (MM-YYYY)",""],["study_end","Study End Date (MM-YYYY)",""]];
+$("#newForm").innerHTML = FIELDS.map(([k,l,p]) => `<div class="fg"><label>${l}</label><input class="fc" id="n_${k}" placeholder="${esc(p)}" ${k==="client"||k==="country_code"||k==="country_name"?`value="${esc(p)}"`:""}></div>`).join("");
+const LABEL = {new:"New", processing:"Processing", ready_for_review:"Ready for review", closed:"Closed", error:"Error"};
+const mm = s => s == null ? "—" : s >= 60 ? `${Math.floor(s/60)}m ${Math.round(s%60)}s` : `${s}s`;
+
+async function load() {
+  const cases = await fetch("/api/cases").then(r => r.json());
+  const closed = cases.filter(c => c.status === "closed");
+  const avg = closed.length ? closed.reduce((a,c) => a + (c.closure_seconds||0), 0) / closed.length : null;
+  const saved = closed.reduce((a,c) => a + Math.max(0, 15*60 - (c.closure_seconds||0)), 0);
+  $("#stats").innerHTML = `<div class="stat"><b>${cases.length}</b><span>cases in queue</span></div>
+    <div class="stat"><b>${closed.length}</b><span>closed</span></div>
+    <div class="stat"><b>${avg == null ? "—" : mm(Math.round(avg))}</b><span>avg. closure time (manual 15–20 min)</span></div>
+    <div class="stat"><b>${saved ? mm(Math.round(saved)) : "—"}</b><span>ops time saved vs 15 min baseline</span></div>`;
+  $("#list").innerHTML = `<tr><th>Case ID</th><th>Applicant</th><th>Institute</th><th>Client</th><th>Received</th><th>Status</th><th>Engine</th><th>Closed in</th><th>LLM cost</th><th></th></tr>` +
+    (cases.length ? cases.map(c => `<tr><td><a href="/case/${c.id}">${esc(c.case_ref)}</a></td><td>${esc(c.applicant)}</td><td>${esc(c.institute)}</td><td>${esc(c.client)}</td>
+      <td>${esc(c.received_on)}</td><td><span class="sbadge s-${c.status}">${LABEL[c.status]||c.status}</span>${c.flags?` <span class="eh-sub">${c.flags} flag(s)</span>`:""}</td>
+      <td>${mm(c.engine_seconds)}</td><td>${mm(c.closure_seconds)}</td><td>${c.cost_usd!=null?"$"+c.cost_usd.toFixed(3):"—"}</td>
+      <td style="white-space:nowrap"><a class="btn-out" href="/case/${c.id}">Open</a> <span class="link-sm" onclick="del('${c.id}')">delete</span></td></tr>`).join("")
+     : `<tr><td colspan="10" class="empty">No cases yet — load the demo case or inject one.</td></tr>`);
+}
+async function demo() { const c = await fetch("/api/cases/demo", {method:"POST"}).then(r => r.json()); location.href = `/case/${c.id}`; }
+function openNew() { $("#modal").classList.add("on"); }
+function closeNew() { $("#modal").classList.remove("on"); }
+async function createCase() {
+  const body = {}; FIELDS.forEach(([k]) => body[k] = $(`#n_${k}`).value.trim());
+  const r = await fetch("/api/cases", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(body)});
+  if (!r.ok) { alert((await r.json()).detail); return; }
+  const c = await r.json(); location.href = `/case/${c.id}`;
+}
+async function del(id) { if (confirm("Delete this case?")) { await fetch(`/api/cases/${id}`, {method:"DELETE"}); load(); } }
+load(); setInterval(load, 5000);
+</script>
+</body>
+</html>

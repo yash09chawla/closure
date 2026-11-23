@@ -1,0 +1,7 @@
+# secrets
+.env
+# local environment / caches
+.venv/
+__pycache__/
+*.pyc
+.DS_Store

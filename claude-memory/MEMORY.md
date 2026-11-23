@@ -1,0 +1,2 @@
+- [HV closure prototype](hv-closure-prototype.md) — HVOPS replica + auto-close engine demo; status notes in status/
+- [No candidate data to external services](no-candidate-data-external.md) — no degree/marksheet/revert data to OpenAI; local OCR only

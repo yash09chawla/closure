@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Helloverify</title>
+<link rel="icon" href="/static/img/logo.png">
+<link rel="stylesheet" href="/static/css/hvops.css">
+</head>
+<body class="engine-open">
+<nav class="topnav">
+  <a class="brand" href="/"><img src="/static/img/logo.png" alt=""> HV OPS</a>
+  <div class="menu"><span>Operation</span><span class="on">Education [2]-TL</span><span>Education [2]-USER</span><span>Rolodex</span><span>accreditation-status</span></div>
+  <div class="right"><span>🔔<span class="badge-dot">2</span></span><span>✉<span class="badge-dot">2</span></span><div class="avatar">SG</div><span>Sumit Gaur ▾</span></div>
+</nav>
+
+<div class="shell">
+  <div class="frame">
+    <div class="toolbar">
+      <div class="title">◈ Education Ops User</div>
+      <a class="btn-out" href="/">↩ Back</a>
+      <span class="btn-out">◈ Check Details</span>
+      <span class="btn-out">☰ Audit Trail</span>
+      <span class="btn-out">◈ University Details</span>
+      <span class="btn-out">✉ Letter Head Details</span>
+      <span class="btn-out">✉ Email Audit Trail</span>
+    </div>
+    <div class="body">
+      <aside class="sidebar">
+        <div class="item"><span class="ic"></span>View Personal Information</div>
+        <div class="item active"><span class="ic"></span>Start Verification</div>
+        <div class="item" onclick="finalSubmit()"><span class="ic"></span>Final Submit</div>
+        <div class="item"><span class="ic"></span>Actions</div>
+      </aside>
+      <main class="main">
+        <div class="banner" id="banner"></div>
+
+        <div class="card-pink"><div class="table-wrap"><table class="tbl" id="insuff"></table></div></div>
+
+        <div class="rolodex">
+          <div class="tabs dark"><div class="t on">Rolodex Instructions</div></div>
+          <div style="padding:10px 4px">No Instructions.</div>
+        </div>
+
+        <div class="steps-box">
+          <h4>Please follow below steps to process Education Check</h4>
+          <div><b>N/A</b></div><div style="margin:4px 0"><b>N/A</b></div>
+          <div class="note"><b>Note:</b> You can check the personal details for futher information by clicking on "View Personal Details" tab on left</div>
+        </div>
+
+        <div class="form-card">
+          <div class="links"><a href="#">View Candidate Detail</a><a href="#" id="viewDocs">View Document</a></div>
+          <div id="sec-mohre"></div>
+          <div id="sec-qual"></div>
+          <div id="sec-name"></div>
+          <div class="note-box">Note: Please review all the data from initation and update in case there is any mismatch by clicking on save/update button then choose mode of verification below to start verification.
+            <div style="margin-top:8px"><button class="btn-red" onclick="saveFields()">💾 Save/Update</button></div></div>
+
+          <h3 style="margin:22px 0 8px;font-size:17px">Check Details and Document</h3>
+          <div class="tabs"><div class="t">Online Database (3)</div><div class="t on">E-mail (1)</div><div class="t">Letter Head (5)</div><div class="t">Via Post (6)</div><div class="t">Site Visit (2)</div><div class="t">Activity Tracker</div></div>
+          <div style="border:1px solid #ddd;border-top:none;padding:14px;background:#fafafa">
+            <div style="font-size:12px;margin-bottom:6px">Previous Verification Histroy</div>
+            <table class="tbl" style="background:#fff;text-align:center"><tr><th>University/College/Board Name</th><th>Total Verification Received</th><th>Verification Received</th><th>Site Visit Allowed</th><th>Average response Type</th><th>Last 3 Sender Email</th></tr>
+              <tr><td id="pvh-name"></td><td>0</td><td>0</td><td>Allowed</td><td>05</td><td id="pvh-sender"></td></tr></table>
+            <button class="btn-green" style="margin:10px 0">Initiate Email Verification</button>
+            <table class="tbl" style="background:#fff" id="mailtbl"></table>
+
+            <div class="status-card" style="background:#fff">
+              <h3>Case Status Update</h3>
+              <div class="sub">One quick update per case. Check-ins fall due on day 5, 10 and 13 after submission, then every 2 days.</div>
+              <div class="row">
+                <div class="fg" style="width:33%"><label>Case ID <span class="req">*</span></label><input class="fc" id="cs-id" readonly></div>
+                <div class="fg" style="width:33%"><label>Case received on <span class="req">*</span></label><input class="fc" id="cs-recv" readonly></div>
+                <div class="fg" style="width:33%"><label>Last Updated</label><input class="fc" placeholder="dd-mm-yyyy" id="cs-upd"></div>
+              </div>
+              <div style="font-size:11px;font-weight:700;margin:8px 0 4px">Have you submitted this? <span style="color:var(--red)">*</span></div>
+              <div style="font-size:11.5px;line-height:1.7" id="cs-sub">
+                <label><input type="radio" name="sub" value="na"> Not Applicable</label><br>
+                <label><input type="radio" name="sub" value="online"> Online instant (no fee)</label><br>
+                <label><input type="radio" name="sub" value="email"> Email</label><br>
+                <label><input type="radio" name="sub" value="univ"> University (fee required)</label></div>
+            </div>
+          </div>
+
+          <div class="chk"><label><input type="checkbox" id="resultFound"> Result Found</label><label><input type="checkbox" id="noResp"> No Response / Record Not Available</label></div>
+
+          <div id="sec-cvd"></div>
+          <div id="sec-acad"></div>
+          <div id="sec-acc"></div>
+          <div id="sec-quality"></div>
+
+          <div class="docs-card">
+            <h3>Documents — Education 1</h3>
+            <div class="hint">Please make sure all documents are in PDF, JPEG, JPG, HEIC or PNG format, with each document no larger than 10 MB.</div>
+            <div class="tabs dark"><div class="t on">Verification</div><div class="t">Initiation</div></div>
+            <div id="docs"></div>
+          </div>
+          <div style="background:#f7f7f7;padding:12px;margin-top:10px;display:flex;gap:10px">
+            <button class="btn-red" onclick="saveFields()">💾 Save/Update</button>
+            <button class="btn-red" style="background:#198754" onclick="finalSubmit()">✔ Final Submit</button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<!-- ============ AUTO-CLOSE ENGINE ============ -->
+<button class="engine-toggle" onclick="document.body.classList.add('engine-open')">⚡ Auto-Close Engine</button>
+<aside class="engine">
+  <div class="eh"><h2>⚡ Auto-Close Engine</h2><span class="eh-sub" id="llmState"></span><span class="x" onclick="document.body.classList.remove('engine-open')">×</span></div>
+  <div class="eb">
+    <div class="drop" id="drop"><b>Drop the case documents here</b>Degree · Transcript · Initiation mail · Revert mail<br><small>.jpg .png .pdf .msg .eml — or click to browse</small>
+      <input type="file" id="fileIn" multiple hidden></div>
+    <div class="ulist" id="ulist"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center"><button class="link-sm" onclick="loadSample()">use sample documents (Anna University case)</button></div>
+    <button class="run" id="runBtn" onclick="runEngine()">▶ Auto-close this case</button>
+
+    <div class="timer"><div><div class="big" id="clock">0.0s</div><div class="eh-sub" id="clockLbl">engine time</div></div>
+      <div class="vs">manual closure<br><b>15–20 min</b></div></div>
+    <ul class="steps" id="steps"></ul>
+    <div class="kpis" id="kpis" style="display:none"></div>
+    <div class="section-title" id="flagsTitle" style="display:none">Needs your review</div>
+    <div class="flags" id="flags"></div>
+    <div class="legend"><span><i style="background:var(--green)"></i>filled by engine</span><span><i style="background:var(--amber)"></i>review</span><span><i style="background:var(--blue)"></i>edited by you</span></div>
+    <div class="section-title">Engine log</div>
+    <div class="logbox" id="log">Waiting for documents…</div>
+  </div>
+</aside>
+
+<div class="modal-bg" id="modal"><div class="modal" id="modalBody"></div></div>
+<script src="/static/js/case.js"></script>
+</body>
+</html>
