@@ -127,6 +127,17 @@ def build(case: dict, facts: dict) -> tuple[dict, list[dict], str]:
     rmail = facts.get("revert_mail") or {}
     resp = facts.get("respondent") or {}
     mo = case.get("mohre", {})
+    online = facts.get("mode") == "online"
+    on = facts.get("online") or {}
+    on_src = on.get("sources", {})
+    if online:
+        rv_src = f"Online portal · {facts.get('revert', {}).get('source', '')}"
+
+    def osrc(key, default=""):
+        """Provenance label for a value read from a portal screenshot: 'Online portal · host (file)'."""
+        s = on_src.get(key) or {}
+        host = re.sub(r"^https?://([^/]+).*$", r"\1", s.get("url", "")) if s.get("url") else ""
+        return f"Online portal · {host or s.get('doc', '')}" if s else default
 
     def put(key, value, source, note="", flag=""):
         if value in (None, ""):
@@ -162,6 +173,19 @@ def build(case: dict, facts: dict) -> tuple[dict, list[dict], str]:
     major = ce.get("major") or re.sub(r"(?i)^\s*[A-Z.]+\s+|\(.*?\)", "", rv.get("branch", "")).strip()
     status = rv.get("status", "")
     genuine = bool(re.search(r"(?i)\bgenuine\b", status)) and not re.search(r"(?i)not\s+genuine|fake", status)
+    if online:
+        # the university's own portal shows the record: genuine when the record is found and complete
+        genuine = bool(rv.get("_found") and rv.get("_complete"))
+        nc = (rv.get("_courses") or {}).get("not_completed") or []
+        if rv.get("_found") and nc:
+            flags.append({"level": "error", "field": "o_result",
+                          "msg": f"Portal shows {len(nc)} course(s) not completed: {', '.join(nc[:8])}"})
+        elif rv.get("_found") and not rv.get("_complete"):
+            flags.append({"level": "warn", "field": "o_result",
+                          "msg": "Portal record found but no completion/result status was read — check the screenshot"})
+        if not rv.get("_found"):
+            flags.append({"level": "error", "field": "revert_1",
+                          "msg": "Enrolment/name could not be read from the online portal screenshots"})
 
     if rv.get("name") and doc_name and clean_name(rv["name"]) != clean_name(doc_name):
         flags.append({"level": "warn", "field": "q_applicant_name",
@@ -175,7 +199,9 @@ def build(case: dict, facts: dict) -> tuple[dict, list[dict], str]:
     if rv.get("class") and ce.get("class_awarded") and clean_name(rv["class"]) != clean_name(ce["class_awarded"]):
         flags.append({"level": "warn", "field": "o_result",
                       "msg": f"Class differs: revert '{rv['class']}' vs degree '{ce['class_awarded']}'"})
-    if not rv:
+    if online:
+        pass                                   # online-specific checks above
+    elif not rv:
         flags.append({"level": "error", "field": "revert_1", "msg": "No university revert found in the uploads"})
     elif not status:
         flags.append({"level": "warn", "field": "o_genuine", "msg": "Revert does not state a verification status"})
@@ -187,11 +213,14 @@ def build(case: dict, facts: dict) -> tuple[dict, list[dict], str]:
     table_rev = facts.get("revert", {}).get("method", "").startswith("table")
     verified_date = (dd_mm_yyyy(rv.get("verified_date")) if table_rev else "") or dd_mm_yyyy(rmail.get("date", ""))
     verified_src = rv_src if table_rev and rv.get("verified_date") else "Date of the university's reply e-mail"
+    if online:
+        verified_date = rv.get("verified_date", "")
+        verified_src = osrc("verified_date", rv_src) + " ('Status as on' date)"
     india = "india" in (rv.get("institution", "") + rv.get("university", "") + mo.get("country_name", "") +
                         mo.get("country_code", "")).lower() or bool(acc.get("ugc") or acc.get("aicte_university"))
     country, country_name = ("India", "Republic of India") if india else ("", "")
     duration = DURATION_BY_DEGREE.get(dshort) or DURATION_BY_DEGREE.get("DIPLOMA" if level == "Diploma" else "", 0)
-    pursuit = "Engineering Qualification" if acc.get("technical") or re.search(r"(?i)engineering|technology", title_doc + major) \
+    pursuit = "Engineering Qualification" if acc.get("technical") or re.search(r"(?i)engineering|technology", title_doc + major + " " + ce.get("notes", "")) \
         else ("Management Qualification" if re.search(r"(?i)management|business", title_doc) else "Academic Qualification")
     inst_type = "University Only" if univ else ("Institute Only" if college else "")
     full_time = re.search(r"(?i)full[\s-]*time|\bregular\b", rv.get("branch", "") + " " + rv.get("mode_of_study", ""))
@@ -219,7 +248,8 @@ def build(case: dict, facts: dict) -> tuple[dict, list[dict], str]:
         f"documents are in {ce.get('document_language') or 'English'}")
 
     # ---------- 3. Name check ----------
-    put("n_doc_name", doc_name, ce_src)
+    name_src = ce_src if ce.get("candidate_name") else rv_src
+    put("n_doc_name", doc_name, name_src)
     match, note = name_match(doc_name, case.get("passport_name") or mo.get("applicant_full_name", ""))
     put("n_match", match, "Engine: degree name vs passport name", note,
         "" if match.startswith("Yes") else "review")
@@ -230,15 +260,45 @@ def build(case: dict, facts: dict) -> tuple[dict, list[dict], str]:
     # ---------- Certification verification details ----------
     put("v_institute", univ, univ_src)
     put("v_country_name", country_name, univ_src)
-    put("v_cert_title", title_doc.upper() if title_doc else rv.get("branch", "").upper(), title_src)
-    put("v_start", "Not Disclosed", "Revert does not state a start date",
-        f"transcript: first exams {ce.get('earliest_exam_month_year')}" + (f", {transfer_note}" if lateral else "")
-        if ce.get("earliest_exam_month_year") else "")
-    end = mm_yyyy(rv.get("year_of_passing")) or mm_yyyy(ce.get("last_appearance")) or mm_yyyy(ce.get("exam_month_year"))
-    put("v_end", end, rv_src if rv.get("year_of_passing") else ce_src)
+    code_only = online and not title_doc and re.fullmatch(r"[A-Z]{2,8}", rv.get("branch", "") or "")
+    put("v_cert_title", title_doc.upper() if title_doc else rv.get("branch", "").upper(), title_src,
+        "programme code shown by the portal — confirm the full title on the degree" if code_only else "",
+        "review" if code_only else "")
+    if code_only:
+        flags.append({"level": "warn", "field": "v_cert_title",
+                      "msg": f"Degree title not readable from the documents — portal shows programme code {rv['branch']}; "
+                             f"type the full title from the degree"})
+    if online and rv.get("start_mm_yyyy"):
+        put("v_start", rv["start_mm_yyyy"], osrc("start_mm_yyyy", rv_src) + " · Admission Year",
+            f"portal: Admission Year {rv.get('admission', '')}"
+            + (f"; admission valid upto {rv['valid_upto']}" if rv.get("valid_upto") else ""))
+        if mo.get("study_start") and mo["study_start"] != rv["start_mm_yyyy"]:
+            flags.append({"level": "warn", "field": "v_start",
+                          "msg": f"Start date differs: portal {rv['start_mm_yyyy']} vs initiation {mo['study_start']}"})
+    else:
+        put("v_start", "Not Disclosed", "Online portal screenshots do not show a start date" if online
+            else "Revert does not state a start date",
+            f"transcript: first exams {ce.get('earliest_exam_month_year')}" + (f", {transfer_note}" if lateral else "")
+            if ce.get("earliest_exam_month_year") else "")
+    end = mm_yyyy(rv.get("year_of_passing")) or (rv.get("end_mm_yyyy") if online else "") or \
+        mm_yyyy(ce.get("last_appearance")) or mm_yyyy(ce.get("exam_month_year"))
+    end_src = (osrc("end_mm_yyyy", rv_src) if online and rv.get("end_mm_yyyy") else rv_src) \
+        if rv.get("year_of_passing") or (online and rv.get("end_mm_yyyy")) else ce_src
+    put("v_end", end, end_src, f"admission valid upto {rv['valid_upto']} (validity, not completion)"
+        if online and rv.get("valid_upto") else "", "review" if online and end and end_src == ce_src else "")
+    if online and end and mo.get("study_end") and mo["study_end"] != end:
+        flags.append({"level": "warn", "field": "v_end",
+                      "msg": f"End date differs: {end} vs initiation {mo['study_end']}"})
     put("v_pursuit", pursuit, "Rule: programme type")
-    put("v_mode", "Full Time - On Campus" if full_time else "", rv_src, rv.get("mode_of_study") or rv.get("branch", ""))
-    put("v_mode_status", "Mentioned in Verified response" if full_time else "", rv_src)
+    if online and rv.get("mode_of_study"):
+        explicit = rv.get("_mode_explicit")
+        put("v_mode", rv["mode_of_study"], osrc("mode_of_study", rv_src) if explicit else "Online portal + university type",
+            rv.get("_mode_how", ""), "" if explicit else "review")
+        put("v_mode_status", "Mentioned in Verified response", rv_src, rv.get("_mode_how", ""),
+            "" if explicit else "review")
+    else:
+        put("v_mode", "Full Time - On Campus" if full_time else "", rv_src, rv.get("mode_of_study") or rv.get("branch", ""))
+        put("v_mode_status", "Mentioned in Verified response" if full_time else "", rv_src)
     put("v_branch", DEFAULTS["v_branch"] if country else "", "Ops convention (precedent case)")
     put("v_exam_location", DEFAULTS["v_exam_location"] if country else "", "Ops convention (precedent case)")
     put("v_country_study", country_name, univ_src)
@@ -247,7 +307,7 @@ def build(case: dict, facts: dict) -> tuple[dict, list[dict], str]:
     put("v_subjects", subj, ce_src, f"major on degree: {major}" if subj == "Others" else "")
     put("v_country", country, univ_src)
     put("v_inst_type", inst_type, "Rule: university named on documents")
-    put("v_applicant_name", doc_name, ce_src)
+    put("v_applicant_name", doc_name, name_src)
 
     # ---------- Academic programme ----------
     put("v_nqf", NQF.get(level, ""), "Rule: study level")
@@ -255,7 +315,12 @@ def build(case: dict, facts: dict) -> tuple[dict, list[dict], str]:
     put("v_duration", F.get("q_duration", {}).get("value", ""), F.get("q_duration", {}).get("source", ""), transfer_note)
     put("v_arab", F.get("q_arab", {}).get("value", ""), "Rule: institution outside the Arab region")
     put("v_transfer", "Regular Student (Not Transfer Student)", "Transcript (single institution)", transfer_note)
-    put("v_cond_status", DEFAULTS["v_cond_status"], "Ops convention (precedent case)")
+    if online:
+        put("v_cond_status", "Found on University Website" if pas.get("found") else "Not Found",
+            "Passing criteria search (official university domain)",
+            "" if pas.get("found") else pas.get("reason", ""), "" if pas.get("found") else "review")
+    else:
+        put("v_cond_status", DEFAULTS["v_cond_status"], "Ops convention (precedent case)")
     if pas.get("found"):
         cond = (f"As per {pas.get('regulation') or pas.get('document_title')}, clause {pas.get('clause_heading')}: "
                 f"{pas.get('criteria')}")
@@ -268,14 +333,33 @@ def build(case: dict, facts: dict) -> tuple[dict, list[dict], str]:
     else:
         flags.append({"level": "warn", "field": "v_cond",
                       "msg": f"Passing criteria not found automatically ({pas.get('reason', 'not run')})"})
-    put("v_response_type", "Full response received" if rv and status and len(rv) >= 5 else
-        ("Partial response received" if rv else ""), rv_src)
-    put("v_source", DEFAULTS["v_source"] if rmail else "", "Revert received by e-mail")
+    if online:
+        full = bool(rv.get("_found") and rv.get("_complete") and rv.get("name"))
+        put("v_response_type", "Full response received" if full else ("Partial response received" if rv.get("_found") else ""),
+            rv_src, "enrolment, name and completion status shown by the portal" if full else "")
+        put("v_source", "ONLINE", "Verified on the university's online portal", ", ".join(on.get("domains", [])))
+    else:
+        put("v_response_type", "Full response received" if rv and status and len(rv) >= 5 else
+            ("Partial response received" if rv else ""), rv_src)
+        put("v_source", DEFAULTS["v_source"] if rmail else "", "Revert received by e-mail")
     put("v_university", univ, univ_src)
     put("v_college", college, rv_src if rv.get("institution") else ce_src)
     put("v_study_level", level, level_src)
     sender = rmail.get("from_email", "")
     dom = registrable_domain(domain_of(sender)) if sender else ""
+    if online and on.get("domains"):
+        pdom = on["domains"][0]
+        uni_dom = registrable_domain((acc.get("ugc") or {}).get("website", "") or "")
+        official = bool(re.search(r"\.(ac\.in|edu\.in|edu|gov\.in|nic\.in|ac\.[a-z]{2}|edu\.[a-z]{2})$", pdom)) or pdom == uni_dom
+        put("v_email_type", "Official" if official else "Public", f"Portal domain {pdom}",
+            ("matches university website " + uni_dom) if uni_dom and uni_dom == pdom else "", "" if official else "review")
+        put("v_domain", pdom, "Online portal URL", ", ".join(p.get("url", "") for p in on.get("portals", [])))
+        if uni_dom and uni_dom != pdom:
+            flags.append({"level": "warn", "field": "v_domain",
+                          "msg": f"Portal domain {pdom} differs from university website domain {uni_dom}"})
+        if not official:
+            flags.append({"level": "warn", "field": "v_email_type", "msg": f"Portal domain {pdom} is not an official academic domain"})
+        dom = ""                                # skip the e-mail sender checks below
     if dom:
         official = dom not in FREE_MAIL
         uni_dom = registrable_domain((acc.get("ugc") or {}).get("website", "") or "")
@@ -290,7 +374,7 @@ def build(case: dict, facts: dict) -> tuple[dict, list[dict], str]:
             flags.append({"level": "warn", "field": "v_email_type", "msg": f"Revert came from a public mailbox ({dom})"})
     put("v_degree_type", DEFAULTS["v_degree_type"], "Rule: academic degree")
     lang = (ce.get("document_language") or "English").split()[0].title()
-    put("v_ia_lang", "English" if rv else "", "Revert language")
+    put("v_ia_lang", "English" if rv else "", "Online portal language" if online else "Revert language")
     put("v_degree_lang", lang if lang in ("English", "Arabic", "Hindi") else "Other", ce_src)
 
     # ---------- Accreditation ----------
@@ -319,14 +403,27 @@ def build(case: dict, facts: dict) -> tuple[dict, list[dict], str]:
     put("o_resp_email", resp.get("email"), "Revert e-mail header")
     put("o_resp_desig", resp.get("designation"), "Revert e-mail sender / signature")
     paid = re.search(r"(?i)\b(fee|payment|paid|remit)\b", (rmail.get("body_text") or ""))
-    put("o_payment", "Yes" if paid else DEFAULTS["o_payment"], "Revert e-mail text",
+    put("o_payment", "Yes" if paid else DEFAULTS["o_payment"],
+        "Online portal — instant, no fee" if online else "Revert e-mail text",
         "mail mentions a fee/payment" if paid else "", "review" if paid else "")
     put("o_son_of", "Yes" if ce.get("son_of_mentioned", "").lower() == "yes" else "No", ce_src)
     put("o_transfer_credit", "Not Applicable - Not transfer student", "Not a transfer student")
 
     # ---------- remarks ----------
     bits = []
-    if rv:
+    if online:
+        crs = rv.get("_courses") or {}
+        for p in on.get("portals", []):
+            pf = p["fields"]
+            bits.append(f"{p['label']}: verified online on {p['host'] or p['doc']}"
+                        + (f" (status as on {pf['status_as_on']})" if pf.get("status_as_on") else "") + ".")
+        bits.append(", ".join(x for x in [
+            rv.get("name"), f"Enrolment {rv['registration_no']}" if rv.get("registration_no") else "",
+            f"Programme {rv['programme']}" if rv.get("programme") else "",
+            f"{crs['completed']}/{crs['total']} courses COMPLETED" if crs.get("total") else "",
+            f"admission {rv['admission']}" if rv.get("admission") else "",
+            f"mode {rv['mode_of_study']}" if rv.get("mode_of_study") else ""] if x) + ".")
+    elif rv:
         bits.append(f"Verified via {rv.get('_title') or 'university revert'}"
                     + (f" (App No {rv['app_no']}" if rv.get("app_no") else "")
                     + (f", verified {verified_date}" if verified_date else "")
@@ -338,7 +435,10 @@ def build(case: dict, facts: dict) -> tuple[dict, list[dict], str]:
     if acc.get("body_short"):
         a = acc.get("aicte_university") or acc.get("aicte_college")
         bits.append(f"Accreditation: {acc['body_short']}" + (f" 2025-26 list row {a['sr']} (p.{a['page']})" if a and acc['body_short'] == 'AICTE' else "")
-                    + (f"; UGC {acc['ugc']['type']} {acc['ugc']['status']}" if acc.get("ugc") else "") + ".")
+                    + (f"; UGC {acc['ugc']['type']} {acc['ugc']['status']}" if acc.get("ugc") else "")
+                    + (f" ({acc['summary']})" if acc.get("summary") else "") + ".")
+    elif acc.get("summary"):
+        bits.append(f"Accreditation: {acc['summary']}.")
     if lateral:
         bits.append("Note: lateral entry (transcript from Sem 03).")
     remarks = " ".join(bits)

@@ -15,7 +15,18 @@
 - [x] HVOPS replica UI (case list, case page, documents table, Final Submit) + Auto-Close panel
 - [x] End-to-end tests: Anna sample (UI + API), synthetic free-text case, offline mode
 
+## Done (2026-11-23)
+- [x] Online Database verification (portal screenshots → fields + Revert 1/2 PDFs + Online tab UI), tested on Case5
+- [x] Accreditation / passing "not found" closure documents
+- [x] Candidate documents local by default (HV_CANDIDATE_LLM=1 to re-enable the vision LLM)
+
 ## Open / next
+- [ ] Degree with guilloche background (IGNOU) is unreadable by Tesseract — title/end date come from the marksheet;
+      consider PaddleOCR for such certificates
+- [ ] Anna transcript regulation year is not read locally (vision LLM used to) → passing criteria flagged
+- [ ] Passing results that fail the number check are not cached → IGNOU re-searches every run (~2 min, ~$0.18)
+- [ ] Confirm with ops: Verification source value for online ("ONLINE"?), Study Mode Response Status for an
+      inferred distance mode, and whether Revert 2 is the right slot for the admission-status screenshot
 - [ ] Get real HVOPS dropdown option lists (current lists = seen values + guesses)
 - [ ] Test on more real cases (Case1, Case2 … folders) — only one real sample so far
 - [ ] Confirm ops conventions with the team: "English or Arabic? → No", Branch/Exam location = country,

@@ -103,6 +103,29 @@ align-items:center;overflow:hidden} .addr .u{white-space:nowrap;overflow:hidden;
 """
 
 
+def plain_shot(img_src: str) -> str:
+    """A screenshot that already shows the browser (address bar included) — shown as is, never re-framed."""
+    return f'<div class="bf plain"><div class="shot"><img src="{img_src}"></div></div>'
+
+
+def online_html(portal: dict, facts_rows: list[tuple[str, str]]) -> str:
+    """Online-database revert in the ops layout: '<label> :' + link + the portal screenshot(s) + facts read."""
+    blocks = []
+    for i, img in enumerate(portal["images"]):
+        has_bar = (portal.get("bars") or [True] * len(portal["images"]))[i]
+        src = data_url(img)
+        blocks.append({"frame_html": plain_shot(src) if has_bar or not portal.get("url")
+                       else browser_frame(portal["url"], src)})
+    if facts_rows:
+        rows = "".join(f"<tr><th>{e(k)}</th><td>{e(v)}</td></tr>" for k, v in facts_rows if v)
+        blocks.append({"heading": "Details read from the portal", "frame_html": f'<table class="facts">{rows}</table>'})
+    header = [(portal["label"], portal.get("url") or "(URL not visible in the screenshot)")]
+    return evidence_html(header, blocks,
+                         f"Screenshot(s) of the official portal {portal.get('host') or ''} from {portal['doc']}. "
+                         f"Details read {'with the OpenAI vision model' if portal.get('method') == 'vision-llm' else 'locally (OCR)'} "
+                         f"by HV Closure Engine on {datetime.now().strftime('%d-%m-%Y %H:%M')}.")
+
+
 def evidence_html(header: list[tuple[str, str]], blocks: list[dict], footer: str) -> str:
     """header: [(label, value-or-url)]; blocks: [{heading, url, frame_html, caption, quote}]"""
     def val(v):
@@ -123,7 +146,11 @@ def evidence_html(header: list[tuple[str, str]], blocks: list[dict], footer: str
     return f"""<!doctype html><html><head><meta charset="utf-8"><style>
 body{{font-family:Calibri,'Segoe UI',Helvetica,Arial,sans-serif;color:#1f1f1f;margin:0;font-size:14px}}
 p{{margin:6px 0}} a{{color:#0563c1}} h3{{font-size:15px;margin:18px 0 4px}} .lnk{{font-size:13px;word-break:break-all}}
-.blk{{}} .bf{{page-break-inside:avoid}} blockquote{{border-left:4px solid #f0b400;background:#fff8e1;margin:6px 0 10px;padding:8px 12px;
+.blk{{page-break-inside:avoid}} .bf{{page-break-inside:avoid}} blockquote{{border-left:4px solid #f0b400;background:#fff8e1;margin:6px 0 10px;padding:8px 12px;
 font-size:12.5px;white-space:pre-wrap}} .cap{{font-size:11.5px;color:#555}}
 .foot{{margin-top:14px;font-size:10.5px;color:#777;border-top:1px solid #ddd;padding-top:6px}}
+.bf.plain .shot img{{max-height:none}} .miss{{border:1px dashed #c0392b;background:#fdf2f0;color:#7b241c;padding:10px 12px;
+border-radius:6px;font-size:13px;margin:6px 0 12px}} table.facts{{border-collapse:collapse;font-size:12.5px;margin:4px 0 10px}}
+table.facts th{{text-align:left;background:#f4f6f8;padding:4px 10px;border:1px solid #ddd;font-weight:600}}
+table.facts td{{padding:4px 10px;border:1px solid #ddd}}
 {FRAME_CSS}</style></head><body>{head}{body}<div class="foot">{e(footer)}</div></body></html>"""

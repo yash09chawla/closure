@@ -36,9 +36,24 @@ def _cost(model, usage, searches=0):
     return round(it / 1e6 * pi + ot / 1e6 * po + searches * WEB_SEARCH_CALL_USD, 5), it, ot
 
 
-def image_to_data_url(path, max_side=1600) -> str:
+def _trim_margins(im: Image.Image) -> Image.Image:
+    """Crop the white page margin around a scanned document so the model sees it at higher resolution."""
+    g = im.convert("L").point(lambda v: 255 if v > 235 else 0).convert("1")
+    from PIL import ImageOps
+    box = ImageOps.invert(g.convert("L")).getbbox()
+    if not box:
+        return im
+    x0, y0, x1, y1 = box
+    pad = 12
+    box = (max(0, x0 - pad), max(0, y0 - pad), min(im.width, x1 + pad), min(im.height, y1 + pad))
+    if (box[2] - box[0]) * (box[3] - box[1]) > 0.92 * im.width * im.height:
+        return im
+    return im.crop(box)
+
+
+def image_to_data_url(path, max_side=2048) -> str:
     im = Image.open(path)
-    im = im.convert("RGB")
+    im = _trim_margins(im.convert("RGB"))
     im.thumbnail((max_side, max_side))
     buf = io.BytesIO()
     im.save(buf, "JPEG", quality=85)

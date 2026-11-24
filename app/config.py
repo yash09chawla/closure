@@ -19,6 +19,10 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "").strip()
 EXTRACT_MODEL = os.getenv("HV_EXTRACT_MODEL", "gpt-5.4-mini")
 SEARCH_MODEL = os.getenv("HV_SEARCH_MODEL", "gpt-5.4-mini")
 USE_LLM = bool(OPENAI_API_KEY) and os.getenv("HV_DISABLE_LLM", "") != "1"
+# OCR/reading of candidate documents (degree, transcript, revert text, online-portal screenshots) with the
+# OpenAI vision model. TEMPORARILY ON by default (decision 2026-11-23); set HV_CANDIDATE_LLM=0 to go back to
+# local-only Tesseract, in which case the key is used only for the public passing-criteria search.
+CANDIDATE_LLM = USE_LLM and os.getenv("HV_CANDIDATE_LLM", "1") != "0"
 
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/130.0 Safari/537.36")

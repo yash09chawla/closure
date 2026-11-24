@@ -13,6 +13,7 @@ from rapidfuzz import fuzz
 
 from .. import config
 from ..evidence import browser, render
+from ..evidence.render import e
 from . import sources
 
 TECH_RE = re.compile(r"\b(B\.?\s?E\b|B\.?\s?TECH|M\.?\s?E\b|M\.?\s?TECH|ENGINEERING|TECHNOLOGY|MBA|MCA|PHARM|"
@@ -118,6 +119,31 @@ async def _ugc_shot(hit: dict, out_png: Path) -> None:
         await ctx.close()
 
 
+def _aicte_cover_shot(out_png: Path) -> None:
+    """Top of page 1 of the AICTE list — background for the 'searched, 0 results' proof."""
+    doc = pymupdf.open(str(sources.aicte_pdf()))
+    page = doc[0]
+    clip = pymupdf.Rect(0, 0, page.rect.width, page.rect.height * 0.45)
+    page.get_pixmap(dpi=150, clip=clip).save(str(out_png))
+
+
+async def _ugc_search_shot(name: str, out_png: Path, type_id: int = 2) -> None:
+    """UGC list page with the university name typed in its search box (shows 'No matching records found')."""
+    url = config.UGC_PAGE.format(token=config.UGC_TYPES[type_id][1])
+    ctx, page = await browser.new_page(width=1366, height=820)
+    try:
+        await page.goto(url, wait_until="domcontentloaded", timeout=45000)
+        await page.wait_for_selector("#tbodyuni tr td", timeout=35000)
+        await page.fill("#tbl_filter input", name)
+        await page.wait_for_timeout(500)
+        await page.evaluate("""() => { const f=document.querySelector('#tbl_filter');
+            if(f){ window.scrollTo(0, f.getBoundingClientRect().top + window.scrollY - 190); } }""")
+        await page.wait_for_timeout(250)
+        await page.screenshot(path=str(out_png))
+    finally:
+        await ctx.close()
+
+
 async def run(university: str, college: str, degree_text: str, workdir: Path, out_pdf: Path, log) -> dict:
     t0 = time.time()
     technical = is_technical(degree_text, college)
@@ -170,6 +196,15 @@ async def run(university: str, college: str, degree_text: str, workdir: Path, ou
     if ugc:
         ugc_png = workdir / "ugc.png"
         jobs.append(_ugc_shot(ugc, ugc_png))
+    # "not found" proofs — the closure document records the negative search too
+    search_name = name_variants(university)[0] if university else ""
+    aicte_miss_png = ugc_miss_png = None
+    if not aicte_hit and search_name:
+        aicte_miss_png = workdir / "aicte_notfound.png"
+        jobs.append(asyncio.to_thread(_aicte_cover_shot, aicte_miss_png))
+    if not ugc and search_name:
+        ugc_miss_png = workdir / "ugc_notfound.png"
+        jobs.append(_ugc_search_shot(search_name, ugc_miss_png))
     results = await asyncio.gather(*jobs, return_exceptions=True)
     errors = [str(r) for r in results if isinstance(r, Exception)]
     if errors:
@@ -197,21 +232,44 @@ async def run(university: str, college: str, degree_text: str, workdir: Path, ou
                                                            "Public Notice 2025-26.pdf", "2 / 2")})
         return out
 
+    def miss_blocks():
+        out = []
+        if aicte_miss_png is not None:
+            n_rows = len(sources.aicte_index())
+            frame = (render.browser_frame(config.AICTE_LIST, render.data_url(aicte_miss_png), "pdf", pdf_title,
+                                          f"1 / {sources.aicte_page_count()}", f"{search_name}   0/0")
+                     if aicte_miss_png.exists() else "")
+            out.append({"heading": "AICTE approved institutions 2025-26 — NOT FOUND", "url": config.AICTE_LIST,
+                        "frame_html": frame + f'<div class="miss">"{e(search_name)}" was searched in all {n_rows:,} '
+                                              f'rows of the AICTE 2025-26 list (university and affiliated-college '
+                                              f'names, fuzzy match) — no matching institution.</div>'})
+        if ugc_miss_png is not None:
+            counts = ", ".join(f"{config.UGC_TYPES[t][0]} {len(l)}" for t, l in sources.ugc_lists().items())
+            page_url = config.UGC_PAGE.format(token=config.UGC_TYPES[2][1])
+            frame = render.browser_frame(page_url, render.data_url(ugc_miss_png)) if ugc_miss_png.exists() else ""
+            out.append({"heading": "UGC — list of universities — NOT FOUND", "url": page_url,
+                        "frame_html": frame + f'<div class="miss">"{e(search_name)}" was searched in all four UGC '
+                                              f'lists ({e(counts)}) — no matching university.</div>'})
+        return out
+
     ugc_ok = bool(ugc and ugc_png and ugc_png.exists())
     if body_short == "AICTE":
         blocks = aicte_blocks_html() + ([ugc_block()] if ugc_ok else [])
     elif body_short == "UGC":
         blocks = ([ugc_block()] if ugc_ok else []) + aicte_blocks_html()
+    blocks = blocks + miss_blocks()
 
     display_name = (ugc["record"]["uni_name"] if ugc else (a_uni["row"]["name"].title() if a_uni else university))
+    summary = f"{'Found' if ugc else 'Not found'} in UGC, {'Found' if aicte_hit else 'Not found'} in AICTE"
     if blocks:
         header = [("University/College/Institute name", display_name)]
         if a_col:
             header.append(("Affiliated college", a_col["row"]["name"].title()))
-        header += [("Link", url), ("Accreditation Body", body_short)]
+        header += [("Link", url or "—"), ("Accreditation Body", body_short or "NOT DISCLOSED"), ("Result", summary)]
         html = render.evidence_html(header, blocks,
                                     f"Captured {datetime.now().strftime('%d-%m-%Y %H:%M:%S')} by HV Closure Engine "
-                                    f"from the official {body_short} source. Highlight marks the matched record.")
+                                    f"from the official UGC / AICTE sources. Highlight marks the matched record; "
+                                    f"red boxes record searches that returned no match.")
         await browser.html_to_pdf(html, str(out_pdf), a4=True)
 
     return {
@@ -223,6 +281,7 @@ async def run(university: str, college: str, degree_text: str, workdir: Path, ou
         "aicte_university": a_uni["row"] if a_uni else None,
         "aicte_college": a_col["row"] if a_col else None,
         "canonical_university": display_name,
+        "summary": summary,
         "pdf": str(out_pdf) if blocks else "",
         "seconds": round(time.time() - t0, 1),
         "warnings": errors,

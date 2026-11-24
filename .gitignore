@@ -5,3 +5,6 @@
 __pycache__/
 *.pyc
 .DS_Store
+# Linux runtime libs for the Playwright driver (machines without libatomic)
+vendor/
+.claude/

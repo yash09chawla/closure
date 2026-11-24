@@ -14,7 +14,12 @@ from . import config, form_schema, pipeline, store
 from .evidence import browser
 from .research import sources
 
-SAMPLE_DIR = config.ROOT / "Case"
+SAMPLES = {  # demo helper: the inputs an ops user receives for each sample case
+    "anna": (config.ROOT / "Cases" / "Case1",
+             ["Degree.jpg", "Marksheet.jpg",
+              "FW Anna University - Genuineness Verification Application Number -CoE_YB587.msg"]),
+    "ignou": (config.ROOT / "Cases" / "Case5", ["Degree.pdf", "Marksheet.pdf", "Revert.pdf", "Start Date.png"]),
+}
 _tasks: dict[str, asyncio.Task] = {}
 
 
@@ -107,12 +112,27 @@ DEMO = {
 }
 
 
+# Online-database sample (Cases/Case5): IGNOU grade-card + admission-status portal screenshots.
+# Initiation values below are only what the documents show; start/end dates are left for the engine to find.
+DEMO_ONLINE = {
+    "case_ref": "238371/2026-EDU-1", "applicant_full_name": "ALPESHBHAI GHANSHYAMBHAI PATEL",
+    "passport_name": "ALPESHBHAI GHANSHYAMBHAI PATEL", "institute_name": "Indira Gandhi National Open University",
+    "institute_id": "Indira Gandhi National Open University", "country_code": "IND",
+    "country_name": "Republic of India", "study_level": "Bachelor",
+    "cert_title": "Bachelor of Technology in Civil (Construction Management)", "subjects": "Civil Engineering",
+    "subject_id": "0",
+}
+
+
 @app.post("/api/cases/demo")
-def create_demo():
-    cid = store.slug(DEMO["case_ref"])
+def create_demo(kind: str = "anna"):
+    d = DEMO_ONLINE if kind == "ignou" else DEMO
+    cid = store.slug(d["case_ref"])
     if store.load(cid):
         shutil.rmtree(store.case_dir(cid))
-    return _new_case(DEMO)
+    c = _new_case(d)
+    store.update(cid, lambda x: x.update(sample=kind))
+    return c
 
 
 @app.get("/api/cases/{cid}")
@@ -147,13 +167,18 @@ async def upload(cid: str, files: list[UploadFile] = File(...)):
 
 
 @app.post("/api/cases/{cid}/sample-docs")
-def sample_docs(cid: str):
-    """Demo helper: the 4 inputs an ops user receives for the Anna University sample case."""
+def sample_docs(cid: str, kind: str = "anna"):
+    """Demo helper: copy a sample case's input documents (anna = e-mail revert, ignou = online database)."""
+    if kind not in SAMPLES:
+        raise HTTPException(400, "unknown sample")
+    src, names = SAMPLES[kind]
     d = store.uploads_dir(cid)
-    for n in ["Degree.jpg", "Marksheet.jpg", "FW Anna University - Genuineness Verification Application Number -CoE_YB587.msg"]:
-        if (SAMPLE_DIR / n).exists():
-            shutil.copy(SAMPLE_DIR / n, d / n)
-    return {"ok": True}
+    copied = []
+    for n in names:
+        if (src / n).exists():
+            shutil.copy(src / n, d / n)
+            copied.append(n)
+    return {"ok": True, "copied": copied}
 
 
 @app.delete("/api/cases/{cid}/uploads/{name}")

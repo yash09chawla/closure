@@ -1,0 +1,974 @@
+{
+  "id": "238371-2026-EDU-1",
+  "case_ref": "238371/2026-EDU-1",
+  "client": "MOHRE-Direct API",
+  "mohre": {
+    "applicant_full_name": "ALPESHBHAI GHANSHYAMBHAI PATEL",
+    "institute_id": "Indira Gandhi National Open University",
+    "institute_details": "",
+    "institute_name": "Indira Gandhi National Open University",
+    "country_code": "IND",
+    "country_name": "Republic of India",
+    "study_level": "Bachelor",
+    "cert_title": "Bachelor of Technology in Civil (Construction Management)",
+    "study_start": "",
+    "study_end": "",
+    "subject_id": "0",
+    "subjects": "Civil Engineering"
+  },
+  "passport_name": "ALPESHBHAI GHANSHYAMBHAI PATEL",
+  "received_on": "24-11-2026",
+  "insuff": [],
+  "status": "ready_for_review",
+  "created_at": 1795493123.1409924,
+  "fields": {
+    "m_applicant_full_name": {
+      "value": "ALPESHBHAI GHANSHYAMBHAI PATEL",
+      "source": "Case initiation (MOHRE API)",
+      "note": "",
+      "flag": ""
+    },
+    "m_institute_id": {
+      "value": "Indira Gandhi National Open University",
+      "source": "Case initiation (MOHRE API)",
+      "note": "",
+      "flag": ""
+    },
+    "m_institute_name": {
+      "value": "Indira Gandhi National Open University",
+      "source": "Case initiation (MOHRE API)",
+      "note": "",
+      "flag": ""
+    },
+    "m_country_code": {
+      "value": "IND",
+      "source": "Case initiation (MOHRE API)",
+      "note": "",
+      "flag": ""
+    },
+    "m_country_name": {
+      "value": "Republic of India",
+      "source": "Case initiation (MOHRE API)",
+      "note": "",
+      "flag": ""
+    },
+    "m_study_level": {
+      "value": "Bachelor",
+      "source": "Case initiation (MOHRE API)",
+      "note": "",
+      "flag": ""
+    },
+    "m_cert_title": {
+      "value": "Bachelor of Technology in Civil (Construction Management)",
+      "source": "Case initiation (MOHRE API)",
+      "note": "",
+      "flag": ""
+    },
+    "m_subject_id": {
+      "value": "0",
+      "source": "Case initiation (MOHRE API)",
+      "note": "",
+      "flag": ""
+    },
+    "m_subjects": {
+      "value": "Civil Engineering",
+      "source": "Case initiation (MOHRE API)",
+      "note": "",
+      "flag": ""
+    },
+    "n_passport_name": {
+      "value": "ALPESHBHAI GHANSHYAMBHAI PATEL",
+      "source": "Case initiation (passport)",
+      "note": "",
+      "flag": ""
+    },
+    "q_country": {
+      "value": "India",
+      "source": "UGC/AICTE official record",
+      "note": "",
+      "flag": ""
+    },
+    "q_inst_type": {
+      "value": "University Only",
+      "source": "Rule: university named on documents",
+      "note": "ops convention for affiliated colleges",
+      "flag": ""
+    },
+    "q_university": {
+      "value": "Indira Gandhi National Open University",
+      "source": "UGC/AICTE official record",
+      "note": "",
+      "flag": ""
+    },
+    "q_applicant_name": {
+      "value": "ALPESHBHAI GHANSHYAMBHAI PATEL",
+      "source": "Degree/Transcript (vision-llm)",
+      "note": "",
+      "flag": ""
+    },
+    "q_year": {
+      "value": "2011",
+      "source": "Degree/Transcript (vision-llm)",
+      "note": "",
+      "flag": ""
+    },
+    "q_cert_title": {
+      "value": "Bachelor of Technology in Civil Engineering",
+      "source": "Degree/Transcript (vision-llm)",
+      "note": "",
+      "flag": ""
+    },
+    "q_study_level": {
+      "value": "Bachelor",
+      "source": "Degree/Transcript (vision-llm)",
+      "note": "",
+      "flag": ""
+    },
+    "q_arab": {
+      "value": "Other Country (If required raise insufficiency for marksheet/transcript)",
+      "source": "Rule: institution outside the Arab region",
+      "note": "",
+      "flag": ""
+    },
+    "q_duration": {
+      "value": "4 Year",
+      "source": "Standard duration of B.Tech",
+      "note": "",
+      "flag": ""
+    },
+    "q_transfer": {
+      "value": "Regular Student (Not Transfer Student)",
+      "source": "Transcript (single institution)",
+      "note": "",
+      "flag": ""
+    },
+    "q_lang": {
+      "value": "No",
+      "source": "Ops convention (precedent case)",
+      "note": "documents are in English",
+      "flag": ""
+    },
+    "n_doc_name": {
+      "value": "ALPESHBHAI GHANSHYAMBHAI PATEL",
+      "source": "Degree/Transcript (vision-llm)",
+      "note": "",
+      "flag": ""
+    },
+    "n_match": {
+      "value": "Yes- Name is matching on documents",
+      "source": "Engine: degree name vs passport name",
+      "note": "all name parts present on passport",
+      "flag": ""
+    },
+    "n_enrollment": {
+      "value": "050247593",
+      "source": "Online portal \u00b7 gradecard.ignou.ac.in, isms.ignou.ac.in",
+      "note": "matches degree Reg.No.",
+      "flag": ""
+    },
+    "n_audit": {
+      "value": "No",
+      "source": "Default",
+      "note": "",
+      "flag": ""
+    },
+    "v_institute": {
+      "value": "Indira Gandhi National Open University",
+      "source": "UGC/AICTE official record",
+      "note": "",
+      "flag": ""
+    },
+    "v_country_name": {
+      "value": "Republic of India",
+      "source": "UGC/AICTE official record",
+      "note": "",
+      "flag": ""
+    },
+    "v_cert_title": {
+      "value": "BACHELOR OF TECHNOLOGY IN CIVIL ENGINEERING",
+      "source": "Degree/Transcript (vision-llm)",
+      "note": "",
+      "flag": ""
+    },
+    "v_start": {
+      "value": "01-2005",
+      "source": "Online portal \u00b7 isms.ignou.ac.in \u00b7 Admission Year",
+      "note": "portal: Admission Year Jan-2005; admission valid upto Dec-2014",
+      "flag": ""
+    },
+    "v_end": {
+      "value": "06-2011",
+      "source": "Degree/Transcript (vision-llm)",
+      "note": "admission valid upto Dec-2014 (validity, not completion)",
+      "flag": "review"
+    },
+    "v_pursuit": {
+      "value": "Engineering Qualification",
+      "source": "Rule: programme type",
+      "note": "",
+      "flag": ""
+    },
+    "v_mode": {
+      "value": "Distance / Online",
+      "source": "Online portal + university type",
+      "note": "inferred from portal: Open University, Regional Centre, Study Centre",
+      "flag": "review"
+    },
+    "v_mode_status": {
+      "value": "Mentioned in Verified response",
+      "source": "Online portal \u00b7 gradecard.ignou.ac.in, isms.ignou.ac.in",
+      "note": "inferred from portal: Open University, Regional Centre, Study Centre",
+      "flag": "review"
+    },
+    "v_branch": {
+      "value": "India",
+      "source": "Ops convention (precedent case)",
+      "note": "",
+      "flag": ""
+    },
+    "v_exam_location": {
+      "value": "India",
+      "source": "Ops convention (precedent case)",
+      "note": "",
+      "flag": ""
+    },
+    "v_country_study": {
+      "value": "Republic of India",
+      "source": "UGC/AICTE official record",
+      "note": "",
+      "flag": ""
+    },
+    "v_award": {
+      "value": "2011",
+      "source": "Degree/Transcript (vision-llm)",
+      "note": "degree issued August 2, 2011",
+      "flag": ""
+    },
+    "v_subjects": {
+      "value": "Civil Engineering",
+      "source": "Degree/Transcript (vision-llm)",
+      "note": "",
+      "flag": ""
+    },
+    "v_country": {
+      "value": "India",
+      "source": "UGC/AICTE official record",
+      "note": "",
+      "flag": ""
+    },
+    "v_inst_type": {
+      "value": "University Only",
+      "source": "Rule: university named on documents",
+      "note": "",
+      "flag": ""
+    },
+    "v_applicant_name": {
+      "value": "ALPESHBHAI GHANSHYAMBHAI PATEL",
+      "source": "Degree/Transcript (vision-llm)",
+      "note": "",
+      "flag": ""
+    },
+    "v_nqf": {
+      "value": "Level 6 \u2013 Bachelor or Equivalent",
+      "source": "Rule: study level",
+      "note": "",
+      "flag": ""
+    },
+    "v_compat": {
+      "value": "Bachelor",
+      "source": "Rule: study level",
+      "note": "",
+      "flag": ""
+    },
+    "v_duration": {
+      "value": "4 Year",
+      "source": "Standard duration of B.Tech",
+      "note": "",
+      "flag": ""
+    },
+    "v_arab": {
+      "value": "Other Country (If required raise insufficiency for marksheet/transcript)",
+      "source": "Rule: institution outside the Arab region",
+      "note": "",
+      "flag": ""
+    },
+    "v_transfer": {
+      "value": "Regular Student (Not Transfer Student)",
+      "source": "Transcript (single institution)",
+      "note": "",
+      "flag": ""
+    },
+    "v_cond_status": {
+      "value": "Found on University Website",
+      "source": "Passing criteria search (official university domain)",
+      "note": "",
+      "flag": ""
+    },
+    "v_cond": {
+      "value": "As per 1.17 Evaluation System, clause IGNOU uses the following system of \u201cGrading\u201d for evaluating learners' achievement: A learner must obtain at least 35% marks to pass a course; the pass band is D (Pass), which is 35 to less than 40. Marks below 35 are F (Fail).",
+      "source": "Official university document (ignou.ac.in), page 22",
+      "note": "https://www.ignou.ac.in/viewFile/services/common_prospectus/Common-Prospectus-English%28January2025%29.pdf",
+      "flag": "review"
+    },
+    "v_response_type": {
+      "value": "Full response received",
+      "source": "Online portal \u00b7 gradecard.ignou.ac.in, isms.ignou.ac.in",
+      "note": "enrolment, name and completion status shown by the portal",
+      "flag": ""
+    },
+    "v_source": {
+      "value": "ONLINE",
+      "source": "Verified on the university's online portal",
+      "note": "ignou.ac.in",
+      "flag": ""
+    },
+    "v_university": {
+      "value": "Indira Gandhi National Open University",
+      "source": "UGC/AICTE official record",
+      "note": "",
+      "flag": ""
+    },
+    "v_study_level": {
+      "value": "Bachelor",
+      "source": "Degree/Transcript (vision-llm)",
+      "note": "",
+      "flag": ""
+    },
+    "v_email_type": {
+      "value": "Official",
+      "source": "Portal domain ignou.ac.in",
+      "note": "matches university website ignou.ac.in",
+      "flag": ""
+    },
+    "v_domain": {
+      "value": "ignou.ac.in",
+      "source": "Online portal URL",
+      "note": "https://gradecard.ignou.ac.in/view_gradecard.aspx?eno=050247593&prog=BTCM&type=3, https://isms.ignou.ac.in/changeadmdata/AdmissionStatusNew.ASP",
+      "flag": ""
+    },
+    "v_degree_type": {
+      "value": "Academic",
+      "source": "Rule: academic degree",
+      "note": "",
+      "flag": ""
+    },
+    "v_ia_lang": {
+      "value": "English",
+      "source": "Online portal language",
+      "note": "",
+      "flag": ""
+    },
+    "v_degree_lang": {
+      "value": "English",
+      "source": "Degree/Transcript (vision-llm)",
+      "note": "",
+      "flag": ""
+    },
+    "a_status": {
+      "value": "Accredited",
+      "source": "UGC official list",
+      "note": "",
+      "flag": ""
+    },
+    "a_country": {
+      "value": "India",
+      "source": "Accreditation body country",
+      "note": "",
+      "flag": ""
+    },
+    "a_url": {
+      "value": "https://www.ugc.gov.in/universitydetails/university?type=ddmCMsxJZgXH2S/m0uMOKQ==",
+      "source": "Official list used as proof",
+      "note": "",
+      "flag": ""
+    },
+    "a_body": {
+      "value": "University Grants Commission",
+      "source": "Engine: technical programme \u2192 AICTE, otherwise UGC",
+      "note": "",
+      "flag": ""
+    },
+    "a_year": {
+      "value": "2026",
+      "source": "Year of check",
+      "note": "",
+      "flag": ""
+    },
+    "a_proof": {
+      "value": "accreditation.pdf",
+      "source": "Generated evidence PDF",
+      "note": "",
+      "flag": ""
+    },
+    "o_result": {
+      "value": "Pass",
+      "source": "Engine: revert status + cross-checks",
+      "note": "",
+      "flag": ""
+    },
+    "o_genuine": {
+      "value": "Document Genuine",
+      "source": "Online portal \u00b7 gradecard.ignou.ac.in, isms.ignou.ac.in",
+      "note": "status: Record found \u2014 all 44 courses COMPLETED",
+      "flag": ""
+    },
+    "o_date": {
+      "value": "20-11-2026",
+      "source": "Online portal \u00b7 gradecard.ignou.ac.in ('Status as on' date)",
+      "note": "",
+      "flag": ""
+    },
+    "o_enrollment": {
+      "value": "050247593",
+      "source": "Online portal \u00b7 gradecard.ignou.ac.in, isms.ignou.ac.in",
+      "note": "",
+      "flag": ""
+    },
+    "o_lang": {
+      "value": "No",
+      "source": "Ops convention (precedent case)",
+      "note": "",
+      "flag": ""
+    },
+    "o_payment": {
+      "value": "No",
+      "source": "Online portal \u2014 instant, no fee",
+      "note": "",
+      "flag": ""
+    },
+    "o_son_of": {
+      "value": "No",
+      "source": "Degree/Transcript (vision-llm)",
+      "note": "",
+      "flag": ""
+    },
+    "o_transfer_credit": {
+      "value": "Not Applicable - Not transfer student",
+      "source": "Not a transfer student",
+      "note": "",
+      "flag": ""
+    },
+    "o_remarks": {
+      "value": "Online Revert: verified online on gradecard.ignou.ac.in (status as on 20-11-2026). Start Date: verified online on isms.ignou.ac.in (status as on 23-Nov-2026 11:44:32 AM). ALPESHBHAI GHANSHYAMBHAI PATEL, Enrolment 050247593, Programme BTCM, 44/44 courses COMPLETED, admission Jan-2005, mode Distance / Online. Accreditation: UGC; UGC Central University 2(f) & 12B (Found in UGC, Not found in AICTE).",
+      "source": "Engine summary",
+      "note": "",
+      "flag": ""
+    }
+  },
+  "flags": [
+    {
+      "level": "warn",
+      "field": "v_cond",
+      "msg": "Passing-criteria numbers could not be confirmed in the document text \u2014 check"
+    }
+  ],
+  "documents": {
+    "payment_proof": [],
+    "verification_proof": [],
+    "revert_1": [
+      {
+        "name": "Online Revert - gradecard.ignou.ac.in.pdf",
+        "url": "/files/238371-2026-EDU-1/output/Online Revert - gradecard.ignou.ac.in.pdf",
+        "source": "Generated: Online Revert \u2014 gradecard.ignou.ac.in screenshot + link",
+        "generated": true
+      },
+      {
+        "name": "Revert.pdf",
+        "url": "/files/238371-2026-EDU-1/uploads/Revert.pdf",
+        "source": "Uploaded online portal screenshot",
+        "generated": false
+      }
+    ],
+    "revert_2": [
+      {
+        "name": "Start Date - isms.ignou.ac.in.pdf",
+        "url": "/files/238371-2026-EDU-1/output/Start Date - isms.ignou.ac.in.pdf",
+        "source": "Generated: Start Date \u2014 isms.ignou.ac.in screenshot + link",
+        "generated": true
+      },
+      {
+        "name": "Start Date.png",
+        "url": "/files/238371-2026-EDU-1/uploads/Start Date.png",
+        "source": "Uploaded online portal screenshot",
+        "generated": false
+      }
+    ],
+    "accreditation": [
+      {
+        "name": "Accreditation - Indira Gandhi National Open University.pdf",
+        "url": "/files/238371-2026-EDU-1/output/Accreditation - Indira Gandhi National Open University.pdf",
+        "source": "Generated: UGC/AICTE evidence (Found in UGC, Not found in AICTE)",
+        "generated": true
+      }
+    ],
+    "passing_criteria": [
+      {
+        "name": "Passing Criteria - Indira Gandhi National Open University.pdf",
+        "url": "/files/238371-2026-EDU-1/output/Passing Criteria - Indira Gandhi National Open University.pdf",
+        "source": "Generated: official regulation evidence",
+        "generated": true
+      }
+    ],
+    "other": [
+      {
+        "name": "Degree.pdf",
+        "url": "/files/238371-2026-EDU-1/uploads/Degree.pdf",
+        "source": "Degree",
+        "generated": false
+      },
+      {
+        "name": "Marksheet.pdf",
+        "url": "/files/238371-2026-EDU-1/uploads/Marksheet.pdf",
+        "source": "Transcript",
+        "generated": false
+      }
+    ]
+  },
+  "mails": [],
+  "edits": {},
+  "updated_at": 1795493225.1426997,
+  "sample": "ignou",
+  "run_started": 1795493145.0792239,
+  "online": [
+    {
+      "doc": "Revert.pdf",
+      "label": "Online Revert",
+      "type": "result",
+      "url": "https://gradecard.ignou.ac.in/view_gradecard.aspx?eno=050247593&prog=BTCM&type=3",
+      "host": "gradecard.ignou.ac.in",
+      "domain": "ignou.ac.in",
+      "fields": {
+        "enrollment_no": "050247593",
+        "name": "ALPESHBHAI GHANSHYAMBHAI PATEL",
+        "programme": "BTCM",
+        "university": "Indira Gandhi National Open University",
+        "status_as_on": "20-11-2026",
+        "status_as_on_dd_mm_yyyy": "20-11-2026"
+      },
+      "courses": {
+        "total": 44,
+        "completed": 44,
+        "not_completed": [],
+        "statuses": [
+          "COMPLETED"
+        ]
+      },
+      "method": "vision-llm",
+      "pdf": "/files/238371-2026-EDU-1/output/Online Revert - gradecard.ignou.ac.in.pdf",
+      "shot": "/files/238371-2026-EDU-1/uploads/Revert.pdf"
+    },
+    {
+      "doc": "Start Date.png",
+      "label": "Start Date",
+      "type": "admission",
+      "url": "https://isms.ignou.ac.in/changeadmdata/AdmissionStatusNew.ASP",
+      "host": "isms.ignou.ac.in",
+      "domain": "ignou.ac.in",
+      "fields": {
+        "enrollment_no": "050247593",
+        "name": "ALPESHBHAI GHANSHYAMBHAI PATEL",
+        "programme": "BTCM",
+        "university": "Indira Gandhi National Open University",
+        "admission_year": "Jan-2005",
+        "valid_upto": "Dec-2014",
+        "status_as_on": "23-Nov-2026 11:44:32 AM",
+        "regional_centre": "09:AHMEDABAD",
+        "study_centre": "9091",
+        "father_name": "GHANSHYAMBHAI PATEL",
+        "admission_year_mm_yyyy": "01-2005",
+        "valid_upto_mm_yyyy": "12-2014",
+        "status_as_on_dd_mm_yyyy": "23-11-2026"
+      },
+      "courses": {
+        "total": 0,
+        "completed": 0,
+        "not_completed": [],
+        "statuses": []
+      },
+      "method": "vision-llm",
+      "pdf": "/files/238371-2026-EDU-1/output/Start Date - isms.ignou.ac.in.pdf",
+      "shot": "/files/238371-2026-EDU-1/uploads/Start Date.png"
+    }
+  ],
+  "verification_mode": "online",
+  "engine": {
+    "status": "done",
+    "started": 1795493145.0883574,
+    "finished": 1795493225.1379914,
+    "cost_usd": 0.1991,
+    "steps": [
+      {
+        "id": "ingest",
+        "label": "Reading & classifying documents",
+        "status": "done",
+        "seconds": 11.4,
+        "detail": "4 files \u2192 4 documents, 0 e-mail(s): degree\u00d71, transcript\u00d71, online_portal\u00d72"
+      },
+      {
+        "id": "revert",
+        "label": "Parsing university revert (e-mail)",
+        "status": "skip",
+        "seconds": 0.0,
+        "detail": "no e-mail revert \u2014 online-database verification"
+      },
+      {
+        "id": "online",
+        "label": "Online database \u2014 reading portal screenshots",
+        "status": "done",
+        "seconds": 17.0,
+        "detail": "vision-llm: 2 screenshot(s) from ignou.ac.in: enrolment 050247593 \u00b7 ALPESHBHAI GHANSHYAMBHAI PATEL \u00b7 BTCM \u00b7 Record found \u2014 all 44 courses COMPLETED \u00b7 admission Jan-2005"
+      },
+      {
+        "id": "certs",
+        "label": "Reading degree & transcript",
+        "status": "done",
+        "seconds": 24.0,
+        "detail": "vision-llm: ALPESHBHAI GHANSHYAMBHAI PATEL \u00b7 B.Tech Civil Engineering \u00b7 First Class \u00b7 reg 050247593"
+      },
+      {
+        "id": "mails",
+        "label": "Printing e-mails / online reverts to PDF",
+        "status": "done",
+        "seconds": 17.5,
+        "detail": "2 online revert PDF(s)"
+      },
+      {
+        "id": "accreditation",
+        "label": "Accreditation check \u2014 UGC / AICTE",
+        "status": "done",
+        "seconds": 17.0,
+        "detail": "Accredited \u2014 University Grants Commission"
+      },
+      {
+        "id": "passing",
+        "label": "Passing criteria \u2014 official university site",
+        "status": "warn",
+        "seconds": 44.5,
+        "detail": "IGNOU uses the following system of \u201cGrading\u201d for evaluating learners' achievement (p.22) found by search \u2014 numbers NOT confirmed"
+      },
+      {
+        "id": "fill",
+        "label": "Filling HVOPS form & attaching documents",
+        "status": "done",
+        "seconds": 0.0,
+        "detail": "72 fields filled, 8 documents attached, 1 item(s) for review"
+      }
+    ],
+    "log": [
+      {
+        "t": 0.0,
+        "msg": "\u25b6 Reading & classifying documents"
+      },
+      {
+        "t": 11.5,
+        "msg": "\u2713 Reading & classifying documents \u2014 4 files \u2192 4 documents, 0 e-mail(s): degree\u00d71, transcript\u00d71, online_portal\u00d72 (11.4s)"
+      },
+      {
+        "t": 11.5,
+        "msg": "   Degree.pdf: degree"
+      },
+      {
+        "t": 11.5,
+        "msg": "   Marksheet.pdf: transcript"
+      },
+      {
+        "t": 11.5,
+        "msg": "   Revert.pdf: online_portal"
+      },
+      {
+        "t": 11.5,
+        "msg": "   Start Date.png: online_portal"
+      },
+      {
+        "t": 11.5,
+        "msg": "\u25b6 Parsing university revert (e-mail)"
+      },
+      {
+        "t": 11.5,
+        "msg": "\u26a0 Parsing university revert (e-mail) \u2014 no e-mail revert \u2014 online-database verification (0.0s)"
+      },
+      {
+        "t": 11.5,
+        "msg": "\u25b6 Online database \u2014 reading portal screenshots"
+      },
+      {
+        "t": 11.5,
+        "msg": "\u25b6 Reading degree & transcript"
+      },
+      {
+        "t": 11.5,
+        "msg": "\u25b6 Printing e-mails / online reverts to PDF"
+      },
+      {
+        "t": 11.5,
+        "msg": "\u25b6 Accreditation check \u2014 UGC / AICTE"
+      },
+      {
+        "t": 11.5,
+        "msg": "UGC: found as Central University \u2014 Indira Gandhi National Open University; AICTE: university not listed, college not listed"
+      },
+      {
+        "t": 28.5,
+        "msg": "   Revert.pdf: Online Revert \u00b7 gradecard.ignou.ac.in \u00b7 enrollment_no=050247593, name=ALPESHBHAI GHANSHYAMBHAI PATEL, programme=BTCM, university=Indira Gandhi National Open University, status_as_on=20-11-2026"
+      },
+      {
+        "t": 28.5,
+        "msg": "   Start Date.png: Start Date \u00b7 isms.ignou.ac.in \u00b7 enrollment_no=050247593, name=ALPESHBHAI GHANSHYAMBHAI PATEL, programme=BTCM, university=Indira Gandhi National Open University, admission_year=Jan-2005, valid_upto=Dec-2014, status_as_on=23-Nov-2026 11:44:32 AM, regional_centre=09:AHMEDABAD, study_centre=9091, father_name=GHANSHYAMBHAI PATEL"
+      },
+      {
+        "t": 28.5,
+        "msg": "\u2713 Online database \u2014 reading portal screenshots \u2014 vision-llm: 2 screenshot(s) from ignou.ac.in: enrolment 050247593 \u00b7 ALPESHBHAI GHANSHYAMBHAI PATEL \u00b7 BTCM \u00b7 Record found \u2014 all 44 courses COMPLETED \u00b7 admission Jan-2005 (17.0s)"
+      },
+      {
+        "t": 28.5,
+        "msg": "\u2713 Accreditation check \u2014 UGC / AICTE \u2014 Accredited \u2014 University Grants Commission (17.0s)"
+      },
+      {
+        "t": 29.0,
+        "msg": "\u2713 Printing e-mails / online reverts to PDF \u2014 2 online revert PDF(s) (17.5s)"
+      },
+      {
+        "t": 35.5,
+        "msg": "\u2713 Reading degree & transcript \u2014 vision-llm: ALPESHBHAI GHANSHYAMBHAI PATEL \u00b7 B.Tech Civil Engineering \u00b7 First Class \u00b7 reg 050247593 (24.0s)"
+      },
+      {
+        "t": 35.5,
+        "msg": "\u25b6 Passing criteria \u2014 official university site"
+      },
+      {
+        "t": 35.5,
+        "msg": "searching official domain(s) ignou.ac.in for B.Tech regulation 2011"
+      },
+      {
+        "t": 72.4,
+        "msg": "search answered in 36.9s \u2192 https://www.ignou.ac.in/viewFile/services/common_prospectus/Common-Prospectus-English(January2025).pdf"
+      },
+      {
+        "t": 80.0,
+        "msg": "\u26a0 Passing criteria \u2014 official university site \u2014 IGNOU uses the following system of \u201cGrading\u201d for evaluating learners' achievement (p.22) found by search \u2014 numbers NOT confirmed (44.5s)"
+      },
+      {
+        "t": 80.0,
+        "msg": "\u25b6 Filling HVOPS form & attaching documents"
+      },
+      {
+        "t": 80.0,
+        "msg": "\u2713 Filling HVOPS form & attaching documents \u2014 72 fields filled, 8 documents attached, 1 item(s) for review (0.0s)"
+      },
+      {
+        "t": 80.0,
+        "msg": "\u25a0 Completed in 80.0s \u00b7 LLM cost $0.1991"
+      }
+    ],
+    "seconds": 80.0,
+    "docs": [
+      {
+        "name": "Degree.pdf",
+        "kind": "degree",
+        "origin": "upload"
+      },
+      {
+        "name": "Marksheet.pdf",
+        "kind": "transcript",
+        "origin": "upload"
+      },
+      {
+        "name": "Revert.pdf",
+        "kind": "online_portal",
+        "origin": "upload"
+      },
+      {
+        "name": "Start Date.png",
+        "kind": "online_portal",
+        "origin": "upload"
+      }
+    ],
+    "facts": {
+      "mode": "online",
+      "revert": {
+        "registration_no": "050247593",
+        "name": "ALPESHBHAI GHANSHYAMBHAI PATEL",
+        "programme": "BTCM",
+        "university": "Indira Gandhi National Open University",
+        "admission": "Jan-2005",
+        "start_mm_yyyy": "01-2005",
+        "valid_upto": "Dec-2014",
+        "father_name": "GHANSHYAMBHAI PATEL",
+        "regional_centre": "09:AHMEDABAD",
+        "study_centre": "9091",
+        "verified_date": "20-11-2026",
+        "_courses": {
+          "total": 44,
+          "completed": 44,
+          "not_completed": [],
+          "statuses": [
+            "COMPLETED"
+          ]
+        },
+        "status": "Record found \u2014 all 44 courses COMPLETED",
+        "_found": true,
+        "_complete": true,
+        "mode_of_study": "Distance / Online",
+        "_mode_how": "inferred from portal: Open University, Regional Centre, Study Centre",
+        "_mode_explicit": false,
+        "_title": "Online verification \u2014 gradecard.ignou.ac.in, isms.ignou.ac.in",
+        "branch": "BTCM"
+      },
+      "certs": {
+        "candidate_name": "ALPESHBHAI GHANSHYAMBHAI PATEL",
+        "degree_title": "Bachelor of Technology in Civil Engineering",
+        "degree_level": "Bachelor",
+        "degree_short": "B.Tech",
+        "major": "Civil Engineering",
+        "faculty": "",
+        "university": "INDIRA GANDHI NATIONAL OPEN UNIVERSITY",
+        "college": "",
+        "register_no": "050247593",
+        "class_awarded": "First Class",
+        "exam_month_year": "June 2011",
+        "issue_date": "August 2, 2011",
+        "cgpa": "",
+        "medium_of_instruction": "",
+        "date_of_birth": "",
+        "regulation": "",
+        "first_semester": "1",
+        "last_semester": "8",
+        "earliest_exam_month_year": "June 2011",
+        "last_appearance": "",
+        "son_of_mentioned": "no",
+        "document_language": "English",
+        "notes": "Name and register no. visible on degree and transcript. Transcript shows Engineering & Technology Programmes and semester-wise marks; overall percentage/cgpa not printed on visible pages. Degree is an attested/apostilled copy with seals."
+      },
+      "online": {
+        "fields": {
+          "registration_no": "050247593",
+          "name": "ALPESHBHAI GHANSHYAMBHAI PATEL",
+          "programme": "BTCM",
+          "university": "Indira Gandhi National Open University",
+          "admission": "Jan-2005",
+          "start_mm_yyyy": "01-2005",
+          "valid_upto": "Dec-2014",
+          "father_name": "GHANSHYAMBHAI PATEL",
+          "regional_centre": "09:AHMEDABAD",
+          "study_centre": "9091",
+          "verified_date": "20-11-2026",
+          "_courses": {
+            "total": 44,
+            "completed": 44,
+            "not_completed": [],
+            "statuses": [
+              "COMPLETED"
+            ]
+          },
+          "status": "Record found \u2014 all 44 courses COMPLETED",
+          "_found": true,
+          "_complete": true,
+          "mode_of_study": "Distance / Online",
+          "_mode_how": "inferred from portal: Open University, Regional Centre, Study Centre",
+          "_mode_explicit": false,
+          "_title": "Online verification \u2014 gradecard.ignou.ac.in, isms.ignou.ac.in"
+        },
+        "sources": {
+          "registration_no": {
+            "doc": "Revert.pdf",
+            "url": "https://gradecard.ignou.ac.in/view_gradecard.aspx?eno=050247593&prog=BTCM&type=3",
+            "note": ""
+          },
+          "name": {
+            "doc": "Revert.pdf",
+            "url": "https://gradecard.ignou.ac.in/view_gradecard.aspx?eno=050247593&prog=BTCM&type=3",
+            "note": ""
+          },
+          "programme": {
+            "doc": "Revert.pdf",
+            "url": "https://gradecard.ignou.ac.in/view_gradecard.aspx?eno=050247593&prog=BTCM&type=3",
+            "note": ""
+          },
+          "university": {
+            "doc": "Revert.pdf",
+            "url": "https://gradecard.ignou.ac.in/view_gradecard.aspx?eno=050247593&prog=BTCM&type=3",
+            "note": ""
+          },
+          "admission": {
+            "doc": "Start Date.png",
+            "url": "https://isms.ignou.ac.in/changeadmdata/AdmissionStatusNew.ASP",
+            "note": ""
+          },
+          "start_mm_yyyy": {
+            "doc": "Start Date.png",
+            "url": "https://isms.ignou.ac.in/changeadmdata/AdmissionStatusNew.ASP",
+            "note": "Admission Year on the portal"
+          },
+          "valid_upto": {
+            "doc": "Start Date.png",
+            "url": "https://isms.ignou.ac.in/changeadmdata/AdmissionStatusNew.ASP",
+            "note": ""
+          },
+          "father_name": {
+            "doc": "Start Date.png",
+            "url": "https://isms.ignou.ac.in/changeadmdata/AdmissionStatusNew.ASP",
+            "note": ""
+          },
+          "regional_centre": {
+            "doc": "Start Date.png",
+            "url": "https://isms.ignou.ac.in/changeadmdata/AdmissionStatusNew.ASP",
+            "note": ""
+          },
+          "study_centre": {
+            "doc": "Start Date.png",
+            "url": "https://isms.ignou.ac.in/changeadmdata/AdmissionStatusNew.ASP",
+            "note": ""
+          },
+          "verified_date": {
+            "doc": "Revert.pdf",
+            "url": "https://gradecard.ignou.ac.in/view_gradecard.aspx?eno=050247593&prog=BTCM&type=3",
+            "note": "'Status as on' date shown by the portal"
+          }
+        },
+        "domains": [
+          "ignou.ac.in"
+        ],
+        "found": true
+      },
+      "accreditation": {
+        "status": "Accredited",
+        "body": "University Grants Commission",
+        "body_short": "UGC",
+        "url": "https://www.ugc.gov.in/universitydetails/university?type=ddmCMsxJZgXH2S/m0uMOKQ==",
+        "year": "2026",
+        "country": "India",
+        "technical": true,
+        "ugc": {
+          "name": "Indira Gandhi National Open University",
+          "type": "Central University",
+          "status": "2(f) & 12B",
+          "website": "http://www.ignou.ac.in",
+          "score": 100
+        },
+        "canonical_university": "Indira Gandhi National Open University",
+        "summary": "Found in UGC, Not found in AICTE",
+        "pdf": "/mnt/e/closure/data/cases/238371-2026-EDU-1/output/Accreditation - Indira Gandhi National Open University.pdf",
+        "seconds": 3.5,
+        "warnings": []
+      },
+      "passing": {
+        "found": true,
+        "verified": false,
+        "cached": false,
+        "loose": false,
+        "url": "https://www.ignou.ac.in/viewFile/services/common_prospectus/Common-Prospectus-English%28January2025%29.pdf",
+        "document_title": "IGNOU Common Prospectus - January 2025 V.L.1.1",
+        "regulation": "1.17 Evaluation System",
+        "clause_heading": "IGNOU uses the following system of \u201cGrading\u201d for evaluating learners' achievement",
+        "criteria": "A learner must obtain at least 35% marks to pass a course; the pass band is D (Pass), which is 35 to less than 40. Marks below 35 are F (Fail).",
+        "clause_text": "IGNOU uses the following system of \u2015Grading\u2016 for evaluating learners' achievement Letter Grade Qualitative Level Point Grade A Excellent 5 B Very Good 4 C Good 3 D Average 2 E Unsatisfactory 1 For Bachelors\u2018 and Masters\u2018 degree programmes, normally the system of numerical marking is followed, and the marks secured in assignments, TE Exams, etc. are later converted into grades as per the five-point grading scale given above. However, if required by the learner, the university provides numerical marks and division (I, II or Pass). IGNOU uses 10-Point Grading System for evaluating learners\u2018 achievement for Bachelor Degree Programmes under CBCS, as under: 10-Point Grading System of IGNOU as per UGC-CBCS Guidelines Letter Grade Numerical Grade Percentage O (Outstanding) 10 >85 A+ (Excellent) 9 > 75 to < 85 A (Very Good) 8 > 65 to < 75 B+ (Good) 7 > 55 to < 65 B (Above Average) 6 > 50 to < 55",
+        "page": 22,
+        "pdf": "/mnt/e/closure/data/cases/238371-2026-EDU-1/output/Passing Criteria - Indira Gandhi National Open University.pdf",
+        "domains": [
+          "ignou.ac.in"
+        ],
+        "seconds": 44.5
+      }
+    }
+  }
+}
