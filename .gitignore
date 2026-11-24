@@ -8,3 +8,5 @@ __pycache__/
 # Linux runtime libs for the Playwright driver (machines without libatomic)
 vendor/
 .claude/
+# research_api caches (UGC/AICTE lists, downloaded regulations)
+research_api/data/

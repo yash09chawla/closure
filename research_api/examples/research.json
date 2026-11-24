@@ -1,0 +1,13 @@
+{
+  "university": "Anna University, Chennai",
+  "college": "",
+  "degree_title": "Bachelor of Engineering",
+  "degree_short": "B.E.",
+  "regulation": "2017",
+  "year_of_passing": "2021",
+  "affiliated": true,
+  "official_domains": [],
+  "mail_domains": ["annauniv.edu"],
+  "use_cache": true,
+  "include_evidence": false
+}

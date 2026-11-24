@@ -20,7 +20,7 @@
   "received_on": "24-11-2026",
   "insuff": [],
   "status": "ready_for_review",
-  "created_at": 1795493123.1409924,
+  "created_at": 1795500629.9183896,
   "fields": {
     "m_applicant_full_name": {
       "value": "ALPESHBHAI GHANSHYAMBHAI PATEL",
@@ -95,25 +95,31 @@
       "flag": ""
     },
     "q_university": {
-      "value": "Indira Gandhi National Open University",
+      "value": "Anna University",
       "source": "UGC/AICTE official record",
       "note": "",
       "flag": ""
     },
+    "q_college": {
+      "value": "STELLA MARY'S COLLEGE OF ENGINEERING",
+      "source": "University revert \u00b7 CoE_YB587.pdf",
+      "note": "",
+      "flag": ""
+    },
     "q_applicant_name": {
-      "value": "ALPESHBHAI GHANSHYAMBHAI PATEL",
+      "value": "SREE KARTHIK A",
       "source": "Degree/Transcript (vision-llm)",
       "note": "",
       "flag": ""
     },
     "q_year": {
-      "value": "2011",
-      "source": "Degree/Transcript (vision-llm)",
+      "value": "2024",
+      "source": "University revert \u00b7 CoE_YB587.pdf",
       "note": "",
       "flag": ""
     },
     "q_cert_title": {
-      "value": "Bachelor of Technology in Civil Engineering",
+      "value": "Bachelor of Engineering in Civil Engineering",
       "source": "Degree/Transcript (vision-llm)",
       "note": "",
       "flag": ""
@@ -132,14 +138,14 @@
     },
     "q_duration": {
       "value": "4 Year",
-      "source": "Standard duration of B.Tech",
-      "note": "",
+      "source": "Standard duration of B.E.",
+      "note": "Transcript starts at Semester 03 \u2192 lateral entry (after diploma), not a transfer",
       "flag": ""
     },
     "q_transfer": {
       "value": "Regular Student (Not Transfer Student)",
       "source": "Transcript (single institution)",
-      "note": "",
+      "note": "Transcript starts at Semester 03 \u2192 lateral entry (after diploma), not a transfer",
       "flag": ""
     },
     "q_lang": {
@@ -149,20 +155,20 @@
       "flag": ""
     },
     "n_doc_name": {
-      "value": "ALPESHBHAI GHANSHYAMBHAI PATEL",
+      "value": "SREE KARTHIK A",
       "source": "Degree/Transcript (vision-llm)",
       "note": "",
       "flag": ""
     },
     "n_match": {
-      "value": "Yes- Name is matching on documents",
+      "value": "No- Name is not matching on documents",
       "source": "Engine: degree name vs passport name",
-      "note": "all name parts present on passport",
-      "flag": ""
+      "note": "unmatched: SREE KARTHIK",
+      "flag": "review"
     },
     "n_enrollment": {
-      "value": "050247593",
-      "source": "Online portal \u00b7 gradecard.ignou.ac.in, isms.ignou.ac.in",
+      "value": "963520103316",
+      "source": "University revert \u00b7 CoE_YB587.pdf",
       "note": "matches degree Reg.No.",
       "flag": ""
     },
@@ -173,7 +179,7 @@
       "flag": ""
     },
     "v_institute": {
-      "value": "Indira Gandhi National Open University",
+      "value": "Anna University",
       "source": "UGC/AICTE official record",
       "note": "",
       "flag": ""
@@ -185,22 +191,22 @@
       "flag": ""
     },
     "v_cert_title": {
-      "value": "BACHELOR OF TECHNOLOGY IN CIVIL ENGINEERING",
+      "value": "BACHELOR OF ENGINEERING IN CIVIL ENGINEERING",
       "source": "Degree/Transcript (vision-llm)",
       "note": "",
       "flag": ""
     },
     "v_start": {
-      "value": "01-2005",
-      "source": "Online portal \u00b7 isms.ignou.ac.in \u00b7 Admission Year",
-      "note": "portal: Admission Year Jan-2005; admission valid upto Dec-2014",
+      "value": "Not Disclosed",
+      "source": "Revert does not state a start date",
+      "note": "transcript: first exams NOV 2021, Transcript starts at Semester 03 \u2192 lateral entry (after diploma), not a transfer",
       "flag": ""
     },
     "v_end": {
-      "value": "06-2011",
-      "source": "Degree/Transcript (vision-llm)",
-      "note": "admission valid upto Dec-2014 (validity, not completion)",
-      "flag": "review"
+      "value": "11-2024",
+      "source": "University revert \u00b7 CoE_YB587.pdf",
+      "note": "",
+      "flag": ""
     },
     "v_pursuit": {
       "value": "Engineering Qualification",
@@ -209,16 +215,16 @@
       "flag": ""
     },
     "v_mode": {
-      "value": "Distance / Online",
-      "source": "Online portal + university type",
-      "note": "inferred from portal: Open University, Regional Centre, Study Centre",
-      "flag": "review"
+      "value": "Full Time - On Campus",
+      "source": "University revert \u00b7 CoE_YB587.pdf",
+      "note": "B.E Civil Engineering (Full Time)",
+      "flag": ""
     },
     "v_mode_status": {
       "value": "Mentioned in Verified response",
-      "source": "Online portal \u00b7 gradecard.ignou.ac.in, isms.ignou.ac.in",
-      "note": "inferred from portal: Open University, Regional Centre, Study Centre",
-      "flag": "review"
+      "source": "University revert \u00b7 CoE_YB587.pdf",
+      "note": "",
+      "flag": ""
     },
     "v_branch": {
       "value": "India",
@@ -239,9 +245,9 @@
       "flag": ""
     },
     "v_award": {
-      "value": "2011",
-      "source": "Degree/Transcript (vision-llm)",
-      "note": "degree issued August 2, 2011",
+      "value": "2024",
+      "source": "University revert \u00b7 CoE_YB587.pdf",
+      "note": "degree issued February 2026",
       "flag": ""
     },
     "v_subjects": {
@@ -263,7 +269,7 @@
       "flag": ""
     },
     "v_applicant_name": {
-      "value": "ALPESHBHAI GHANSHYAMBHAI PATEL",
+      "value": "SREE KARTHIK A",
       "source": "Degree/Transcript (vision-llm)",
       "note": "",
       "flag": ""
@@ -282,8 +288,8 @@
     },
     "v_duration": {
       "value": "4 Year",
-      "source": "Standard duration of B.Tech",
-      "note": "",
+      "source": "Standard duration of B.E.",
+      "note": "Transcript starts at Semester 03 \u2192 lateral entry (after diploma), not a transfer",
       "flag": ""
     },
     "v_arab": {
@@ -295,36 +301,42 @@
     "v_transfer": {
       "value": "Regular Student (Not Transfer Student)",
       "source": "Transcript (single institution)",
-      "note": "",
+      "note": "Transcript starts at Semester 03 \u2192 lateral entry (after diploma), not a transfer",
       "flag": ""
     },
     "v_cond_status": {
-      "value": "Found on University Website",
-      "source": "Passing criteria search (official university domain)",
+      "value": "Found in Verification Revert",
+      "source": "Ops convention (precedent case)",
       "note": "",
       "flag": ""
     },
     "v_cond": {
-      "value": "As per 1.17 Evaluation System, clause IGNOU uses the following system of \u201cGrading\u201d for evaluating learners' achievement: A learner must obtain at least 35% marks to pass a course; the pass band is D (Pass), which is 35 to less than 40. Marks below 35 are F (Fail).",
-      "source": "Official university document (ignou.ac.in), page 22",
-      "note": "https://www.ignou.ac.in/viewFile/services/common_prospectus/Common-Prospectus-English%28January2025%29.pdf",
-      "flag": "review"
+      "value": "As per 2017 (CBCS), Affiliated Institutions, B.E./B.Tech. Full-Time, clause 14. PASSING REQUIREMENTS: A candidate must secure not less than 50% of the total marks prescribed for the course (Internal Assessment + End Semester University Examinations). The candidate must also secure a minimum of 45% of the marks prescribed for the End-Semester University Examination; this applies to both theory and practical courses, including project work.",
+      "source": "Official university document (annauniv.edu), page 10",
+      "note": "https://cac.annauniv.edu/aidetails/reg/2017/00.%20UG%20%28Aff%29%20Reg%20%282017%29%20-%205.9.18.pdf",
+      "flag": ""
     },
     "v_response_type": {
       "value": "Full response received",
-      "source": "Online portal \u00b7 gradecard.ignou.ac.in, isms.ignou.ac.in",
-      "note": "enrolment, name and completion status shown by the portal",
+      "source": "University revert \u00b7 CoE_YB587.pdf",
+      "note": "",
       "flag": ""
     },
     "v_source": {
-      "value": "ONLINE",
-      "source": "Verified on the university's online portal",
-      "note": "ignou.ac.in",
+      "value": "EMAIL",
+      "source": "Revert received by e-mail",
+      "note": "",
       "flag": ""
     },
     "v_university": {
-      "value": "Indira Gandhi National Open University",
+      "value": "Anna University",
       "source": "UGC/AICTE official record",
+      "note": "",
+      "flag": ""
+    },
+    "v_college": {
+      "value": "STELLA MARY'S COLLEGE OF ENGINEERING",
+      "source": "University revert \u00b7 CoE_YB587.pdf",
       "note": "",
       "flag": ""
     },
@@ -336,14 +348,14 @@
     },
     "v_email_type": {
       "value": "Official",
-      "source": "Portal domain ignou.ac.in",
-      "note": "matches university website ignou.ac.in",
+      "source": "Sender domain mail1.annauniv.edu",
+      "note": "matches university website annauniv.edu",
       "flag": ""
     },
     "v_domain": {
-      "value": "ignou.ac.in",
-      "source": "Online portal URL",
-      "note": "https://gradecard.ignou.ac.in/view_gradecard.aspx?eno=050247593&prog=BTCM&type=3, https://isms.ignou.ac.in/changeadmdata/AdmissionStatusNew.ASP",
+      "value": "annauniv.edu",
+      "source": "Revert sender noreply6@mail1.annauniv.edu",
+      "note": "",
       "flag": ""
     },
     "v_degree_type": {
@@ -354,7 +366,7 @@
     },
     "v_ia_lang": {
       "value": "English",
-      "source": "Online portal language",
+      "source": "Revert language",
       "note": "",
       "flag": ""
     },
@@ -366,7 +378,7 @@
     },
     "a_status": {
       "value": "Accredited",
-      "source": "UGC official list",
+      "source": "AICTE official list",
       "note": "",
       "flag": ""
     },
@@ -377,20 +389,20 @@
       "flag": ""
     },
     "a_url": {
-      "value": "https://www.ugc.gov.in/universitydetails/university?type=ddmCMsxJZgXH2S/m0uMOKQ==",
+      "value": "https://aicte.gov.in/sites/default/files/approval/2025-26/Groupwise-List%20of%20Institutions_compressed.pdf",
       "source": "Official list used as proof",
       "note": "",
       "flag": ""
     },
     "a_body": {
-      "value": "University Grants Commission",
+      "value": "All India Council for Technical Education",
       "source": "Engine: technical programme \u2192 AICTE, otherwise UGC",
       "note": "",
       "flag": ""
     },
     "a_year": {
       "value": "2026",
-      "source": "Year of check",
+      "source": "Approval session of the list (2025-26 \u2192 2026)",
       "note": "",
       "flag": ""
     },
@@ -408,19 +420,19 @@
     },
     "o_genuine": {
       "value": "Document Genuine",
-      "source": "Online portal \u00b7 gradecard.ignou.ac.in, isms.ignou.ac.in",
-      "note": "status: Record found \u2014 all 44 courses COMPLETED",
+      "source": "University revert \u00b7 CoE_YB587.pdf",
+      "note": "status: Genuine",
       "flag": ""
     },
     "o_date": {
-      "value": "20-11-2026",
-      "source": "Online portal \u00b7 gradecard.ignou.ac.in ('Status as on' date)",
+      "value": "10-11-2026",
+      "source": "University revert \u00b7 CoE_YB587.pdf",
       "note": "",
       "flag": ""
     },
     "o_enrollment": {
-      "value": "050247593",
-      "source": "Online portal \u00b7 gradecard.ignou.ac.in, isms.ignou.ac.in",
+      "value": "963520103316",
+      "source": "University revert \u00b7 CoE_YB587.pdf",
       "note": "",
       "flag": ""
     },
@@ -430,9 +442,27 @@
       "note": "",
       "flag": ""
     },
+    "o_resp_name": {
+      "value": "Controller of Examinations",
+      "source": "Revert e-mail sender / signature",
+      "note": "",
+      "flag": ""
+    },
+    "o_resp_email": {
+      "value": "noreply6@mail1.annauniv.edu",
+      "source": "Revert e-mail header",
+      "note": "",
+      "flag": ""
+    },
+    "o_resp_desig": {
+      "value": "Controller of Examinations",
+      "source": "Revert e-mail sender / signature",
+      "note": "",
+      "flag": ""
+    },
     "o_payment": {
       "value": "No",
-      "source": "Online portal \u2014 instant, no fee",
+      "source": "Revert e-mail text",
       "note": "",
       "flag": ""
     },
@@ -449,7 +479,7 @@
       "flag": ""
     },
     "o_remarks": {
-      "value": "Online Revert: verified online on gradecard.ignou.ac.in (status as on 20-11-2026). Start Date: verified online on isms.ignou.ac.in (status as on 23-Nov-2026 11:44:32 AM). ALPESHBHAI GHANSHYAMBHAI PATEL, Enrolment 050247593, Programme BTCM, 44/44 courses COMPLETED, admission Jan-2005, mode Distance / Online. Accreditation: UGC; UGC Central University 2(f) & 12B (Found in UGC, Not found in AICTE).",
+      "value": "Verified via Office of the Controller of Examinations Anna University, Chennai - 600 025 Genuineness Verification Report (App No CoE_YB587, verified 10-11-2026): status Genuine. SREE KARTHIK A, Reg No 963520103316, B.E Civil Engineering (Full Time), First Class, November -2024, STELLA MARY'S COLLEGE OF ENGINEERING, Affiliated. Accreditation: AICTE 2025-26 list row 5427 (p.115); UGC State University 2(f) & 12B (Found in UGC, Found in AICTE). Note: lateral entry (transcript from Sem 03).",
       "source": "Engine summary",
       "note": "",
       "flag": ""
@@ -458,8 +488,8 @@
   "flags": [
     {
       "level": "warn",
-      "field": "v_cond",
-      "msg": "Passing-criteria numbers could not be confirmed in the document text \u2014 check"
+      "field": "verification_proof",
+      "msg": "No initiation e-mail among the uploads \u2014 attach it if the client requires it"
     }
   ],
   "documents": {
@@ -467,191 +497,137 @@
     "verification_proof": [],
     "revert_1": [
       {
-        "name": "Online Revert - gradecard.ignou.ac.in.pdf",
-        "url": "/files/238371-2026-EDU-1/output/Online Revert - gradecard.ignou.ac.in.pdf",
-        "source": "Generated: Online Revert \u2014 gradecard.ignou.ac.in screenshot + link",
+        "name": "Revert Mail - Anna University - Genuineness Verification Application Number  CoE_YB587.pdf",
+        "url": "/files/238371-2026-EDU-1/output/Revert Mail - Anna University - Genuineness Verification Application Number  CoE_YB587.pdf",
+        "source": "Revert e-mail rendered to PDF",
         "generated": true
-      },
-      {
-        "name": "Revert.pdf",
-        "url": "/files/238371-2026-EDU-1/uploads/Revert.pdf",
-        "source": "Uploaded online portal screenshot",
-        "generated": false
       }
     ],
     "revert_2": [
       {
-        "name": "Start Date - isms.ignou.ac.in.pdf",
-        "url": "/files/238371-2026-EDU-1/output/Start Date - isms.ignou.ac.in.pdf",
-        "source": "Generated: Start Date \u2014 isms.ignou.ac.in screenshot + link",
-        "generated": true
-      },
-      {
-        "name": "Start Date.png",
-        "url": "/files/238371-2026-EDU-1/uploads/Start Date.png",
-        "source": "Uploaded online portal screenshot",
+        "name": "CoE_YB587.pdf",
+        "url": "/files/238371-2026-EDU-1/work/mail_FW Anna University - Genuineness Verific/child0/CoE_YB587.pdf",
+        "source": "Attachment of revert e-mail",
         "generated": false
       }
     ],
     "accreditation": [
       {
-        "name": "Accreditation - Indira Gandhi National Open University.pdf",
-        "url": "/files/238371-2026-EDU-1/output/Accreditation - Indira Gandhi National Open University.pdf",
-        "source": "Generated: UGC/AICTE evidence (Found in UGC, Not found in AICTE)",
+        "name": "Accreditation - Anna University.pdf",
+        "url": "/files/238371-2026-EDU-1/output/Accreditation - Anna University.pdf",
+        "source": "Generated: UGC/AICTE evidence (Found in UGC, Found in AICTE)",
         "generated": true
       }
     ],
     "passing_criteria": [
       {
-        "name": "Passing Criteria - Indira Gandhi National Open University.pdf",
-        "url": "/files/238371-2026-EDU-1/output/Passing Criteria - Indira Gandhi National Open University.pdf",
+        "name": "Passing Criteria - Anna University.pdf",
+        "url": "/files/238371-2026-EDU-1/output/Passing Criteria - Anna University.pdf",
         "source": "Generated: official regulation evidence",
         "generated": true
       }
     ],
     "other": [
       {
-        "name": "Degree.pdf",
-        "url": "/files/238371-2026-EDU-1/uploads/Degree.pdf",
+        "name": "Degree.jpg",
+        "url": "/files/238371-2026-EDU-1/uploads/Degree.jpg",
         "source": "Degree",
         "generated": false
       },
       {
-        "name": "Marksheet.pdf",
-        "url": "/files/238371-2026-EDU-1/uploads/Marksheet.pdf",
+        "name": "Marksheet.jpg",
+        "url": "/files/238371-2026-EDU-1/uploads/Marksheet.jpg",
         "source": "Transcript",
+        "generated": false
+      },
+      {
+        "name": "Diploma.jpg",
+        "url": "/files/238371-2026-EDU-1/uploads/Diploma.jpg",
+        "source": "Diploma",
         "generated": false
       }
     ]
   },
-  "mails": [],
-  "edits": {},
-  "updated_at": 1795493225.1426997,
-  "sample": "ignou",
-  "run_started": 1795493145.0792239,
-  "online": [
+  "mails": [
     {
-      "doc": "Revert.pdf",
-      "label": "Online Revert",
-      "type": "result",
-      "url": "https://gradecard.ignou.ac.in/view_gradecard.aspx?eno=050247593&prog=BTCM&type=3",
-      "host": "gradecard.ignou.ac.in",
-      "domain": "ignou.ac.in",
-      "fields": {
-        "enrollment_no": "050247593",
-        "name": "ALPESHBHAI GHANSHYAMBHAI PATEL",
-        "programme": "BTCM",
-        "university": "Indira Gandhi National Open University",
-        "status_as_on": "20-11-2026",
-        "status_as_on_dd_mm_yyyy": "20-11-2026"
-      },
-      "courses": {
-        "total": 44,
-        "completed": 44,
-        "not_completed": [],
-        "statuses": [
-          "COMPLETED"
-        ]
-      },
-      "method": "vision-llm",
-      "pdf": "/files/238371-2026-EDU-1/output/Online Revert - gradecard.ignou.ac.in.pdf",
-      "shot": "/files/238371-2026-EDU-1/uploads/Revert.pdf"
-    },
-    {
-      "doc": "Start Date.png",
-      "label": "Start Date",
-      "type": "admission",
-      "url": "https://isms.ignou.ac.in/changeadmdata/AdmissionStatusNew.ASP",
-      "host": "isms.ignou.ac.in",
-      "domain": "ignou.ac.in",
-      "fields": {
-        "enrollment_no": "050247593",
-        "name": "ALPESHBHAI GHANSHYAMBHAI PATEL",
-        "programme": "BTCM",
-        "university": "Indira Gandhi National Open University",
-        "admission_year": "Jan-2005",
-        "valid_upto": "Dec-2014",
-        "status_as_on": "23-Nov-2026 11:44:32 AM",
-        "regional_centre": "09:AHMEDABAD",
-        "study_centre": "9091",
-        "father_name": "GHANSHYAMBHAI PATEL",
-        "admission_year_mm_yyyy": "01-2005",
-        "valid_upto_mm_yyyy": "12-2014",
-        "status_as_on_dd_mm_yyyy": "23-11-2026"
-      },
-      "courses": {
-        "total": 0,
-        "completed": 0,
-        "not_completed": [],
-        "statuses": []
-      },
-      "method": "vision-llm",
-      "pdf": "/files/238371-2026-EDU-1/output/Start Date - isms.ignou.ac.in.pdf",
-      "shot": "/files/238371-2026-EDU-1/uploads/Start Date.png"
+      "role": "revert",
+      "from": "Controller of Examinations - Genuineness Verification Portal - Anna University <noreply6@mail1.annauniv.edu>",
+      "to": "sonia.birla@helloverify.com",
+      "subject": "Anna University - Genuineness Verification Application Number :CoE_YB587",
+      "date": "2026-11-10T09:24:36+00:00",
+      "attachments": [
+        "CoE_YB587.pdf"
+      ],
+      "file": "FW Anna University - Genuineness Verification Application Number -CoE_YB587.msg"
     }
   ],
-  "verification_mode": "online",
+  "edits": {},
+  "updated_at": 1795500693.6520581,
+  "sample": "ignou",
+  "run_started": 1795500666.2201016,
+  "online": [],
+  "verification_mode": "email",
   "engine": {
     "status": "done",
-    "started": 1795493145.0883574,
-    "finished": 1795493225.1379914,
-    "cost_usd": 0.1991,
+    "started": 1795500666.2301342,
+    "finished": 1795500693.6469088,
+    "cost_usd": 0.0037,
     "steps": [
       {
         "id": "ingest",
         "label": "Reading & classifying documents",
         "status": "done",
-        "seconds": 11.4,
-        "detail": "4 files \u2192 4 documents, 0 e-mail(s): degree\u00d71, transcript\u00d71, online_portal\u00d72"
+        "seconds": 4.6,
+        "detail": "4 files \u2192 4 documents, 1 e-mail(s): degree\u00d71, diploma\u00d71, verification_report\u00d71, transcript\u00d71"
       },
       {
         "id": "revert",
         "label": "Parsing university revert (e-mail)",
-        "status": "skip",
+        "status": "done",
         "seconds": 0.0,
-        "detail": "no e-mail revert \u2014 online-database verification"
+        "detail": "table parse of CoE_YB587.pdf: status Genuine, 13 fields"
       },
       {
         "id": "online",
         "label": "Online database \u2014 reading portal screenshots",
-        "status": "done",
-        "seconds": 17.0,
-        "detail": "vision-llm: 2 screenshot(s) from ignou.ac.in: enrolment 050247593 \u00b7 ALPESHBHAI GHANSHYAMBHAI PATEL \u00b7 BTCM \u00b7 Record found \u2014 all 44 courses COMPLETED \u00b7 admission Jan-2005"
+        "status": "skip",
+        "seconds": 0.0,
+        "detail": "no online portal screenshots"
       },
       {
         "id": "certs",
         "label": "Reading degree & transcript",
         "status": "done",
-        "seconds": 24.0,
-        "detail": "vision-llm: ALPESHBHAI GHANSHYAMBHAI PATEL \u00b7 B.Tech Civil Engineering \u00b7 First Class \u00b7 reg 050247593"
+        "seconds": 22.2,
+        "detail": "vision-llm: SREE KARTHIK A \u00b7 B.E. Civil Engineering \u00b7 FIRST CLASS \u00b7 reg 963520103316"
       },
       {
         "id": "mails",
         "label": "Printing e-mails / online reverts to PDF",
         "status": "done",
-        "seconds": 17.5,
-        "detail": "2 online revert PDF(s)"
+        "seconds": 1.1,
+        "detail": "1 revert, 0 initiation mail PDF(s)"
       },
       {
         "id": "accreditation",
         "label": "Accreditation check \u2014 UGC / AICTE",
         "status": "done",
-        "seconds": 17.0,
-        "detail": "Accredited \u2014 University Grants Commission"
+        "seconds": 5.4,
+        "detail": "Accredited \u2014 All India Council for Technical Education"
       },
       {
         "id": "passing",
         "label": "Passing criteria \u2014 official university site",
-        "status": "warn",
-        "seconds": 44.5,
-        "detail": "IGNOU uses the following system of \u201cGrading\u201d for evaluating learners' achievement (p.22) found by search \u2014 numbers NOT confirmed"
+        "status": "done",
+        "seconds": 0.5,
+        "detail": "14. PASSING REQUIREMENTS (p.10) from knowledge cache"
       },
       {
         "id": "fill",
         "label": "Filling HVOPS form & attaching documents",
         "status": "done",
         "seconds": 0.0,
-        "detail": "72 fields filled, 8 documents attached, 1 item(s) for review"
+        "detail": "77 fields filled, 7 documents attached, 1 item(s) for review"
       }
     ],
     "log": [
@@ -660,314 +636,204 @@
         "msg": "\u25b6 Reading & classifying documents"
       },
       {
-        "t": 11.5,
-        "msg": "\u2713 Reading & classifying documents \u2014 4 files \u2192 4 documents, 0 e-mail(s): degree\u00d71, transcript\u00d71, online_portal\u00d72 (11.4s)"
+        "t": 4.7,
+        "msg": "\u2713 Reading & classifying documents \u2014 4 files \u2192 4 documents, 1 e-mail(s): degree\u00d71, diploma\u00d71, verification_report\u00d71, transcript\u00d71 (4.6s)"
       },
       {
-        "t": 11.5,
-        "msg": "   Degree.pdf: degree"
+        "t": 4.7,
+        "msg": "   Degree.jpg: degree"
       },
       {
-        "t": 11.5,
-        "msg": "   Marksheet.pdf: transcript"
+        "t": 4.7,
+        "msg": "   Diploma.jpg: diploma"
       },
       {
-        "t": 11.5,
-        "msg": "   Revert.pdf: online_portal"
+        "t": 4.7,
+        "msg": "   CoE_YB587.pdf: verification_report (attachment of mail 'Anna University - Genuineness Verification Application Numbe')"
       },
       {
-        "t": 11.5,
-        "msg": "   Start Date.png: online_portal"
+        "t": 4.7,
+        "msg": "   Marksheet.jpg: transcript"
       },
       {
-        "t": 11.5,
+        "t": 4.7,
         "msg": "\u25b6 Parsing university revert (e-mail)"
       },
       {
-        "t": 11.5,
-        "msg": "\u26a0 Parsing university revert (e-mail) \u2014 no e-mail revert \u2014 online-database verification (0.0s)"
+        "t": 4.7,
+        "msg": "\u2713 Parsing university revert (e-mail) \u2014 table parse of CoE_YB587.pdf: status Genuine, 13 fields (0.0s)"
       },
       {
-        "t": 11.5,
+        "t": 4.7,
         "msg": "\u25b6 Online database \u2014 reading portal screenshots"
       },
       {
-        "t": 11.5,
+        "t": 4.7,
+        "msg": "\u26a0 Online database \u2014 reading portal screenshots \u2014 no online portal screenshots (0.0s)"
+      },
+      {
+        "t": 4.7,
         "msg": "\u25b6 Reading degree & transcript"
       },
       {
-        "t": 11.5,
+        "t": 4.7,
         "msg": "\u25b6 Printing e-mails / online reverts to PDF"
       },
       {
-        "t": 11.5,
+        "t": 4.7,
         "msg": "\u25b6 Accreditation check \u2014 UGC / AICTE"
       },
       {
-        "t": 11.5,
-        "msg": "UGC: found as Central University \u2014 Indira Gandhi National Open University; AICTE: university not listed, college not listed"
+        "t": 4.7,
+        "msg": "UGC: found as State University \u2014 Anna University; AICTE: university row 5427, college row 6395"
       },
       {
-        "t": 28.5,
-        "msg": "   Revert.pdf: Online Revert \u00b7 gradecard.ignou.ac.in \u00b7 enrollment_no=050247593, name=ALPESHBHAI GHANSHYAMBHAI PATEL, programme=BTCM, university=Indira Gandhi National Open University, status_as_on=20-11-2026"
+        "t": 5.8,
+        "msg": "\u2713 Printing e-mails / online reverts to PDF \u2014 1 revert, 0 initiation mail PDF(s) (1.1s)"
       },
       {
-        "t": 28.5,
-        "msg": "   Start Date.png: Start Date \u00b7 isms.ignou.ac.in \u00b7 enrollment_no=050247593, name=ALPESHBHAI GHANSHYAMBHAI PATEL, programme=BTCM, university=Indira Gandhi National Open University, admission_year=Jan-2005, valid_upto=Dec-2014, status_as_on=23-Nov-2026 11:44:32 AM, regional_centre=09:AHMEDABAD, study_centre=9091, father_name=GHANSHYAMBHAI PATEL"
+        "t": 10.0,
+        "msg": "\u2713 Accreditation check \u2014 UGC / AICTE \u2014 Accredited \u2014 All India Council for Technical Education (5.4s)"
       },
       {
-        "t": 28.5,
-        "msg": "\u2713 Online database \u2014 reading portal screenshots \u2014 vision-llm: 2 screenshot(s) from ignou.ac.in: enrolment 050247593 \u00b7 ALPESHBHAI GHANSHYAMBHAI PATEL \u00b7 BTCM \u00b7 Record found \u2014 all 44 courses COMPLETED \u00b7 admission Jan-2005 (17.0s)"
+        "t": 26.9,
+        "msg": "\u2713 Reading degree & transcript \u2014 vision-llm: SREE KARTHIK A \u00b7 B.E. Civil Engineering \u00b7 FIRST CLASS \u00b7 reg 963520103316 (22.2s)"
       },
       {
-        "t": 28.5,
-        "msg": "\u2713 Accreditation check \u2014 UGC / AICTE \u2014 Accredited \u2014 University Grants Commission (17.0s)"
-      },
-      {
-        "t": 29.0,
-        "msg": "\u2713 Printing e-mails / online reverts to PDF \u2014 2 online revert PDF(s) (17.5s)"
-      },
-      {
-        "t": 35.5,
-        "msg": "\u2713 Reading degree & transcript \u2014 vision-llm: ALPESHBHAI GHANSHYAMBHAI PATEL \u00b7 B.Tech Civil Engineering \u00b7 First Class \u00b7 reg 050247593 (24.0s)"
-      },
-      {
-        "t": 35.5,
+        "t": 26.9,
         "msg": "\u25b6 Passing criteria \u2014 official university site"
       },
       {
-        "t": 35.5,
-        "msg": "searching official domain(s) ignou.ac.in for B.Tech regulation 2011"
+        "t": 26.9,
+        "msg": "knowledge cache hit (ANNA UNIVERSITY|BE-BTECH|2017) \u2014 no search needed"
       },
       {
-        "t": 72.4,
-        "msg": "search answered in 36.9s \u2192 https://www.ignou.ac.in/viewFile/services/common_prospectus/Common-Prospectus-English(January2025).pdf"
+        "t": 27.4,
+        "msg": "\u2713 Passing criteria \u2014 official university site \u2014 14. PASSING REQUIREMENTS (p.10) from knowledge cache (0.5s)"
       },
       {
-        "t": 80.0,
-        "msg": "\u26a0 Passing criteria \u2014 official university site \u2014 IGNOU uses the following system of \u201cGrading\u201d for evaluating learners' achievement (p.22) found by search \u2014 numbers NOT confirmed (44.5s)"
-      },
-      {
-        "t": 80.0,
+        "t": 27.4,
         "msg": "\u25b6 Filling HVOPS form & attaching documents"
       },
       {
-        "t": 80.0,
-        "msg": "\u2713 Filling HVOPS form & attaching documents \u2014 72 fields filled, 8 documents attached, 1 item(s) for review (0.0s)"
+        "t": 27.4,
+        "msg": "\u2713 Filling HVOPS form & attaching documents \u2014 77 fields filled, 7 documents attached, 1 item(s) for review (0.0s)"
       },
       {
-        "t": 80.0,
-        "msg": "\u25a0 Completed in 80.0s \u00b7 LLM cost $0.1991"
+        "t": 27.4,
+        "msg": "\u25a0 Completed in 27.4s \u00b7 LLM cost $0.0037"
       }
     ],
-    "seconds": 80.0,
+    "seconds": 27.4,
     "docs": [
       {
-        "name": "Degree.pdf",
+        "name": "Degree.jpg",
         "kind": "degree",
         "origin": "upload"
       },
       {
-        "name": "Marksheet.pdf",
+        "name": "Diploma.jpg",
+        "kind": "diploma",
+        "origin": "upload"
+      },
+      {
+        "name": "CoE_YB587.pdf",
+        "kind": "verification_report",
+        "origin": "attachment of mail 'Anna University - Genuineness Verification Application Numbe'"
+      },
+      {
+        "name": "Marksheet.jpg",
         "kind": "transcript",
         "origin": "upload"
       },
       {
-        "name": "Revert.pdf",
-        "kind": "online_portal",
-        "origin": "upload"
-      },
-      {
-        "name": "Start Date.png",
-        "kind": "online_portal",
+        "name": "FW Anna University - Genuineness Verification Application Number -CoE_YB587.msg",
+        "kind": "revert mail",
         "origin": "upload"
       }
     ],
     "facts": {
-      "mode": "online",
+      "mode": "email",
       "revert": {
-        "registration_no": "050247593",
-        "name": "ALPESHBHAI GHANSHYAMBHAI PATEL",
-        "programme": "BTCM",
-        "university": "Indira Gandhi National Open University",
-        "admission": "Jan-2005",
-        "start_mm_yyyy": "01-2005",
-        "valid_upto": "Dec-2014",
-        "father_name": "GHANSHYAMBHAI PATEL",
-        "regional_centre": "09:AHMEDABAD",
-        "study_centre": "9091",
-        "verified_date": "20-11-2026",
-        "_courses": {
-          "total": 44,
-          "completed": 44,
-          "not_completed": [],
-          "statuses": [
-            "COMPLETED"
-          ]
-        },
-        "status": "Record found \u2014 all 44 courses COMPLETED",
-        "_found": true,
-        "_complete": true,
-        "mode_of_study": "Distance / Online",
-        "_mode_how": "inferred from portal: Open University, Regional Centre, Study Centre",
-        "_mode_explicit": false,
-        "_title": "Online verification \u2014 gradecard.ignou.ac.in, isms.ignou.ac.in",
-        "branch": "BTCM"
+        "app_no": "CoE_YB587",
+        "ref_no": "COE / Online Verification / 2026 / CoE_YB587 / 2026-11-07",
+        "status": "Genuine",
+        "verified_date": "2026-11-10 11:31:53",
+        "registration_no": "963520103316",
+        "name": "SREE KARTHIK A",
+        "branch": "B.E Civil Engineering (Full Time)",
+        "institution": "STELLA MARY'S COLLEGE OF ENGINEERING [Kanyakumari] - INDIA",
+        "class": "First Class",
+        "year_of_passing": "November -2024",
+        "university": "Anna University, Chennai",
+        "mode_of_college": "Affiliated",
+        "verifier": "Hello Verify India Private Limited , B 44 Sector 57 Noida, Noida, Uttar Pradesh, India , 201301",
+        "_title": "Office of the Controller of Examinations Anna University, Chennai - 600 025 Genuineness Verification Report"
       },
       "certs": {
-        "candidate_name": "ALPESHBHAI GHANSHYAMBHAI PATEL",
-        "degree_title": "Bachelor of Technology in Civil Engineering",
+        "candidate_name": "SREE KARTHIK A",
+        "degree_title": "BACHELOR OF ENGINEERING in CIVIL ENGINEERING",
         "degree_level": "Bachelor",
-        "degree_short": "B.Tech",
+        "degree_short": "B.E.",
         "major": "Civil Engineering",
-        "faculty": "",
-        "university": "INDIRA GANDHI NATIONAL OPEN UNIVERSITY",
-        "college": "",
-        "register_no": "050247593",
-        "class_awarded": "First Class",
-        "exam_month_year": "June 2011",
-        "issue_date": "August 2, 2011",
-        "cgpa": "",
-        "medium_of_instruction": "",
-        "date_of_birth": "",
-        "regulation": "",
-        "first_semester": "1",
-        "last_semester": "8",
-        "earliest_exam_month_year": "June 2011",
-        "last_appearance": "",
+        "faculty": "Civil Engineering",
+        "university": "Anna University",
+        "college": "STELLA MARY'S COLLEGE OF ENGINEERING",
+        "register_no": "963520103316",
+        "class_awarded": "FIRST CLASS",
+        "exam_month_year": "NOVEMBER 2024",
+        "issue_date": "February 2026",
+        "cgpa": "7.68",
+        "medium_of_instruction": "English",
+        "date_of_birth": "04-JAN-2003",
+        "regulation": "2017 (CBCS)",
+        "first_semester": "3",
+        "last_semester": "7",
+        "earliest_exam_month_year": "NOV 2021",
+        "last_appearance": "November 2024",
         "son_of_mentioned": "no",
         "document_language": "English",
-        "notes": "Name and register no. visible on degree and transcript. Transcript shows Engineering & Technology Programmes and semester-wise marks; overall percentage/cgpa not printed on visible pages. Degree is an attested/apostilled copy with seals."
+        "notes": "Name on transcript matches degree. Transcript shows semesters 03 to 07 only; no 01/02 listed. Degree issued in February 2026."
       },
-      "online": {
-        "fields": {
-          "registration_no": "050247593",
-          "name": "ALPESHBHAI GHANSHYAMBHAI PATEL",
-          "programme": "BTCM",
-          "university": "Indira Gandhi National Open University",
-          "admission": "Jan-2005",
-          "start_mm_yyyy": "01-2005",
-          "valid_upto": "Dec-2014",
-          "father_name": "GHANSHYAMBHAI PATEL",
-          "regional_centre": "09:AHMEDABAD",
-          "study_centre": "9091",
-          "verified_date": "20-11-2026",
-          "_courses": {
-            "total": 44,
-            "completed": 44,
-            "not_completed": [],
-            "statuses": [
-              "COMPLETED"
-            ]
-          },
-          "status": "Record found \u2014 all 44 courses COMPLETED",
-          "_found": true,
-          "_complete": true,
-          "mode_of_study": "Distance / Online",
-          "_mode_how": "inferred from portal: Open University, Regional Centre, Study Centre",
-          "_mode_explicit": false,
-          "_title": "Online verification \u2014 gradecard.ignou.ac.in, isms.ignou.ac.in"
-        },
-        "sources": {
-          "registration_no": {
-            "doc": "Revert.pdf",
-            "url": "https://gradecard.ignou.ac.in/view_gradecard.aspx?eno=050247593&prog=BTCM&type=3",
-            "note": ""
-          },
-          "name": {
-            "doc": "Revert.pdf",
-            "url": "https://gradecard.ignou.ac.in/view_gradecard.aspx?eno=050247593&prog=BTCM&type=3",
-            "note": ""
-          },
-          "programme": {
-            "doc": "Revert.pdf",
-            "url": "https://gradecard.ignou.ac.in/view_gradecard.aspx?eno=050247593&prog=BTCM&type=3",
-            "note": ""
-          },
-          "university": {
-            "doc": "Revert.pdf",
-            "url": "https://gradecard.ignou.ac.in/view_gradecard.aspx?eno=050247593&prog=BTCM&type=3",
-            "note": ""
-          },
-          "admission": {
-            "doc": "Start Date.png",
-            "url": "https://isms.ignou.ac.in/changeadmdata/AdmissionStatusNew.ASP",
-            "note": ""
-          },
-          "start_mm_yyyy": {
-            "doc": "Start Date.png",
-            "url": "https://isms.ignou.ac.in/changeadmdata/AdmissionStatusNew.ASP",
-            "note": "Admission Year on the portal"
-          },
-          "valid_upto": {
-            "doc": "Start Date.png",
-            "url": "https://isms.ignou.ac.in/changeadmdata/AdmissionStatusNew.ASP",
-            "note": ""
-          },
-          "father_name": {
-            "doc": "Start Date.png",
-            "url": "https://isms.ignou.ac.in/changeadmdata/AdmissionStatusNew.ASP",
-            "note": ""
-          },
-          "regional_centre": {
-            "doc": "Start Date.png",
-            "url": "https://isms.ignou.ac.in/changeadmdata/AdmissionStatusNew.ASP",
-            "note": ""
-          },
-          "study_centre": {
-            "doc": "Start Date.png",
-            "url": "https://isms.ignou.ac.in/changeadmdata/AdmissionStatusNew.ASP",
-            "note": ""
-          },
-          "verified_date": {
-            "doc": "Revert.pdf",
-            "url": "https://gradecard.ignou.ac.in/view_gradecard.aspx?eno=050247593&prog=BTCM&type=3",
-            "note": "'Status as on' date shown by the portal"
-          }
-        },
-        "domains": [
-          "ignou.ac.in"
-        ],
-        "found": true
-      },
+      "online": {},
       "accreditation": {
         "status": "Accredited",
-        "body": "University Grants Commission",
-        "body_short": "UGC",
-        "url": "https://www.ugc.gov.in/universitydetails/university?type=ddmCMsxJZgXH2S/m0uMOKQ==",
+        "body": "All India Council for Technical Education",
+        "body_short": "AICTE",
+        "url": "https://aicte.gov.in/sites/default/files/approval/2025-26/Groupwise-List%20of%20Institutions_compressed.pdf",
         "year": "2026",
         "country": "India",
         "technical": true,
         "ugc": {
-          "name": "Indira Gandhi National Open University",
-          "type": "Central University",
+          "name": "Anna University",
+          "type": "State University",
           "status": "2(f) & 12B",
-          "website": "http://www.ignou.ac.in",
+          "website": "http://www.annauniv.edu",
           "score": 100
         },
-        "canonical_university": "Indira Gandhi National Open University",
-        "summary": "Found in UGC, Not found in AICTE",
-        "pdf": "/mnt/e/closure/data/cases/238371-2026-EDU-1/output/Accreditation - Indira Gandhi National Open University.pdf",
-        "seconds": 3.5,
+        "canonical_university": "Anna University",
+        "summary": "Found in UGC, Found in AICTE",
+        "pdf": "/mnt/e/closure/data/cases/238371-2026-EDU-1/output/Accreditation - Anna University.pdf",
+        "seconds": 5.4,
         "warnings": []
       },
       "passing": {
         "found": true,
-        "verified": false,
-        "cached": false,
+        "verified": true,
+        "cached": true,
         "loose": false,
-        "url": "https://www.ignou.ac.in/viewFile/services/common_prospectus/Common-Prospectus-English%28January2025%29.pdf",
-        "document_title": "IGNOU Common Prospectus - January 2025 V.L.1.1",
-        "regulation": "1.17 Evaluation System",
-        "clause_heading": "IGNOU uses the following system of \u201cGrading\u201d for evaluating learners' achievement",
-        "criteria": "A learner must obtain at least 35% marks to pass a course; the pass band is D (Pass), which is 35 to less than 40. Marks below 35 are F (Fail).",
-        "clause_text": "IGNOU uses the following system of \u2015Grading\u2016 for evaluating learners' achievement Letter Grade Qualitative Level Point Grade A Excellent 5 B Very Good 4 C Good 3 D Average 2 E Unsatisfactory 1 For Bachelors\u2018 and Masters\u2018 degree programmes, normally the system of numerical marking is followed, and the marks secured in assignments, TE Exams, etc. are later converted into grades as per the five-point grading scale given above. However, if required by the learner, the university provides numerical marks and division (I, II or Pass). IGNOU uses 10-Point Grading System for evaluating learners\u2018 achievement for Bachelor Degree Programmes under CBCS, as under: 10-Point Grading System of IGNOU as per UGC-CBCS Guidelines Letter Grade Numerical Grade Percentage O (Outstanding) 10 >85 A+ (Excellent) 9 > 75 to < 85 A (Very Good) 8 > 65 to < 75 B+ (Good) 7 > 55 to < 65 B (Above Average) 6 > 50 to < 55",
-        "page": 22,
-        "pdf": "/mnt/e/closure/data/cases/238371-2026-EDU-1/output/Passing Criteria - Indira Gandhi National Open University.pdf",
+        "url": "https://cac.annauniv.edu/aidetails/reg/2017/00.%20UG%20%28Aff%29%20Reg%20%282017%29%20-%205.9.18.pdf",
+        "document_title": "Anna University - Affiliated Institutions - Regulations 2017 - Choice Based Credit System - Common to all B.E. / B.Tech. Full-Time Programmes",
+        "regulation": "2017 (CBCS), Affiliated Institutions, B.E./B.Tech. Full-Time",
+        "clause_heading": "14. PASSING REQUIREMENTS",
+        "criteria": "A candidate must secure not less than 50% of the total marks prescribed for the course (Internal Assessment + End Semester University Examinations). The candidate must also secure a minimum of 45% of the marks prescribed for the End-Semester University Examination; this applies to both theory and practical courses, including project work.",
+        "clause_text": "14. PASSING REQUIREMENTS 14.1 A candidate who secures not less than 50% of total marks prescribed for the course [Internal Assessment + End semester University Examinations] with a minimum of 45% of the marks prescribed for the end-semester University Examination, shall be declared to have passed the course and acquired the relevant number of credits. This is applicable for both theory and practical courses (including project work). 14.2 If a student fails to secure a pass in theory courses in the current semester examination, he/she is allowed to write arrear examinations for the next three consecutive semesters and their internal marks shall be carried over for the above mentioned period of three consecutive semesters. If a student fails to secure a pass in a course even after three consecutive arrear attempts, the student has to redo the course in the semester in which it is offered along with regular students. That is, the students should have successfully completed the courses of (n minus 4)th semester to register for courses in nth semester. Based on the above, the following prerequisites shall be followed for completing the degree programme: i. To enter into Semester V, the student should have no arrear in Semester I. Failing which the student shall redo the Semester I course/courses along with the regular students.",
+        "page": 10,
+        "pdf": "/mnt/e/closure/data/cases/238371-2026-EDU-1/output/Passing Criteria - Anna University.pdf",
         "domains": [
-          "ignou.ac.in"
+          "annauniv.edu"
         ],
-        "seconds": 44.5
+        "seconds": 0.5
       }
     }
   }
