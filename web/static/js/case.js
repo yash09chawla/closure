@@ -25,7 +25,8 @@ function renderStatic() {
   $("#insuff").innerHTML = `<tr><th>Raise date</th><th>Insuff Raise By</th><th>Insuff Type</th><th>Insuff Status</th><th>Insuff Pushed</th><th>Insuff Pushed Date</th><th>Insuff Remark ID</th><th style="width:38%">Insuff Tag Remark</th></tr>` +
     (ins.length ? ins.map(i => `<tr><td>${esc(i.date)}</td><td>${esc(i.by)}</td><td>${esc(i.type)}</td><td>${esc(i.status)}</td><td></td><td></td><td>${esc(i.id)}</td><td style="text-align:center">${esc(i.remark)}</td></tr>`).join("")
       : `<tr><td colspan="8" style="text-align:center;color:#888">No insufficiency raised</td></tr>`);
-  $("#pvh-name").textContent = m.institute_name || "";
+  document.querySelectorAll(".pvh-name").forEach(el => el.textContent = m.institute_name || "");
+  document.querySelectorAll("#vtabs .t[data-tab]").forEach(t => t.addEventListener("click", () => showTab(t.dataset.tab)));
   $("#cs-id").value = CASE.case_ref; $("#cs-recv").value = CASE.received_on || "";
   document.title = `${CASE.case_ref} · Helloverify`;
 }
@@ -106,12 +107,53 @@ function applyCase(c, animate) {
     keys.forEach((k, i) => setTimeout(() => setValue(k, fields[k].value, fields[k], true), i * 18));
   } else keys.forEach(k => setValue(k, fields[k].value, fields[k], false));
   $("#resultFound").checked = !!fields.o_genuine;
-  if (fields.v_source) document.querySelector('#cs-sub input[value="email"]').checked = true;
+  const online = c.verification_mode === "online" || (fields.v_source || {}).value === "ONLINE";
+  if (fields.v_source) document.querySelector(`#cs-sub input[value="${online ? "online" : "email"}"]`).checked = true;
   renderDocs(c.documents || {});
   renderMails(c.mails || []);
+  renderOnline(c.online || [], ((c.engine || {}).facts || {}).online || {});
+  if (c.verification_mode) showTab(online ? "online" : "email");
+}
+
+function showTab(id) {
+  document.querySelectorAll("#vtabs .t[data-tab]").forEach(t => t.classList.toggle("on", t.dataset.tab === id));
+  document.querySelectorAll(".tp").forEach(p => p.hidden = p.id !== `tab-${id}`);
+}
+
+// Online Database tab — one row per portal screenshot, like the e-mail table; facts card = what was fetched
+function renderOnline(rows, on) {
+  $("#cnt-online").textContent = rows.length;
+  const head = `<tr><th>Check Id</th><th>Status</th><th>Portal</th><th>URL</th><th>Record Type</th><th>Enrolment No</th><th>Name</th><th>Programme</th><th>Status as on</th><th>Show</th><th>Response Recieved</th></tr>`;
+  $("#onlinetbl").innerHTML = head + (rows.length ? rows.map((r, i) => {
+    const f = r.fields || {}, c = r.courses || {};
+    const done = r.type === "result" ? (c.total ? `${c.completed}/${c.total} COMPLETED` : "Record found") :
+      (f.admission_year ? `Admission ${esc(f.admission_year)}` : "Record found");
+    return `<tr><td>EDU-1/O${i + 1}</td><td>${f.enrollment_no || f.roll_no ? "Fetched" : "Not readable"}</td><td>${esc(r.host || "—")}</td>
+      <td style="min-width:240px;max-width:320px;word-break:break-all;font-size:11px">${r.url ? `<a href="${esc(r.url)}" target="_blank" rel="noopener" title="${esc(r.url)}">${esc(r.url.replace(/^https?:\/\//, ""))}</a>` : "—"}</td>
+      <td>${esc(r.label)}</td><td>${esc(f.enrollment_no || f.roll_no || "")}</td><td>${esc(f.welcome_name || f.name || "")}</td>
+      <td>${esc(f.programme || "")}</td><td>${esc(f.status_as_on || f.current_date || "")}</td>
+      <td style="white-space:nowrap">${r.pdf ? `<a href="${r.pdf}" target="_blank">PDF</a>` : ""}${r.shot ? ` · <a href="${r.shot}" target="_blank">screenshot</a>` : ""}</td>
+      <td>Yes (${done})</td></tr>`;
+  }).join("") : `<tr><td colspan="11" style="text-align:center;color:#888">No online portal screenshots — drop them in the Auto-Close panel</td></tr>`);
+  const hosts = [...new Set(rows.map(r => r.url).filter(Boolean))];
+  $("#pvh-portals").textContent = hosts.slice(0, 3).join(" , ");
+  $("#pvh-portal-ok").textContent = rows.length ? "Yes" : "—";
+  const of = on.fields || {}, cr = of._courses || {};
+  if (!rows.length || !Object.keys(of).length) { $("#onlineFacts").innerHTML = ""; return; }
+  const kv = [["Enrolment / Roll No", of.registration_no], ["Name", of.name], ["Programme", of.programme],
+    ["University", of.university], ["Study start (Admission Year)", of.admission ? `${of.admission} → ${of.start_mm_yyyy || ""}` : ""],
+    ["Admission valid upto", of.valid_upto], ["Year of passing", of.year_of_passing],
+    ["Courses", cr.total ? `${cr.completed} of ${cr.total} COMPLETED${(cr.not_completed || []).length ? " · not completed: " + cr.not_completed.join(", ") : ""}` : ""],
+    ["Result", of.result], ["Mode of study", of.mode_of_study ? `${of.mode_of_study} (${of._mode_how || ""})` : ""],
+    ["Regional / Study Centre", [of.regional_centre, of.study_centre].filter(Boolean).join(" / ")],
+    ["Verification date (status as on)", of.verified_date], ["Portal domain", (on.domains || []).join(", ")]].filter(([, v]) => v);
+  $("#onlineFacts").innerHTML = `<div class="of-h">Details fetched from the online portal <span class="pill ${on.found ? "up" : ""}">${on.found ? "Record found" : "Record not confirmed"}</span></div>
+    <div class="of-grid">${kv.map(([k, v]) => `<div><label>${esc(k)}</label><span>${esc(v)}</span></div>`).join("")}</div>
+    <div class="of-note">${rows.some(r => r.method === "vision-llm") ? "Read from the screenshots with the OpenAI vision model" : "Read locally (OCR) from the screenshots — nothing sent to external services"}. Fields below are filled from these values (look for the “Online portal” source label).</div>`;
 }
 
 function renderMails(mails) {
+  $("#cnt-email").textContent = mails.length;
   const head = `<tr><th>Check Id</th><th>Status</th><th>Mail To</th><th>Mail From</th><th>Mail Type</th><th>Send date</th><th>Revert date</th><th>Show</th><th>Response Recieved</th></tr>`;
   const fmt = d => { try { return new Date(d).toLocaleString("en-GB", {day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit"}); } catch { return d; } };
   $("#mailtbl").innerHTML = head + mails.map((m, i) => `<tr><td>EDU-1/${i + 1}</td><td>${m.role === "revert" ? "Received" : "Sent"}</td><td>${esc(m.to)}</td><td>${esc(m.from)}</td>
@@ -164,7 +206,7 @@ async function uploadFiles(list) {
   await refresh(); renderUploads();
 }
 
-async function loadSample() { await api(`/api/cases/${CID}/sample-docs`, {method: "POST"}); await refresh(); renderUploads(); }
+async function loadSample(kind = "anna") { await api(`/api/cases/${CID}/sample-docs?kind=${kind}`, {method: "POST"}); await refresh(); renderUploads(); }
 
 async function delUpload(n) { await api(`/api/cases/${CID}/uploads/${encodeURIComponent(n)}`, {method: "DELETE"}); await refresh(); renderUploads(); }
 
@@ -194,26 +236,42 @@ async function runEngine() {
 function clearForm() {
   document.querySelectorAll('.fg[id^="fg-"]').forEach(fg => { if (fg.classList.contains("ro")) return; fg.classList.remove("filled", "flag", "edited"); fg.querySelector(".src").textContent = ""; const el = fg.querySelector("[data-key]"); if (el) el.value = ""; });
   $("#flags").innerHTML = ""; $("#kpis").style.display = "none"; $("#flagsTitle").style.display = "none";
-  renderDocs({});
+  renderDocs({}); renderOnline([], {}); renderMails([]);
 }
 
+// Progress polling: one request every 1.5 s while a run is in progress, never two at once,
+// paused while the tab is hidden, stopped as soon as the run finishes.
+const POLL_MS = 1500;
+let POLLING = false;
+
 function startPolling() {
-  clearInterval(POLL);
-  POLL = setInterval(async () => {
-    await refresh();
-    if (CASE.run) renderEngine(CASE.run, false);
-    if (CASE.run && CASE.run.status !== "running") {
-      clearInterval(POLL); clearInterval(CLOCK);
-      if (CASE.run.status === "done" && !FILLED_ONCE) {
-        FILLED_ONCE = true;
-        renderEngine(CASE.engine, true);
-        applyCase(CASE, true);
-        renderUploads();
-      }
-      $("#runBtn").disabled = false; $("#runBtn").textContent = "↻ Re-run engine";
-    }
-  }, 450);
+  POLLING = true;
+  clearTimeout(POLL);
+  POLL = setTimeout(pollOnce, 300);          // first update quickly, then every POLL_MS
 }
+
+function stopPolling() { POLLING = false; clearTimeout(POLL); }
+
+async function pollOnce() {
+  if (!POLLING) return;
+  if (document.hidden) return;                // resumed by the visibilitychange handler
+  try { await refresh(); } catch (e) { POLL = setTimeout(pollOnce, POLL_MS * 2); return; }
+  if (CASE.run) renderEngine(CASE.run, false);
+  const finished = CASE.run ? CASE.run.status !== "running" : CASE.status !== "processing";
+  if (!finished) { POLL = setTimeout(pollOnce, POLL_MS); return; }
+  stopPolling(); clearInterval(CLOCK);
+  if ((CASE.run || {}).status === "done" && !FILLED_ONCE) {
+    FILLED_ONCE = true;
+    renderEngine(CASE.engine, true);
+    applyCase(CASE, true);
+    renderUploads();
+  }
+  $("#runBtn").disabled = false; $("#runBtn").textContent = "↻ Re-run engine";
+}
+
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden && POLLING) { clearTimeout(POLL); pollOnce(); }
+});
 
 function renderEngine(e, final) {
   $("#steps").innerHTML = e.steps.map(s => `<li class="${s.status}"><span class="st"></span><span class="lb"><b>${esc(s.label)}</b>${s.detail ? `<small>${esc(s.detail)}</small>` : ""}</span><span class="sec2">${s.seconds != null ? s.seconds + "s" : ""}</span></li>`).join("");

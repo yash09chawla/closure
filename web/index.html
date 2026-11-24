@@ -16,7 +16,8 @@
 <div class="page">
   <div class="hero">
     <h1>Education — Closure queue</h1>
-    <button class="btn-light" onclick="demo()">Load Anna University demo case</button>
+    <button class="btn-light" onclick="demo('anna')">Load Anna University demo (e-mail)</button>
+    <button class="btn-light" onclick="demo('ignou')">Load IGNOU demo (online database)</button>
     <button class="btn-red" onclick="openNew()">＋ Inject case</button>
   </div>
   <div class="stats" id="stats"></div>
@@ -61,7 +62,7 @@ async function load() {
       <td style="white-space:nowrap"><a class="btn-out" href="/case/${c.id}">Open</a> <span class="link-sm" onclick="del('${c.id}')">delete</span></td></tr>`).join("")
      : `<tr><td colspan="10" class="empty">No cases yet — load the demo case or inject one.</td></tr>`);
 }
-async function demo() { const c = await fetch("/api/cases/demo", {method:"POST"}).then(r => r.json()); location.href = `/case/${c.id}`; }
+async function demo(kind) { const c = await fetch(`/api/cases/demo?kind=${kind}`, {method:"POST"}).then(r => r.json()); location.href = `/case/${c.id}`; }
 function openNew() { $("#modal").classList.add("on"); }
 function closeNew() { $("#modal").classList.remove("on"); }
 async function createCase() {

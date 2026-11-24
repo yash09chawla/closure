@@ -1,22 +1,68 @@
 """One shared headless Chrome for the whole server (launch once, ~1 s per page afterwards)."""
 import asyncio
+import ctypes
+import os
+import sys
+from pathlib import Path
 
 from playwright.async_api import async_playwright
+
+from .. import config
 
 _pw = None
 _browser = None
 _lock = asyncio.Lock()
 
 
+def _ensure_runtime_libs():
+    """Playwright's Node driver needs libatomic.so.1. Some Linux/WSL images (e.g. Oracle Linux) lack it and the
+    driver dies with 'Connection closed while reading from the driver'. Use a local copy if the system has none."""
+    if sys.platform != "linux":
+        return
+    try:
+        ctypes.CDLL("libatomic.so.1")
+        return
+    except OSError:
+        pass
+    for d in (config.ROOT / "vendor" / "lib", Path.home() / "hvlib" / "usr" / "lib64"):
+        if (d / "libatomic.so.1").exists():
+            cur = os.environ.get("LD_LIBRARY_PATH", "")
+            if str(d) not in cur.split(":"):
+                os.environ["LD_LIBRARY_PATH"] = f"{d}:{cur}" if cur else str(d)   # inherited by the driver process
+            return
+
+
+async def _reset():
+    global _pw, _browser
+    for obj, fn in ((_browser, "close"), (_pw, "stop")):
+        try:
+            if obj:
+                await getattr(obj, fn)()
+        except Exception:
+            pass
+    _pw = _browser = None
+
+
 async def browser():
     global _pw, _browser
     async with _lock:
         if _browser is None or not _browser.is_connected():
-            _pw = await async_playwright().start()
+            await _reset()                      # a failed/closed driver must not be reused ("handler is closed")
+            _ensure_runtime_libs()
+            try:
+                _pw = await async_playwright().start()
+            except Exception as e:
+                await _reset()
+                raise RuntimeError("Chrome driver could not start (on Linux/WSL install libatomic: "
+                                   "'sudo dnf install libatomic' or 'sudo apt install libatomic1') — " + str(e)) from e
             try:
                 _browser = await _pw.chromium.launch(channel="chrome", headless=True)
             except Exception:
-                _browser = await _pw.chromium.launch(headless=True)  # bundled chromium if installed
+                try:
+                    _browser = await _pw.chromium.launch(headless=True)  # bundled chromium if installed
+                except Exception:
+                    await _reset()
+                    raise
         return _browser
 
 

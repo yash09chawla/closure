@@ -5,7 +5,7 @@
 """
 import re
 
-from .. import llm
+from .. import config, llm
 
 LABELS = {
     "app no": "app_no", "application no": "app_no", "ref no & applied date": "ref_no", "status": "status",
@@ -69,7 +69,7 @@ def parse_revert(mail: dict | None, report_docs: list[dict]) -> dict:
                   f"DATE: {mail['date']}\nBODY:\n{mail['body_text'][:6000]}\n"
     for d in report_docs:
         corpus += f"\nATTACHMENT {d['name']}:\n{d['text'][:6000]}\n"
-    if not corpus.strip() or not llm.available():
+    if not corpus.strip() or not llm.available() or not config.CANDIDATE_LLM:
         return {"fields": {}, "method": "none", "source": "", "meta": {}}
     data, meta = llm.extract_json(
         "You read a university's reply to a background-verification request. Extract ONLY what is explicitly "

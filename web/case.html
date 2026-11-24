@@ -57,13 +57,25 @@
             <div style="margin-top:8px"><button class="btn-red" onclick="saveFields()">💾 Save/Update</button></div></div>
 
           <h3 style="margin:22px 0 8px;font-size:17px">Check Details and Document</h3>
-          <div class="tabs"><div class="t">Online Database (3)</div><div class="t on">E-mail (1)</div><div class="t">Letter Head (5)</div><div class="t">Via Post (6)</div><div class="t">Site Visit (2)</div><div class="t">Activity Tracker</div></div>
+          <div class="tabs" id="vtabs"><div class="t" data-tab="online">Online Database (<span id="cnt-online">0</span>)</div><div class="t on" data-tab="email">E-mail (<span id="cnt-email">0</span>)</div><div class="t">Letter Head (5)</div><div class="t">Via Post (6)</div><div class="t">Site Visit (2)</div><div class="t">Activity Tracker</div></div>
           <div style="border:1px solid #ddd;border-top:none;padding:14px;background:#fafafa">
-            <div style="font-size:12px;margin-bottom:6px">Previous Verification Histroy</div>
-            <table class="tbl" style="background:#fff;text-align:center"><tr><th>University/College/Board Name</th><th>Total Verification Received</th><th>Verification Received</th><th>Site Visit Allowed</th><th>Average response Type</th><th>Last 3 Sender Email</th></tr>
-              <tr><td id="pvh-name"></td><td>0</td><td>0</td><td>Allowed</td><td>05</td><td id="pvh-sender"></td></tr></table>
-            <button class="btn-green" style="margin:10px 0">Initiate Email Verification</button>
-            <table class="tbl" style="background:#fff" id="mailtbl"></table>
+            <!-- ===== Online Database tab ===== -->
+            <div class="tp" id="tab-online" hidden>
+              <div style="font-size:12px;margin-bottom:6px">Previous Verification Histroy</div>
+              <table class="tbl" style="background:#fff;text-align:center"><tr><th>University/College/Board Name</th><th>Total Verification Received</th><th>Verification Received</th><th>Online Portal Available</th><th>Average response Type</th><th>Last 3 Portal URLs</th></tr>
+                <tr><td class="pvh-name"></td><td>0</td><td>0</td><td id="pvh-portal-ok">—</td><td>Instant</td><td id="pvh-portals" style="word-break:break-all"></td></tr></table>
+              <button class="btn-green" style="margin:10px 0">Initiate Online Verification</button>
+              <table class="tbl" style="background:#fff" id="onlinetbl"></table>
+              <div class="online-facts" id="onlineFacts"></div>
+            </div>
+            <!-- ===== E-mail tab ===== -->
+            <div class="tp" id="tab-email">
+              <div style="font-size:12px;margin-bottom:6px">Previous Verification Histroy</div>
+              <table class="tbl" style="background:#fff;text-align:center"><tr><th>University/College/Board Name</th><th>Total Verification Received</th><th>Verification Received</th><th>Site Visit Allowed</th><th>Average response Type</th><th>Last 3 Sender Email</th></tr>
+                <tr><td class="pvh-name"></td><td>0</td><td>0</td><td>Allowed</td><td>05</td><td id="pvh-sender"></td></tr></table>
+              <button class="btn-green" style="margin:10px 0">Initiate Email Verification</button>
+              <table class="tbl" style="background:#fff" id="mailtbl"></table>
+            </div>
 
             <div class="status-card" style="background:#fff">
               <h3>Case Status Update</h3>
@@ -110,10 +122,10 @@
 <aside class="engine">
   <div class="eh"><h2>⚡ Auto-Close Engine</h2><span class="eh-sub" id="llmState"></span><span class="x" onclick="document.body.classList.remove('engine-open')">×</span></div>
   <div class="eb">
-    <div class="drop" id="drop"><b>Drop the case documents here</b>Degree · Transcript · Initiation mail · Revert mail<br><small>.jpg .png .pdf .msg .eml — or click to browse</small>
+    <div class="drop" id="drop"><b>Drop the case documents here</b>Degree · Transcript · Initiation mail · Revert mail · Online portal screenshots<br><small>.jpg .png .pdf .msg .eml — or click to browse</small>
       <input type="file" id="fileIn" multiple hidden></div>
     <div class="ulist" id="ulist"></div>
-    <div style="display:flex;justify-content:space-between;align-items:center"><button class="link-sm" onclick="loadSample()">use sample documents (Anna University case)</button></div>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><button class="link-sm" onclick="loadSample('anna')">use sample documents (Anna University — e-mail)</button><button class="link-sm" onclick="loadSample('ignou')">use sample documents (IGNOU — online database)</button></div>
     <button class="run" id="runBtn" onclick="runEngine()">▶ Auto-close this case</button>
 
     <div class="timer"><div><div class="big" id="clock">0.0s</div><div class="eh-sub" id="clockLbl">engine time</div></div>
