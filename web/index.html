@@ -16,12 +16,14 @@
 <div class="page">
   <div class="hero">
     <h1>Education — Closure queue</h1>
+    <a class="btn-light" href="/research" style="text-decoration:none;color:inherit">🔎 Research tools</a>
     <button class="btn-light" onclick="demo()">Load Anna University demo case</button>
     <button class="btn-red" onclick="openNew()">＋ Inject case</button>
   </div>
   <div class="stats" id="stats"></div>
   <div class="card"><table class="list" id="list"></table></div>
-  <p class="eh-sub" style="margin-top:10px">Local prototype — replica of HVOPS with the Auto-Close Engine. Data stays in <code>data/</code> on this machine.</p>
+  <p class="eh-sub" style="margin-top:10px">Replica of HVOPS with the Auto-Close Engine. Candidate documents are read by OpenAI OCR;
+  accreditation / passing-criteria research sends general programme information only.</p>
 </div>
 
 <div class="modal-bg" id="modal"><div class="modal">
@@ -54,7 +56,7 @@ async function load() {
     <div class="stat"><b>${closed.length}</b><span>closed</span></div>
     <div class="stat"><b>${avg == null ? "—" : mm(Math.round(avg))}</b><span>avg. closure time (manual 15–20 min)</span></div>
     <div class="stat"><b>${saved ? mm(Math.round(saved)) : "—"}</b><span>ops time saved vs 15 min baseline</span></div>`;
-  $("#list").innerHTML = `<tr><th>Case ID</th><th>Applicant</th><th>Institute</th><th>Client</th><th>Received</th><th>Status</th><th>Engine</th><th>Closed in</th><th>LLM cost</th><th></th></tr>` +
+  $("#list").innerHTML = `<tr><th>Case ID</th><th>Applicant</th><th>Institute</th><th>Client</th><th>Received</th><th>Status</th><th>Engine</th><th>Closed in</th><th>Research cost</th><th></th></tr>` +
     (cases.length ? cases.map(c => `<tr><td><a href="/case/${c.id}">${esc(c.case_ref)}</a></td><td>${esc(c.applicant)}</td><td>${esc(c.institute)}</td><td>${esc(c.client)}</td>
       <td>${esc(c.received_on)}</td><td><span class="sbadge s-${c.status}">${LABEL[c.status]||c.status}</span>${c.flags?` <span class="eh-sub">${c.flags} flag(s)</span>`:""}</td>
       <td>${mm(c.engine_seconds)}</td><td>${mm(c.closure_seconds)}</td><td>${c.cost_usd!=null?"$"+c.cost_usd.toFixed(3):"—"}</td>

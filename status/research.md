@@ -75,3 +75,53 @@ Subjects/Major (engine: "Civil Engineering" because our option list contains it;
 - Python 3.14 (Homebrew), venv at `.venv`. Tesseract 5 with `eng`. Google Chrome installed → Playwright `channel="chrome"` (no browser download needed).
 - No LibreOffice / poppler. PyMuPDF covers PDF text, render, highlight.
 - OpenAI models available include `gpt-4.1-mini`, `gpt-5.4-mini`, `gpt-5-search-api`.
+
+## Local OCR + local parsing — measured 2026-11-23 (Windows 11, CPU only)
+
+**Engine choice.** RapidOCR 3.10 + onnxruntime 1.32 running the PaddleOCR **PP-OCRv6 small** det/rec models that
+ship *inside* the `rapidocr` wheel (~31 MB, no download). modelscope.cn (RapidOCR's default model host for other
+model versions) is blocked on this network, so the bundled models are also the only ones that work here.
+onnxruntime has **no Python 3.15 wheels** → the venv runs on Python 3.14. Tesseract is no longer used.
+
+| Document | OCR time | Mean line confidence | Result of the local parser |
+|---|---|---|---|
+| Case1 Degree.jpg (Anna, scan) | 3.0 s | 0.95 | name, degree title, class, exam session, reg. no., university — all correct |
+| Case1 Marksheet.jpg (phone photo) | 8.1 s | 0.97 | name, reg. no., regulation 2017 (CBCS), college, DOB, CGPA 7.68, sem 03–07, first exams NOV 2021 — correct |
+| Case2 ECERT_p1.jpg (Gothic font degree) | 3.3 s | 0.95 | name, reg. no., class, exam session correct; **degree title not readable** (decorative font) → taken from revert |
+| Case3 Degree.jpg (Symbiosis) | ~3 s | 0.97 | MBA (Telecom Management) correct; name read as "Yachaspati" (V→Y) → mapper keeps the transcript/revert spelling "Vachaspati" and notes the variant |
+| Case3 Marksheet.jpg | ~4 s | 0.97 | name, college, CGPA 2.551, first exams OCT 2011 correct; seat no. kept apart from PRN |
+| Case5 Degree.pdf / Marksheet.pdf (IGNOU, watermark + apostille) | ~40 s (6 pages) | 0.79 / 0.85 | **not usable** — watermark text everywhere; key facts come from the revert |
+
+Revert parsing (local, no LLM) on the four real formats:
+- Case1 Anna report (table): status, reg. no., name, branch (Full Time), institution (3 wrapped lines), class, year, university, verified date — correct.
+- Case2 PRIST letter (numbered table + "GENUINE and found correct"): status, name, reg. no., degree, year, class, mode — correct.
+  Before the fix it was classified as a *degree* (it contains "qualified for the degree") → classifier now recognises letters addressed to HelloVerify.
+- Case3 Symbiosis prose letter: status, PRN, degree, April 2013, CGPA 2.628/4, regular, institution, university, name — correct.
+- Case5 IGNOU online grade card (browser print, image + URL header): enrolment no., name (surname first), programme code; status
+  "COMPLETED" is **not** a genuineness statement → flagged, result Discrepancy for human review.
+
+End-to-end (server + UI pipeline, 2026-11-23): Case1 Pass, 75 fields, 47 s; Case3 Pass, 67 fields, 38 s ($0 — cache);
+Case2 Pass, 72 fields, 106 s (passing clause not confirmed → flagged); Case5 Discrepancy (revert has no status), 50 fields.
+
+Outbound audit (`data/audit/outbound.jsonl`) for these runs contains only institution / degree / mode / regulation /
+year / official domain — no names, numbers or document content.
+
+**Scanned regulations.** PRIST `Assesment-Regulations.pdf` (44 pages) has no text layer. Local OCR of all pages took
+310 s (≈7 s/page at 150 dpi); results are cached next to the PDF. The engine now OCRs at most 16 new pages per lookup,
+starting around the page the search reported.
+
+## OCR options — measured 2026-11-24 / 25
+**Azure Document Intelligence** (`hvops-doc-intel-uae`, UAE North, paid; key 84 chars). Every call → 403
+"Public access is disabled. Please configure private endpoint." DNS has a `privatelink` CNAME; from the laptop the name
+resolves to the public IP 20.74.197.139 both off-VPN and on GlobalProtect (VPN DNS 192.168.10.249). VPN egress IPs seen:
+182.156.0.66, 180.151.232.74 (they change). Key validity unknown (network check fails first). Needs IT: VPN route +
+private DNS, or "Selected networks" + allow-list, or a VM inside the VNet.
+
+**OpenAI vision OCR** (`gpt-5.4-mini`, detail "original", reasoning effort none, JSON rows of cells):
+| Document | Time | Cost | Quality |
+|---|---|---|---|
+| Case3 Gothic-font degree (850×1167) | 4 s | $0.002 | title "Master of Business Administration (Telecom Management)" read (local OCR could not); name varies between runs (Vachaspati / Barchaspati / Bachaspati) |
+| Case1 phone-photo marksheet | 10 s | $0.009 | all 65 rows, every table cell separate and correct on spot checks |
+| Case5 IGNOU watermarked degree + marksheet | 15 s (6 pages) | $0.05 | IGNOU result page perfect; degree name and marksheet branch **invented** ("COMPUTER SCIENCE" for Civil/Construction Mgmt) — no [?] marks |
+Whole cases: 12–21 s, $0.01–0.05.
+

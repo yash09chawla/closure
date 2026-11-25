@@ -15,8 +15,12 @@ for p in (CASES, SOURCES, KNOWLEDGE):
     p.mkdir(parents=True, exist_ok=True)
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "").strip()
-# Vision/structuring model (non-reasoning = fast) and search model.
-EXTRACT_MODEL = os.getenv("HV_EXTRACT_MODEL", "gpt-5.4-mini")
+# OpenAI is used for (1) document OCR (app/ocr.py, vision model) and (2) public research (accreditation name
+# resolution, passing-criteria search; prompts are privacy-guarded).
+OCR_MODEL = os.getenv("HV_OCR_MODEL", "gpt-5.4-mini")
+OCR_DETAIL = os.getenv("HV_OCR_DETAIL", "original")    # "original" keeps full resolution (small marksheet text)
+OCR_EFFORT = os.getenv("HV_OCR_EFFORT", "none")        # transcription needs no reasoning; fastest + cheapest
+OCR_WORKERS = int(os.getenv("HV_OCR_WORKERS", "6"))    # pages read in parallel
 SEARCH_MODEL = os.getenv("HV_SEARCH_MODEL", "gpt-5.4-mini")
 USE_LLM = bool(OPENAI_API_KEY) and os.getenv("HV_DISABLE_LLM", "") != "1"
 

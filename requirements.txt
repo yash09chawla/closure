@@ -1,11 +1,12 @@
-fastapi
-uvicorn[standard]
-python-multipart
-python-dotenv
-openai
-extract-msg
-pymupdf
-playwright
-httpx
-rapidfuzz
-pillow
+# Python 3.13 / 3.14. Pinned = the versions this was tested with.
+fastapi==0.165.0
+uvicorn[standard]==0.54.0
+python-multipart==0.0.34
+python-dotenv==1.2.4
+openai==3.57.0            # document OCR (vision) + accreditation / passing-criteria research
+extract-msg==0.58.3
+pymupdf==2.1
+playwright==1.65.2        # drives the installed Google Chrome for evidence screenshots / PDFs
+httpx==0.28.1
+rapidfuzz==3.14.6
+pillow==13.0.0

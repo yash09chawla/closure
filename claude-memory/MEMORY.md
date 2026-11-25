@@ -1,2 +1,4 @@
 - [HV closure prototype](hv-closure-prototype.md) — HVOPS replica + auto-close engine demo; status notes in status/
-- [No candidate data to external services](no-candidate-data-external.md) — no degree/marksheet/revert data to OpenAI; local OCR only
+- [Candidate data and OpenAI](no-candidate-data-external.md) — OCR now via OpenAI (2026-11-25); research prompts general-only; never publish candidate files
+- [Production hardening goal](production-hardening-goal.md) — demo → production system, step by step (from 2026-11-23)
+- [Azure Document Intelligence](azure-doc-intelligence.md) — hvops-doc-intel-uae, private-endpoint only; 403 from laptop (2026-11-24)

@@ -1,18 +1,31 @@
-# Handoff — continuing on another machine (2026-11-23)
+# Handoff — continuing on another machine (2026-11-25)
 
 ## Setting up after `git clone`
 1. `cp .env.example .env` and put the OpenAI key in it (the real `.env` is never committed).
-2. Install Tesseract (`brew install tesseract`) and have Google Chrome installed.
-3. `./run.sh` → http://localhost:8000 (first run creates `.venv` from `requirements.txt`).
+2. Python 3.13/3.14 and Google Chrome installed (no OCR engine to install — OCR is OpenAI).
+3. `./run.sh` (macOS/Linux) or `.
+un.ps1` (Windows) → http://localhost:8000.
 4. Claude Code memory: copy `claude-memory/*.md` into
    `~/.claude/projects/<slug>/memory/` where `<slug>` = the project's absolute path with every `/` replaced by `-`
    (e.g. `/Users/me/work/closure` → `-Users-me-work-closure`). Create the folder if it doesn't exist.
 
-## State of the code
+## State of the code (2026-11-25)
+- **Local OCR removed on the owner's instruction.** Page images go to OpenAI vision (`app/ocr.py` → `llm.vision_ocr`),
+  parsed by the same rules. Decision 11/12 below are superseded by decision 20. The old local module is kept in
+  `.archive/local-ocr/` (git-ignored). Azure Document Intelligence (`hvops-doc-intel-uae`) was tested and is blocked:
+  private endpoint only, unreachable from the laptop even on GlobalProtect VPN (see research.md).
+
+## State of the code (2026-11-23)
+- Documents are read locally (PP-OCRv6 via RapidOCR) and parsed by rules; OpenAI only for the two research services,
+  behind the privacy guard (`app/privacy.py`, audit log `data/audit/outbound.jsonl`). See `changes.md` 2026-11-23.
+- Decision 1 below ("No candidate documents to OpenAI") is **implemented**. Decision 3 (close non-UGC/AICTE
+  universities with a not-found evidence PDF) is implemented for accreditation.
+- `Cases/` and `data/cases/` contain real candidate files and are tracked in git (GitHub remote) — see tasks.md.
+
+## State of the code (2026-11-20)
 - Prototype v1 works end to end (see `README.md`, `research.md` → "Measured results").
-- Folder layout was reorganised after v1: samples are now in `Cases/Case1…Case4`, HVOPS reference in `HTML/`.
-  **Known break:** `app/main.py` `SAMPLE_DIR = config.ROOT / "Case"` must become `Cases/Case1`
-  (the "use sample documents" button fails until then).
+- Folder layout was reorganised after v1: samples are now in `Cases/Case1…Case6`, HVOPS reference in `HTML/`.
+  (`SAMPLE_DIR` fixed to `Cases/Case1` on 2026-11-23.)
 - `Cases/Case2–4` are new real cases — not yet run through the engine.
 
 ## Decisions from the 2026-11-20 discussion (not yet implemented)

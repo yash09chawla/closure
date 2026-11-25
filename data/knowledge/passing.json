@@ -1,17 +1,19 @@
 {
   "ANNA UNIVERSITY|BE-BTECH|2017": {
     "url": "https://cac.annauniv.edu/aidetails/reg/2017/00.%20UG%20%28Aff%29%20Reg%20%282017%29%20-%205.9.18.pdf",
-    "document_title": "AFFILIATED INSTITUTIONS REGULATIONS 2017 CHOICE BASED CREDIT SYSTEM Common to all B.E. / B.Tech. Full-Time Programmes",
-    "regulation": "R-2017 (CBCS)",
+    "document_title": "ANNA UNIVERSITY :: CHENNAI - 600 025 | AFFILIATED INSTITUTIONS | REGULATIONS 2017 | CHOICE BASED CREDIT SYSTEM | Common to all B.E. / B.Tech. Full-Time Programmes",
+    "regulation": "Regulations 2017 (CBCS), Affiliated Institutions, B.E./B.Tech. Full-Time Programmes",
     "clause_heading": "14. PASSING REQUIREMENTS",
-    "locate_phrase": "not less than 50% of total marks prescribed",
-    "passing_criteria": "A candidate must secure not less than 50% of the total marks prescribed for the course [Internal Assessment + End Semester University Examinations]. The candidate must also secure a minimum of 45% of the marks prescribed for the end-semester University Examination; this applies to both theory and practical courses, including project work.",
+    "locate_phrase": "not less than 50% of total marks",
+    "passing_criteria": "A candidate passes a course by securing not less than 50% of the total marks prescribed for the course (Internal Assessment + End Semester University Examinations) with a minimum of 45% in the End-Semester University Examination; this applies to both theory and practical courses, including project work. For the degree/programme award, the student must successfully gain the required total credits and pass all the subjects prescribed in all 8 semesters within the maximum permitted period.",
     "page_number": 10,
-    "local_file": "/Users/yashchawla/Yash/HelloVerify/Closure/data/knowledge/docs/2320e76289a7a0e4.pdf",
+    "local_file": "2320e76289a7a0e4.pdf",
     "domains": [
       "annauniv.edu"
     ],
-    "created": "2026-11-20T09:26:40"
+    "mode": "Full Time",
+    "major_searched": "Civil Engineering",
+    "created": "2026-11-23T16:47:12"
   },
   "UNIVERSITY OF DELHI|BACHELOR|2019": {
     "url": "https://www.du.ac.in/uploads/new-web/10062022_University-Calendar-123-321.pdf",
@@ -21,10 +23,74 @@
     "locate_phrase": "A student who has obtained 40% in the aggregate",
     "passing_criteria": "A student must obtain 40% in the aggregate, taking together all papers in theory examination (including internal assessment/project work) and practical examinations separately, up to the end of the sixth semester to be awarded the degree. For promotion, 40% in the aggregate applies for the first and second years, and 50% of papers of the relevant semesters must be passed for year-to-year promotion.",
     "page_number": 180,
-    "local_file": "/Users/yashchawla/Yash/HelloVerify/Closure/data/knowledge/docs/d8de70ed179c27b3.pdf",
+    "local_file": "d8de70ed179c27b3.pdf",
     "domains": [
       "du.ac.in"
     ],
     "created": "2026-11-20T09:43:57"
+  },
+  "SYMBIOSIS INTERNATIONAL UNIVERSITY|MBA|2013": {
+    "url": "https://siuexam.siu.edu.in/EXAMRULEBOOK-%28WEBVERSION%29.pdf",
+    "document_title": "Examination Rules",
+    "regulation": "III-5.1 Choice Based Credit System (CBCS): Cumulative Grade Point Average (CGPA) System for Academic Programmes",
+    "clause_heading": "III-5.1  Choice Based Credit System (CBCS): Cumulative Grade Point Average (CGPA) System for Academic Programmes",
+    "locate_phrase": "Passing in a course means securing 40% of absolute",
+    "passing_criteria": "A student must secure 40% of absolute marks in each head of passing (Continuous Assessment, Term End Examination, and Practical, if applicable). A student is awarded the degree only if they obtain a minimum CGPA of 4.00 on completion of the programme.",
+    "page_number": 0,
+    "local_file": "c61c33b0c94d3a45.pdf",
+    "domains": [
+      "siu.edu.in"
+    ],
+    "mode": "Regular",
+    "major_searched": "Telecom Management",
+    "created": "2026-11-23T16:51:57"
+  },
+  "IIT KHARAGPUR|BE-BTECH|2022": {
+    "url": "https://www.iitkgp.ac.in/assets/pdf/stu_ad.pdf",
+    "document_title": "UG Rules and Regulations (upto Academic admission batch 2023)",
+    "regulation": "2022 (B.Tech. Civil Engineering, full-time 4-year programme; cohort admitted under the UG regulations in force)",
+    "clause_heading": "34. Graduation Requirement",
+    "locate_phrase": "Obtain a CGPA of 6.00 or higher",
+    "passing_criteria": "For a course, the regulation uses a 7-scale grading system in which the pass grade is P with grade point 5, while F is fail. For programme completion, a student must complete all degree credit requirements and obtain a CGPA of 6.00 or higher at the end of the semester in which all degree requirements are completed.",
+    "page_number": 40,
+    "local_file": "90dc122cdae2df66.pdf",
+    "domains": [
+      "iitkgp.ac.in"
+    ],
+    "mode": "Full-time",
+    "major_searched": "civil engineering",
+    "created": "2026-11-23T18:46:49"
+  },
+  "IGNOU|BE-BTECH|2007": {
+    "url": "https://www.ignou.ac.in/viewFile/MOM/AC/AC08.pdf",
+    "document_title": "Appendix-1 (to Resolution No. AC 8.3.3) \u2014 Amendment to Clause 5(1) of the Ordinance on Conduct of Examinations and Evaluation of Student Performance",
+    "regulation": "IGNOU Academic Council resolution AC 8.3.3 (Appendix-1), not a 2007 B.Tech-specific regulation",
+    "clause_heading": "Amendment to Clause 5 (1) of the Ordinance on Conduct of Examinations and Evaluation of Student Performance",
+    "locate_phrase": "overall average of grade 'C' in the relevant course",
+    "passing_criteria": "Except for the Bachelor's degree programmes of B.A., B.Com., and B.Sc., a student must obtain an overall average of grade 'C' in the relevant course to complete the course and qualify for the relevant degree/diploma/certificate. The student must not obtain a grade lower than 'D' either in continuous evaluation or in term-end examination.",
+    "page_number": 368,
+    "local_file": "cfa1e85122b6e6f0.pdf",
+    "domains": [
+      "ignou.ac.in"
+    ],
+    "mode": "Full-time",
+    "major_searched": "civil engineering",
+    "created": "2026-11-23T18:55:51"
+  },
+  "PONNAIYAH RAMAJAYAM INSTITUTE OF SCIENCE AND TECHNOLOGY PRIST|BE-BTECH|2024": {
+    "url": "https://www.prist.ac.in/wp-content/uploads/2025/04/B-.Tech-EEE-FT-R-2021.pdf",
+    "document_title": "PROGRAM HAND BOOK \u2013 B.Tech FULL TIME [Regulation 2021] \u2013 Department of Electrical & Electronics Engineering",
+    "regulation": "Regulation 2021",
+    "clause_heading": "Not found in this PDF",
+    "locate_phrase": "for candidates admitted to B.Tech EEE program from June 2021 onwards",
+    "passing_criteria": "I could not verify a passing-minimum clause in this PRIST document. The document is the official B.Tech (Full Time) EEE Regulation 2021 handbook, but the searchable text available in the PDF did not expose a clause stating the course/programme pass marks or grade requirement.",
+    "page_number": 0,
+    "local_file": "1e4ed947286100d0.pdf",
+    "domains": [
+      "prist.ac.in"
+    ],
+    "mode": "FULL TIME",
+    "major_searched": "Electrical and Electronics Engineering",
+    "created": "2026-11-25T10:33:47"
   }
 }

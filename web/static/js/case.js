@@ -7,7 +7,7 @@ const api = (u, o = {}) => fetch(u, o).then(async r => { if (!r.ok) throw new Er
 
 async function init() {
   [SCHEMA, CASE] = await Promise.all([api("/api/schema"), api(`/api/cases/${CID}`)]);
-  api("/api/status").then(s => $("#llmState").textContent = s.llm ? `LLM: ${s.extract_model}` : "offline mode (no LLM key)");
+  api("/api/status").then(s => $("#llmState").textContent = (s.llm ? `Documents: OpenAI OCR (${s.ocr.model}) · Research: OpenAI ${s.search_model}` : "OpenAI off — OCR unavailable, research cache only"));
   renderStatic();
   renderForm();
   applyCase(CASE, false);
@@ -225,7 +225,7 @@ function renderEngine(e, final) {
     const filled = Object.keys(CASE.fields || {}).length;
     const docs = Object.values(CASE.documents || {}).reduce((a, b) => a + b.length, 0);
     $("#kpis").style.display = "grid";
-    $("#kpis").innerHTML = `<div class="kpi"><b>${filled}</b><span>fields filled</span></div><div class="kpi"><b>${docs}</b><span>docs attached</span></div><div class="kpi"><b>$${(e.cost_usd || 0).toFixed(3)}</b><span>LLM cost</span></div>`;
+    $("#kpis").innerHTML = `<div class="kpi"><b>${filled}</b><span>fields filled</span></div><div class="kpi"><b>${docs}</b><span>docs attached</span></div><div class="kpi"><b>$${(e.cost_usd || 0).toFixed(3)}</b><span>research cost</span></div>`;
     const flags = CASE.flags || [];
     $("#flagsTitle").style.display = flags.length ? "block" : "none";
     $("#flags").innerHTML = flags.map(f => `<div class="f ${f.level}" onclick="goTo('${f.field}')">${f.level === "error" ? "✗" : "⚠"} ${esc(f.msg)}</div>`).join("");

@@ -5,3 +5,17 @@
 __pycache__/
 *.pyc
 .DS_Store
+
+# candidate data — never commit (privacy). NOTE: files committed before this rule are still tracked;
+# remove them from the index with `git rm -r --cached Cases data/cases` (and purge history if pushed).
+Cases/
+data/cases/
+data/research/
+data/audit/
+# local OCR cache of downloaded (public) regulations — rebuilt automatically
+data/knowledge/docs/*.ocr.json
+data/knowledge/docs/*_p*.png
+.venv.old/
+
+# archived code (not shipped)
+.archive/

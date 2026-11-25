@@ -6,7 +6,7 @@ import time
 import traceback
 from pathlib import Path
 
-from . import mapper, store
+from . import mapper, privacy, store
 from .evidence import browser, render
 from .extract import certs as certsmod
 from .extract import docs as docsmod
@@ -15,9 +15,9 @@ from .research import accreditation, passing
 
 RUNS: dict[str, dict] = {}
 
-STEPS = [("ingest", "Reading & classifying documents"), ("revert", "Parsing university revert"),
+STEPS = [("ingest", "Reading & classifying documents (OpenAI OCR)"), ("revert", "Parsing university revert"),
          ("certs", "Reading degree & transcript"), ("mails", "Printing e-mails to PDF (layout preserved)"),
-         ("accreditation", "Accreditation check — UGC / AICTE"), ("passing", "Passing criteria — official university site"),
+         ("accreditation", "Accreditation check — UGC / AICTE"), ("passing", "Passing criteria — official institute website"),
          ("fill", "Filling HVOPS form & attaching documents")]
 
 
@@ -60,8 +60,16 @@ def _file_entry(cid, path: Path, source: str, generated=False) -> dict:
 
 
 async def run(cid: str):
-    R = Run(cid)
     case = store.load(cid)
+    mo = case.get("mohre", {})
+    ids = [case.get("passport_name"), mo.get("applicant_full_name")]
+    # the identifiers grow as documents are read (degree name, register no., DOB) → _run adds them
+    with privacy.case_identifiers(ids):
+        await _run(cid, case)
+
+
+async def _run(cid: str, case: dict):
+    R = Run(cid)
     work, out = store.work_dir(cid), store.out_dir(cid)
     for p in list(work.iterdir()) + list(out.iterdir()):
         shutil.rmtree(p) if p.is_dir() else p.unlink()
@@ -71,6 +79,12 @@ async def run(cid: str):
         # 1. ingest
         R.start("ingest")
         docs, mails = await asyncio.to_thread(docsmod.ingest, files, work)
+        ocr_usd = round(sum(d.get("ocr_usd", 0) for d in docs), 4)
+        R.cost({"usd": ocr_usd})
+        R.state["ocr_cost_usd"] = ocr_usd
+        for d in docs:
+            for e in d.get("ocr_errors", []):
+                R.log(f"   ⚠ {d['name']}: {e}")
         kinds = {}
         for d in docs:
             kinds.setdefault(d["kind"], []).append(d)
@@ -78,7 +92,7 @@ async def run(cid: str):
             em = re.search(r"[\w.+-]+@[\w-]+(\.[\w-]+)+", d["text"])
             d["role"] = "initiation" if em and "helloverify" in em.group(0).lower() else "revert"
         R.done("ingest", f"{len(files)} files → {len(docs)} documents, {len(mails)} e-mail(s): " +
-               ", ".join(f"{k}×{len(v)}" for k, v in kinds.items()))
+               ", ".join(f"{k}×{len(v)}" for k, v in kinds.items()) + f" · OCR ${ocr_usd:.4f}")
         for d in docs:
             R.log(f"   {d['name']}: {d['kind']}" + (f" ({d['origin']})" if d["origin"] != "upload" else ""))
         init_mails = [m for m in mails if m["role"] == "initiation"]
@@ -87,11 +101,16 @@ async def run(cid: str):
 
         # 2. revert (deterministic first)
         R.start("revert")
-        rev_docs = [d for d in kinds.get("verification_report", [])]
+        rev_docs = list(kinds.get("verification_report", [])) + \
+            [d for d in kinds.get("mail_screenshot", []) if d.get("role") != "initiation"]
+        if not rev_docs and not rmail:
+            # e.g. a screenshot of the university's online result / grade-card page — parsed, never assumed genuine
+            rev_docs = [d for d in kinds.get("other", []) if not d.get("parent")]
         if rmail:
             rev_docs = sorted(rev_docs, key=lambda d: d.get("parent") != rmail["id"])
-        rev = await asyncio.to_thread(revertmod.parse_revert, rmail, rev_docs)
-        R.cost(rev.get("meta"))
+        hints = [case.get("passport_name"), case["mohre"].get("applicant_full_name")]
+        rev = await asyncio.to_thread(revertmod.parse_revert, rmail, rev_docs, hints)
+        privacy.add_identifiers([rev["fields"].get(k) for k in ("name", "registration_no", "dob", "app_no")])
         facts["revert"] = rev
         facts["revert_mail"] = rmail
         facts["respondent"] = revertmod.respondent_from_mail(rmail) if rmail else {}
@@ -112,8 +131,8 @@ async def run(cid: str):
                 R.done("certs", "no degree/transcript uploaded", "warn")
                 return {"fields": {}, "method": "none"}
             res = await asyncio.to_thread(certsmod.extract, deg, tr)
-            R.cost(res.get("meta"))
             f = res["fields"]
+            privacy.add_identifiers([f.get("register_no"), f.get("date_of_birth")] + res.get("name_candidates", []))
             R.done("certs", f"{res['method']}: {f.get('candidate_name', '?')} · {f.get('degree_short', '')} "
                             f"{f.get('major', '')} · {f.get('class_awarded', '')} · reg {f.get('register_no', '')}")
             return res
@@ -135,12 +154,17 @@ async def run(cid: str):
 
         # 3c accreditation
         async def t_acc():
+            nonlocal university
+            if not university:   # neither revert nor initiation names it → use what the degree says
+                university = ((await certs_task).get("fields") or {}).get("university", "")
             R.start("accreditation", university)
             if not university:
                 R.done("accreditation", "university unknown", "warn")
                 return {}
-            res = await accreditation.run(university, rf.get("institution", ""), degree_hint, work,
-                                          out / f"Accreditation - {_safe(university.split(',')[0])}.pdf", R.log)
+            q = accreditation.AccreditationQuery(university=university, college=rf.get("institution", ""),
+                                                 programme=degree_hint)
+            res = await accreditation.run(q, work, out / f"Accreditation - {_safe(university.split(',')[0])}.pdf", R.log)
+            R.cost(res.get("meta"))
             R.done("accreditation", f"{res['status']} — {res['body']}" if res.get("body_short") else res["status"],
                    "done" if res["status"] == "Accredited" else "warn")
             return res
@@ -155,14 +179,20 @@ async def run(cid: str):
             acc = await acc_task
             R.start("passing")
             uni = (acc or {}).get("canonical_university") or university.split(",")[0]
-            res = await passing.run(
-                uni, ((acc or {}).get("ugc") or {}).get("website", ""),
-                [rmail["from_email"].split("@")[-1]] if rmail else [],
-                ce.get("degree_short") or degree_hint.split()[0] if degree_hint else ce.get("degree_short", ""),
-                ce.get("degree_title") or degree_hint, ce.get("regulation", ""),
-                rf.get("year_of_passing") or ce.get("exam_month_year", ""),
-                "affiliat" in rf.get("mode_of_college", "").lower() or bool(rf.get("institution")),
-                work, out / f"Passing Criteria - {_safe(uni)}.pdf", R.log)
+            mode = rf.get("mode_of_study") or (re.search(r"\(([^)]*time[^)]*)\)", rf.get("branch", ""), re.I) or [None, ""])[1]
+            rv_deg = rf.get("degree") or ""
+            degree = rv_deg or ce.get("degree_title") or ce.get("degree_short") or degree_hint
+            major = ce.get("major") or (re.search(r"(?i)\bin\s+(.+)$", rv_deg) or [None, ""])[1]
+            short = mapper.short_key(ce.get("degree_short")) or mapper.short_from_text(degree)
+            q = passing.PassingQuery(
+                institute=uni, degree=degree, major=major, mode=mode or "Full-time",
+                duration_years=mapper.DURATION_BY_DEGREE.get(short) or None,
+                regulation=ce.get("regulation", ""),
+                passing_year=mapper.year_of(rf.get("year_of_passing") or ce.get("exam_month_year", "")),
+                affiliated_college="affiliat" in rf.get("mode_of_college", "").lower() or bool(rf.get("institution")),
+                official_website=((acc or {}).get("ugc") or {}).get("website", "") or (acc or {}).get("resolved_website", ""),
+                domain_hints=[rmail["from_email"].split("@")[-1]] if rmail else [])
+            res = await passing.run(q, work, out / f"Passing Criteria - {_safe(uni)}.pdf", R.log)
             R.cost(res.get("meta"))
             if res.get("found"):
                 R.done("passing", f"{res['clause_heading']} (p.{res['page']}) "
@@ -208,9 +238,13 @@ async def run(cid: str):
         if (facts["passing"] or {}).get("pdf"):
             slots["passing_criteria"].append(_file_entry(cid, Path(facts["passing"]["pdf"]),
                                                          "Generated: official regulation evidence", True))
+        rev_src = (facts.get("revert") or {}).get("source", "")
+        for d in kinds.get("other", []):
+            if d["name"] == rev_src:   # online result page / screenshot used as the revert
+                slots["revert_1"].append(_file_entry(cid, Path(d["path"]), "Online verification screenshot"))
         for k in ("degree", "transcript", "diploma", "other"):
             for d in kinds.get(k, []):
-                if d.get("parent"):
+                if d.get("parent") or (k == "other" and d["name"] == rev_src):
                     continue
                 slots["other"].append(_file_entry(cid, Path(d["path"]), k.title()))
         if not slots["verification_proof"]:
@@ -227,7 +261,8 @@ async def run(cid: str):
         R.state["status"] = "done"
         R.state["finished"] = time.time()
         total = round(R.state["finished"] - R.state["started"], 1)
-        R.log(f"■ Completed in {total}s · LLM cost ${R.state['cost_usd']:.4f}")
+        R.log(f"■ Completed in {total}s · OpenAI cost ${R.state['cost_usd']:.4f} "
+              f"(OCR ${R.state.get('ocr_cost_usd', 0):.4f} + research)")
 
         def apply(c):
             c["fields"] = fields

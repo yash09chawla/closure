@@ -29,7 +29,7 @@
     }
   ],
   "status": "ready_for_review",
-  "created_at": 1795244634.6530921,
+  "created_at": 1795440649.9578629,
   "fields": {
     "m_applicant_full_name": {
       "value": "SREE KARTHIK ANBAZHAGAN ANBAZHAGAN",
@@ -129,7 +129,7 @@
     },
     "q_applicant_name": {
       "value": "SREE KARTHIK A",
-      "source": "Degree/Transcript (vision-llm)",
+      "source": "Degree/Transcript (local OCR)",
       "note": "",
       "flag": ""
     },
@@ -141,13 +141,13 @@
     },
     "q_cert_title": {
       "value": "Bachelor of Engineering in Civil Engineering",
-      "source": "Degree/Transcript (vision-llm)",
+      "source": "Degree/Transcript (local OCR)",
       "note": "",
       "flag": ""
     },
     "q_study_level": {
       "value": "Bachelor",
-      "source": "Degree/Transcript (vision-llm)",
+      "source": "Degree/Transcript (local OCR)",
       "note": "",
       "flag": ""
     },
@@ -177,7 +177,7 @@
     },
     "n_doc_name": {
       "value": "SREE KARTHIK A",
-      "source": "Degree/Transcript (vision-llm)",
+      "source": "Degree/Transcript (local OCR)",
       "note": "",
       "flag": ""
     },
@@ -213,7 +213,7 @@
     },
     "v_cert_title": {
       "value": "BACHELOR OF ENGINEERING IN CIVIL ENGINEERING",
-      "source": "Degree/Transcript (vision-llm)",
+      "source": "Degree/Transcript (local OCR)",
       "note": "",
       "flag": ""
     },
@@ -238,7 +238,7 @@
     "v_mode": {
       "value": "Full Time - On Campus",
       "source": "University revert \u00b7 CoE_YB587.pdf",
-      "note": "B.E Civil Engineering (Full Time)",
+      "note": "Full Time",
       "flag": ""
     },
     "v_mode_status": {
@@ -273,7 +273,7 @@
     },
     "v_subjects": {
       "value": "Civil Engineering",
-      "source": "Degree/Transcript (vision-llm)",
+      "source": "Degree/Transcript (local OCR)",
       "note": "",
       "flag": ""
     },
@@ -291,7 +291,7 @@
     },
     "v_applicant_name": {
       "value": "SREE KARTHIK A",
-      "source": "Degree/Transcript (vision-llm)",
+      "source": "Degree/Transcript (local OCR)",
       "note": "",
       "flag": ""
     },
@@ -332,7 +332,7 @@
       "flag": ""
     },
     "v_cond": {
-      "value": "As per R-2017 (CBCS), clause 14. PASSING REQUIREMENTS: A candidate must secure not less than 50% of the total marks prescribed for the course [Internal Assessment + End Semester University Examinations]. The candidate must also secure a minimum of 45% of the marks prescribed for the end-semester University Examination; this applies to both theory and practical courses, including project work.",
+      "value": "As per Regulations 2017 (CBCS), Affiliated Institutions, B.E./B.Tech. Full-Time Programmes, clause 14. PASSING REQUIREMENTS: A candidate passes a course by securing not less than 50% of the total marks prescribed for the course (Internal Assessment + End Semester University Examinations) with a minimum of 45% in the End-Semester University Examination; this applies to both theory and practical courses, including project work. For the degree/programme award, the student must successfully gain the required total credits and pass all the subjects prescribed in all 8 semesters within the maximum permitted period.",
       "source": "Official university document (annauniv.edu), page 10",
       "note": "https://cac.annauniv.edu/aidetails/reg/2017/00.%20UG%20%28Aff%29%20Reg%20%282017%29%20-%205.9.18.pdf",
       "flag": ""
@@ -363,7 +363,7 @@
     },
     "v_study_level": {
       "value": "Bachelor",
-      "source": "Degree/Transcript (vision-llm)",
+      "source": "Degree/Transcript (local OCR)",
       "note": "",
       "flag": ""
     },
@@ -393,7 +393,7 @@
     },
     "v_degree_lang": {
       "value": "English",
-      "source": "Degree/Transcript (vision-llm)",
+      "source": "Degree/Transcript (local OCR)",
       "note": "",
       "flag": ""
     },
@@ -489,7 +489,7 @@
     },
     "o_son_of": {
       "value": "No",
-      "source": "Degree/Transcript (vision-llm)",
+      "source": "Degree/Transcript (local OCR)",
       "note": "",
       "flag": ""
     },
@@ -500,7 +500,7 @@
       "flag": ""
     },
     "o_remarks": {
-      "value": "Verified via Office of the Controller of Examinations Anna University, Chennai - 600 025 Genuineness Verification Report (App No CoE_YB587, verified 10-11-2026): status Genuine. SREE KARTHIK A, Reg No 963520103316, B.E Civil Engineering (Full Time), First Class, November -2024, STELLA MARY'S COLLEGE OF ENGINEERING, Affiliated. Accreditation: AICTE 2025-26 list row 5427 (p.115); UGC State University 2(f) & 12B. Note: lateral entry (transcript from Sem 03).",
+      "value": "Verified via Office of the Controller of Examinations Anna University, Chennai - 600 025 Genuineness Verification Report COE / Online Verification / (App No CoE_YB587, verified 10-11-2026): status Genuine. SREE KARTHIK A, Reg No 963520103316, First Class, November -2024, STELLA MARY'S COLLEGE OF ENGINEERING, Affiliated. Accreditation: AICTE 2025-26 list row 5427 (p.115); UGC State University 2(f) & 12B. Note: lateral entry (transcript from Sem 03).",
       "source": "Engine summary",
       "note": "",
       "flag": ""
@@ -583,54 +583,54 @@
     }
   ],
   "edits": {},
-  "updated_at": 1795244919.2535858,
-  "run_started": 1795244910.8487449,
+  "updated_at": 1795522568.744245,
+  "run_started": 1795522534.2548168,
   "engine": {
     "status": "done",
-    "started": 1795244910.8515148,
-    "finished": 1795244919.2530198,
-    "cost_usd": 0.004,
+    "started": 1795522534.285864,
+    "finished": 1795522568.7431362,
+    "cost_usd": 0.0,
     "steps": [
       {
         "id": "ingest",
-        "label": "Reading & classifying documents",
+        "label": "Reading & classifying documents (local OCR)",
         "status": "done",
-        "seconds": 1.2,
+        "seconds": 26.6,
         "detail": "4 files \u2192 4 documents, 1 e-mail(s): degree\u00d71, diploma\u00d71, verification_report\u00d71, transcript\u00d71"
       },
       {
         "id": "revert",
-        "label": "Parsing university revert",
+        "label": "Parsing university revert (local)",
         "status": "done",
-        "seconds": 0.0,
+        "seconds": 0.1,
         "detail": "table parse of CoE_YB587.pdf: status Genuine, 13 fields"
       },
       {
         "id": "certs",
-        "label": "Reading degree & transcript",
+        "label": "Reading degree & transcript (local OCR)",
         "status": "done",
-        "seconds": 4.6,
-        "detail": "vision-llm: SREE KARTHIK A \u00b7 B.E. Civil Engineering \u00b7 FIRST CLASS \u00b7 reg 963520103316/RG"
+        "seconds": 1.3,
+        "detail": "local-ocr: SREE KARTHIK A \u00b7 B.E. Civil Engineering \u00b7 First Class \u00b7 reg 963520103316/RG"
       },
       {
         "id": "mails",
         "label": "Printing e-mails to PDF (layout preserved)",
         "status": "done",
-        "seconds": 0.7,
+        "seconds": 1.9,
         "detail": "1 revert, 0 initiation mail PDF(s)"
       },
       {
         "id": "accreditation",
         "label": "Accreditation check \u2014 UGC / AICTE",
         "status": "done",
-        "seconds": 6.2,
+        "seconds": 7.0,
         "detail": "Accredited \u2014 All India Council for Technical Education"
       },
       {
         "id": "passing",
-        "label": "Passing criteria \u2014 official university site",
+        "label": "Passing criteria \u2014 official institute website",
         "status": "done",
-        "seconds": 0.9,
+        "seconds": 0.8,
         "detail": "14. PASSING REQUIREMENTS (p.10) from knowledge cache"
       },
       {
@@ -644,90 +644,90 @@
     "log": [
       {
         "t": 0.0,
-        "msg": "\u25b6 Reading & classifying documents"
+        "msg": "\u25b6 Reading & classifying documents (local OCR)"
       },
       {
-        "t": 1.2,
-        "msg": "\u2713 Reading & classifying documents \u2014 4 files \u2192 4 documents, 1 e-mail(s): degree\u00d71, diploma\u00d71, verification_report\u00d71, transcript\u00d71 (1.2s)"
+        "t": 26.6,
+        "msg": "\u2713 Reading & classifying documents (local OCR) \u2014 4 files \u2192 4 documents, 1 e-mail(s): degree\u00d71, diploma\u00d71, verification_report\u00d71, transcript\u00d71 (26.6s)"
       },
       {
-        "t": 1.2,
+        "t": 26.6,
         "msg": "   Degree.jpg: degree"
       },
       {
-        "t": 1.2,
+        "t": 26.6,
         "msg": "   Diploma.jpg: diploma"
       },
       {
-        "t": 1.2,
+        "t": 26.6,
         "msg": "   CoE_YB587.pdf: verification_report (attachment of mail 'Anna University - Genuineness Verification Application Numbe')"
       },
       {
-        "t": 1.2,
+        "t": 26.6,
         "msg": "   Marksheet.jpg: transcript"
       },
       {
-        "t": 1.2,
-        "msg": "\u25b6 Parsing university revert"
+        "t": 26.6,
+        "msg": "\u25b6 Parsing university revert (local)"
       },
       {
-        "t": 1.2,
-        "msg": "\u2713 Parsing university revert \u2014 table parse of CoE_YB587.pdf: status Genuine, 13 fields (0.0s)"
+        "t": 26.6,
+        "msg": "\u2713 Parsing university revert (local) \u2014 table parse of CoE_YB587.pdf: status Genuine, 13 fields (0.1s)"
       },
       {
-        "t": 1.2,
-        "msg": "\u25b6 Reading degree & transcript"
+        "t": 26.6,
+        "msg": "\u25b6 Reading degree & transcript (local OCR)"
       },
       {
-        "t": 1.2,
+        "t": 26.6,
         "msg": "\u25b6 Printing e-mails to PDF (layout preserved)"
       },
       {
-        "t": 1.2,
+        "t": 26.6,
         "msg": "\u25b6 Accreditation check \u2014 UGC / AICTE"
       },
       {
-        "t": 1.2,
+        "t": 26.9,
         "msg": "UGC: found as State University \u2014 Anna University; AICTE: university row 5427, college row 6395"
       },
       {
-        "t": 1.9,
-        "msg": "\u2713 Printing e-mails to PDF (layout preserved) \u2014 1 revert, 0 initiation mail PDF(s) (0.7s)"
+        "t": 28.0,
+        "msg": "\u2713 Reading degree & transcript (local OCR) \u2014 local-ocr: SREE KARTHIK A \u00b7 B.E. Civil Engineering \u00b7 First Class \u00b7 reg 963520103316/RG (1.3s)"
       },
       {
-        "t": 5.8,
-        "msg": "\u2713 Reading degree & transcript \u2014 vision-llm: SREE KARTHIK A \u00b7 B.E. Civil Engineering \u00b7 FIRST CLASS \u00b7 reg 963520103316/RG (4.6s)"
+        "t": 28.5,
+        "msg": "\u2713 Printing e-mails to PDF (layout preserved) \u2014 1 revert, 0 initiation mail PDF(s) (1.9s)"
       },
       {
-        "t": 7.5,
-        "msg": "\u2713 Accreditation check \u2014 UGC / AICTE \u2014 Accredited \u2014 All India Council for Technical Education (6.2s)"
+        "t": 33.6,
+        "msg": "\u2713 Accreditation check \u2014 UGC / AICTE \u2014 Accredited \u2014 All India Council for Technical Education (7.0s)"
       },
       {
-        "t": 7.5,
-        "msg": "\u25b6 Passing criteria \u2014 official university site"
+        "t": 33.6,
+        "msg": "\u25b6 Passing criteria \u2014 official institute website"
       },
       {
-        "t": 7.5,
+        "t": 33.6,
         "msg": "knowledge cache hit (ANNA UNIVERSITY|BE-BTECH|2017) \u2014 no search needed"
       },
       {
-        "t": 8.4,
-        "msg": "\u2713 Passing criteria \u2014 official university site \u2014 14. PASSING REQUIREMENTS (p.10) from knowledge cache (0.9s)"
+        "t": 34.5,
+        "msg": "\u2713 Passing criteria \u2014 official institute website \u2014 14. PASSING REQUIREMENTS (p.10) from knowledge cache (0.8s)"
       },
       {
-        "t": 8.4,
+        "t": 34.5,
         "msg": "\u25b6 Filling HVOPS form & attaching documents"
       },
       {
-        "t": 8.4,
+        "t": 34.5,
         "msg": "\u2713 Filling HVOPS form & attaching documents \u2014 79 fields filled, 7 documents attached, 1 item(s) for review (0.0s)"
       },
       {
-        "t": 8.4,
-        "msg": "\u25a0 Completed in 8.4s \u00b7 LLM cost $0.0040"
+        "t": 34.5,
+        "msg": "\u25a0 Completed in 34.5s \u00b7 research cost $0.0000 (documents read locally, $0)"
       }
     ],
-    "seconds": 8.4,
+    "seconds": 34.5,
     "docs": [
       {
         "name": "Degree.jpg",
@@ -757,24 +757,24 @@
     ],
     "facts": {
       "revert": {
-        "app_no": "CoE_YB587",
-        "ref_no": "COE / Online Verification / 2026 / CoE_YB587 / 2026-11-07",
         "status": "Genuine",
-        "verified_date": "2026-11-10 11:31:53",
         "registration_no": "963520103316",
-        "name": "SREE KARTHIK A",
-        "branch": "B.E Civil Engineering (Full Time)",
-        "institution": "STELLA MARY'S COLLEGE OF ENGINEERING [Kanyakumari] - INDIA",
         "class": "First Class",
-        "year_of_passing": "November -2024",
+        "mode_of_study": "Full Time",
         "university": "Anna University, Chennai",
+        "app_no": "CoE_YB587",
+        "ref_no": "2026 / CoE_YB587 /",
+        "verified_date": "2026-11-10 11:31:53",
+        "name": "SREE KARTHIK A",
+        "institution": "STELLA MARY'S COLLEGE OF ENGINEERING [Kanyakumari] - INDIA",
+        "year_of_passing": "November -2024",
         "mode_of_college": "Affiliated",
-        "verifier": "Hello Verify India Private Limited , B 44 Sector 57 Noida, Noida, Uttar Pradesh, India , 201301",
-        "_title": "Office of the Controller of Examinations Anna University, Chennai - 600 025 Genuineness Verification Report"
+        "verifier": "Note: This document is digitally verified; no signature is required. For re-verification, scan the QR code and check. Only the authorized verifier (sonia.birla@helloverify.com) can verify this application.",
+        "_title": "Office of the Controller of Examinations Anna University, Chennai - 600 025 Genuineness Verification Report COE / Online Verification /"
       },
       "certs": {
         "candidate_name": "SREE KARTHIK A",
-        "degree_title": "DEGREE OF BACHELOR OF ENGINEERING in CIVIL ENGINEERING",
+        "degree_title": "Bachelor of Engineering in Civil Engineering",
         "degree_level": "Bachelor",
         "degree_short": "B.E.",
         "major": "Civil Engineering",
@@ -782,20 +782,21 @@
         "university": "Anna University",
         "college": "STELLA MARY'S COLLEGE OF ENGINEERING",
         "register_no": "963520103316/RG",
-        "class_awarded": "FIRST CLASS",
-        "exam_month_year": "NOVEMBER 2024",
+        "class_awarded": "First Class",
+        "exam_month_year": "November 2024",
         "issue_date": "February 2026",
         "cgpa": "7.68",
         "medium_of_instruction": "English",
         "date_of_birth": "04-JAN-2003",
         "regulation": "2017 (CBCS)",
-        "first_semester": "3",
-        "last_semester": "7",
+        "first_semester": "03",
+        "last_semester": "07",
         "earliest_exam_month_year": "NOV 2021",
         "last_appearance": "November 2024",
         "son_of_mentioned": "no",
         "document_language": "English",
-        "notes": "Transcript shows B.E. Civil Engineering; degree issued in February 2026. No father/parent name visible. Semester table starts at 03 and ends at 07; some course text is partially unclear in OCR."
+        "seat_no": "",
+        "notes": "transcript starts at semester 03 (lateral entry?)"
       },
       "accreditation": {
         "status": "Accredited",
@@ -813,8 +814,56 @@
           "score": 100
         },
         "canonical_university": "Anna University",
-        "pdf": "/Users/yashchawla/Yash/HelloVerify/Closure/data/cases/234291-19634-2026-EDU-1/output/Accreditation - Anna University.pdf",
-        "seconds": 6.2,
+        "resolved_names": [],
+        "resolved_website": "",
+        "sources": [
+          {
+            "name": "UGC \u2014 Central University list",
+            "url": "https://www.ugc.gov.in/universitydetails/university?type=ddmCMsxJZgXH2S/m0uMOKQ==",
+            "found": false,
+            "result": "Not listed"
+          },
+          {
+            "name": "UGC \u2014 State University list",
+            "url": "https://www.ugc.gov.in/universitydetails/university?type=LZ1FUMk6U2JWGNLvhWfVSA==",
+            "found": true,
+            "result": "Listed: Anna University"
+          },
+          {
+            "name": "UGC \u2014 State Private University list",
+            "url": "https://www.ugc.gov.in/universitydetails/university?type=0wBmFB1Rb4JGVzq9UP/iOg==",
+            "found": false,
+            "result": "Not listed"
+          },
+          {
+            "name": "UGC \u2014 Deemed to be University list",
+            "url": "https://www.ugc.gov.in/universitydetails/university?type=UCL6fMspL2LJS89kv++N3A==",
+            "found": false,
+            "result": "Not listed"
+          },
+          {
+            "name": "AICTE \u2014 Approved institutions 2025-26",
+            "url": "https://aicte.gov.in/sites/default/files/approval/2025-26/Groupwise-List%20of%20Institutions_compressed.pdf",
+            "found": true,
+            "result": "university: row 5427 (p.115); college: row 6395 (p.134)"
+          },
+          {
+            "name": "AICTE \u2014 Public Notice 2025-26",
+            "url": "https://www.aicte.gov.in/sites/default/files/approval/2025-26/Public%20Notice%202025-26.pdf",
+            "found": true,
+            "result": "Group-2 / Southern region"
+          }
+        ],
+        "query": {
+          "university": "Anna University, Chennai",
+          "college": "STELLA MARY'S COLLEGE OF ENGINEERING [Kanyakumari] - INDIA",
+          "programme": "Civil Engineering",
+          "state": "",
+          "extra_names": []
+        },
+        "pdf": "D:\\Project\\closure\\data\\cases\\234291-19634-2026-EDU-1\\output\\Accreditation - Anna University.pdf",
+        "meta": {},
+        "seconds": 7.0,
         "warnings": []
       },
       "passing": {
@@ -823,17 +872,46 @@
         "cached": true,
         "loose": false,
         "url": "https://cac.annauniv.edu/aidetails/reg/2017/00.%20UG%20%28Aff%29%20Reg%20%282017%29%20-%205.9.18.pdf",
-        "document_title": "AFFILIATED INSTITUTIONS REGULATIONS 2017 CHOICE BASED CREDIT SYSTEM Common to all B.E. / B.Tech. Full-Time Programmes",
-        "regulation": "R-2017 (CBCS)",
+        "document_title": "ANNA UNIVERSITY :: CHENNAI - 600 025 | AFFILIATED INSTITUTIONS | REGULATIONS 2017 | CHOICE BASED CREDIT SYSTEM | Common to all B.E. / B.Tech. Full-Time Programmes",
+        "regulation": "Regulations 2017 (CBCS), Affiliated Institutions, B.E./B.Tech. Full-Time Programmes",
         "clause_heading": "14. PASSING REQUIREMENTS",
-        "criteria": "A candidate must secure not less than 50% of the total marks prescribed for the course [Internal Assessment + End Semester University Examinations]. The candidate must also secure a minimum of 45% of the marks prescribed for the end-semester University Examination; this applies to both theory and practical courses, including project work.",
+        "criteria": "A candidate passes a course by securing not less than 50% of the total marks prescribed for the course (Internal Assessment + End Semester University Examinations) with a minimum of 45% in the End-Semester University Examination; this applies to both theory and practical courses, including project work. For the degree/programme award, the student must successfully gain the required total credits and pass all the subjects prescribed in all 8 semesters within the maximum permitted period.",
         "clause_text": "14. PASSING REQUIREMENTS 14.1 A candidate who secures not less than 50% of total marks prescribed for the course [Internal Assessment + End semester University Examinations] with a minimum of 45% of the marks prescribed for the end-semester University Examination, shall be declared to have passed the course and acquired the relevant number of credits. This is applicable for both theory and practical courses (including project work). 14.2 If a student fails to secure a pass in theory courses in the current semester examination, he/she is allowed to write arrear examinations for the next three consecutive semesters and their internal marks shall be carried over for the above mentioned period of three consecutive semesters. If a student fails to secure a pass in a course even after three consecutive arrear attempts, the student has to redo the course in the semester in which it is offered along with regular students. That is, the students should have successfully completed the courses of (n minus 4)th semester to register for courses in nth semester. Based on the above, the following prerequisites shall be followed for completing the degree programme: i. To enter into Semester V, the student should have no arrear in Semester I. Failing which the student shall redo the Semester I course/courses along with the regular students.",
         "page": 10,
-        "pdf": "/Users/yashchawla/Yash/HelloVerify/Closure/data/cases/234291-19634-2026-EDU-1/output/Passing Criteria - Anna University.pdf",
+        "pdf": "D:\\Project\\closure\\data\\cases\\234291-19634-2026-EDU-1\\output\\Passing Criteria - Anna University.pdf",
         "domains": [
           "annauniv.edu"
         ],
-        "seconds": 0.9
+        "sources": [
+          {
+            "name": "Official institute website (search restricted to)",
+            "url": "https://annauniv.edu",
+            "found": true,
+            "result": "annauniv.edu"
+          },
+          {
+            "name": "ANNA UNIVERSITY :: CHENNAI - 600 025 | AFFILIATED INSTITUTIONS | REGULATIONS 2017 | CHOICE BASED CREDIT SYSTEM | Common to all B.E. / B.Tech. Full-Time Programmes",
+            "url": "https://cac.annauniv.edu/aidetails/reg/2017/00.%20UG%20%28Aff%29%20Reg%20%282017%29%20-%205.9.18.pdf",
+            "found": true,
+            "result": "Clause '14. PASSING REQUIREMENTS' on page 10 \u2014 numbers confirmed in the text"
+          }
+        ],
+        "query": {
+          "institute": "Anna University",
+          "degree": "Bachelor of Engineering in Civil Engineering",
+          "major": "Civil Engineering",
+          "mode": "Full Time",
+          "duration_years": 4,
+          "regulation": "2017 (CBCS)",
+          "admission_year": "",
+          "passing_year": "2024",
+          "affiliated_college": true,
+          "official_website": "http://www.annauniv.edu",
+          "domain_hints": [
+            "mail1.annauniv.edu"
+          ]
+        },
+        "seconds": 0.8
       }
     }
   }

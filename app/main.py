@@ -1,6 +1,8 @@
 """HV Closure Engine — FastAPI server for the HVOPS replica + auto-close pipeline."""
 import asyncio
+import json
 import shutil
+import uuid
 import threading
 import time
 from contextlib import asynccontextmanager
@@ -10,11 +12,13 @@ from fastapi import FastAPI, File, HTTPException, Request, UploadFile
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
-from . import config, form_schema, pipeline, store
+from . import config, form_schema, llm, ocr, pipeline, privacy, store
 from .evidence import browser
-from .research import sources
+from .research import accreditation, passing, sources
 
-SAMPLE_DIR = config.ROOT / "Case"
+SAMPLE_DIR = config.ROOT / "Cases" / "Case1"
+RESEARCH = config.DATA / "research"
+RESEARCH.mkdir(parents=True, exist_ok=True)
 _tasks: dict[str, asyncio.Task] = {}
 
 
@@ -43,6 +47,11 @@ def case_page(cid: str):
     return FileResponse(config.WEB / "case.html")
 
 
+@app.get("/research")
+def research_page():
+    return FileResponse(config.WEB / "research.html")
+
+
 @app.get("/api/schema")
 def schema():
     return form_schema.schema()
@@ -50,7 +59,8 @@ def schema():
 
 @app.get("/api/status")
 def status():
-    return {"llm": config.USE_LLM, "extract_model": config.EXTRACT_MODEL, "search_model": config.SEARCH_MODEL,
+    return {"llm": config.USE_LLM, "llm_use": "document OCR + research (accreditation, passing criteria)",
+            "search_model": config.SEARCH_MODEL, "ocr": ocr.model_info(), "documents_leave_machine": True,
             "ugc_cached": all((config.SOURCES / f"ugc_{t}.json").exists() for t in config.UGC_TYPES),
             "aicte_cached": (config.SOURCES / "aicte_index.json").exists()}
 
@@ -226,6 +236,84 @@ async def slot_upload(cid: str, slot: str, files: list[UploadFile] = File(...)):
 def files(cid: str, path: str):
     base = store.case_dir(cid).resolve()
     p = (base / path).resolve()
-    if not str(p).startswith(str(base)) or not p.is_file():
+    if not p.is_relative_to(base) or not p.is_file():
+        raise HTTPException(404)
+    return FileResponse(p, content_disposition_type="inline", filename=p.name)
+
+
+# ------------------------------------------------------------------ standalone research services
+# Input = general / public information only. Both endpoints reject anything that looks like personal data.
+
+def _research_dir(kind: str) -> tuple[str, Path]:
+    rid = time.strftime("%Y%m%d-%H%M%S-") + kind + "-" + uuid.uuid4().hex[:6]
+    d = RESEARCH / rid
+    d.mkdir(parents=True)
+    return rid, d
+
+
+def _research_result(rid: str, d: Path, res: dict) -> dict:
+    if res.get("pdf"):
+        res["pdf_url"] = f"/research-files/{rid}/{Path(res['pdf']).name}"
+    res["id"] = rid
+    (d / "result.json").write_text(json.dumps(res, indent=2, default=str), encoding="utf-8")
+    return res
+
+
+@app.post("/api/research/accreditation")
+async def research_accreditation(req: Request):
+    """Body: {"university": "...", "college": "", "programme": "", "state": ""}"""
+    b = await req.json()
+    if not (b.get("university") or "").strip():
+        raise HTTPException(400, "university is required")
+    q = accreditation.AccreditationQuery(university=b["university"].strip(), college=(b.get("college") or "").strip(),
+                                         programme=(b.get("programme") or "").strip(), state=(b.get("state") or "").strip())
+    rid, d = _research_dir("accreditation")
+    log = []
+    try:
+        res = await accreditation.run(q, d / "work", d / f"Accreditation - {pipeline._safe(q.university)}.pdf",
+                                      log.append)
+    except privacy.PrivacyViolation as e:
+        raise HTTPException(422, str(e))
+    res["log"] = log
+    return _research_result(rid, d, res)
+
+
+@app.post("/api/research/passing-criteria")
+async def research_passing(req: Request):
+    """Body: {"institute", "degree", "major", "mode", "duration_years", "regulation", "admission_year",
+    "passing_year", "affiliated_college", "official_website"}"""
+    b = await req.json()
+    if not (b.get("institute") or "").strip() or not (b.get("degree") or "").strip():
+        raise HTTPException(400, "institute and degree are required")
+    dur = str(b.get("duration_years") or "").strip()
+    q = passing.PassingQuery(
+        institute=b["institute"].strip(), degree=b["degree"].strip(), major=(b.get("major") or "").strip(),
+        mode=(b.get("mode") or "Full-time").strip(), duration_years=int(dur) if dur.isdigit() else None,
+        regulation=(b.get("regulation") or "").strip(), admission_year=(b.get("admission_year") or "").strip(),
+        passing_year=(b.get("passing_year") or "").strip(), affiliated_college=bool(b.get("affiliated_college")),
+        official_website=(b.get("official_website") or "").strip())
+    if not q.official_website:   # the UGC record is the most authoritative source of the official website
+        try:
+            hit = await asyncio.to_thread(accreditation.match_ugc, [q.institute])
+            if hit:
+                q.official_website = hit["record"].get("url", "") or ""
+        except Exception:
+            pass
+    rid, d = _research_dir("passing")
+    log = []
+    try:
+        res = await passing.run(q, d / "work", d / f"Passing Criteria - {pipeline._safe(q.institute)}.pdf",
+                                log.append)
+    except privacy.PrivacyViolation as e:
+        raise HTTPException(422, str(e))
+    res["log"] = log
+    return _research_result(rid, d, res)
+
+
+@app.get("/research-files/{rid}/{name}")
+def research_files(rid: str, name: str):
+    base = RESEARCH.resolve()
+    p = (base / rid / Path(name).name).resolve()
+    if not p.is_relative_to(base) or not p.is_file():
         raise HTTPException(404)
     return FileResponse(p, content_disposition_type="inline", filename=p.name)

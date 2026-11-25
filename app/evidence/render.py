@@ -103,18 +103,27 @@ align-items:center;overflow:hidden} .addr .u{white-space:nowrap;overflow:hidden;
 """
 
 
-def evidence_html(header: list[tuple[str, str]], blocks: list[dict], footer: str) -> str:
-    """header: [(label, value-or-url)]; blocks: [{heading, url, frame_html, caption, quote}]"""
+def evidence_html(header: list[tuple[str, str]], blocks: list[dict], footer: str,
+                  sources: list[dict] | None = None, title: str = "") -> str:
+    """header: [(label, value-or-url)]; blocks: [{heading, url, frame_html, caption, quote, note}];
+    sources: [{name, url, result}] → 'Sources consulted' table (every official URL checked, found or not)."""
     def val(v):
         return f'<a href="{e(v)}">{e(v)}</a>' if str(v).startswith("http") else e(v)
 
-    head = "".join(f"<p><b>{e(k)}:</b> {val(v)}</p>" for k, v in header)
+    head = (f"<h2>{e(title)}</h2>" if title else "") + "".join(f"<p><b>{e(k)}:</b> {val(v)}</p>" for k, v in header)
+    if sources:
+        head += ('<table class="src"><tr><th>Source consulted</th><th>Official URL</th><th>Result</th></tr>' +
+                 "".join(f'<tr><td>{e(s.get("name"))}</td><td><a href="{e(s.get("url"))}">{e(s.get("url"))}</a></td>'
+                         f'<td class="{"ok" if s.get("found") else "no"}">{e(s.get("result"))}</td></tr>'
+                         for s in sources) + "</table>")
     body = ""
     for b in blocks:
         body += f'<div class="blk">{f"<h3>{e(b["heading"])}</h3>" if b.get("heading") else ""}'
         if b.get("url"):
             body += f'<p class="lnk"><a href="{e(b["url"])}">{e(b["url"])}</a></p>'
         body += b.get("frame_html", "")
+        if b.get("note"):
+            body += f'<div class="note">{e(b["note"])}</div>'
         if b.get("quote"):
             body += f'<blockquote>{e(b["quote"])}</blockquote>'
         if b.get("caption"):
@@ -126,4 +135,9 @@ p{{margin:6px 0}} a{{color:#0563c1}} h3{{font-size:15px;margin:18px 0 4px}} .lnk
 .blk{{}} .bf{{page-break-inside:avoid}} blockquote{{border-left:4px solid #f0b400;background:#fff8e1;margin:6px 0 10px;padding:8px 12px;
 font-size:12.5px;white-space:pre-wrap}} .cap{{font-size:11.5px;color:#555}}
 .foot{{margin-top:14px;font-size:10.5px;color:#777;border-top:1px solid #ddd;padding-top:6px}}
+h2{{font-size:18px;margin:0 0 10px}} .note{{border:1px solid #e0b4b4;background:#fff6f6;padding:8px 12px;font-size:12.5px;margin:6px 0}}
+table.src{{border-collapse:collapse;width:100%;margin:10px 0 4px;font-size:11.5px}}
+table.src th,table.src td{{border:1px solid #d0d0d0;padding:4px 6px;text-align:left;vertical-align:top}}
+table.src td:nth-child(2){{word-break:break-all}} table.src td:nth-child(3){{min-width:110px}}
+table.src th{{background:#f3f3f3}} td.ok{{color:#11691f;font-weight:600}} td.no{{color:#a11}}
 {FRAME_CSS}</style></head><body>{head}{body}<div class="foot">{e(footer)}</div></body></html>"""

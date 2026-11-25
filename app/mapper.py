@@ -120,8 +120,11 @@ def build(case: dict, facts: dict) -> tuple[dict, list[dict], str]:
     F, flags = {}, []
     rv = facts.get("revert", {}).get("fields", {})
     rv_src = f"University revert · {facts.get('revert', {}).get('source', '')}"
-    ce = facts.get("certs", {}).get("fields", {})
-    ce_src = f"Degree/Transcript ({facts.get('certs', {}).get('method', '')})"
+    certs = facts.get("certs", {}) or {}
+    ce = certs.get("fields", {})
+    ce_src = "Degree/Transcript (OCR)" if certs.get("method") == "openai-ocr" else \
+        f"Degree/Transcript ({certs.get('method', '')})"
+    ce_low = set(certs.get("low_confidence", []))
     acc = facts.get("accreditation") or {}
     pas = facts.get("passing") or {}
     rmail = facts.get("revert_mail") or {}
@@ -146,22 +149,50 @@ def build(case: dict, facts: dict) -> tuple[dict, list[dict], str]:
     univ = acc.get("canonical_university") or rv.get("university", "").split(",")[0].strip() or ce.get("university", "")
     univ_src = "UGC/AICTE official record" if acc.get("canonical_university") else (rv_src if rv else ce_src)
     college = clean_college(rv.get("institution", "")) or clean_college(ce.get("college", ""))
-    doc_name = ce.get("candidate_name") or rv.get("name", "")
+    # the name as printed on the documents: when degree and transcript OCR disagree by a letter or two
+    # ("Yachaspati" / "Vachaspati"), keep the reading confirmed by the revert / passport and note the variant
+    name_cands = [n for n in certs.get("name_candidates", []) if n] or ([ce["candidate_name"]] if ce.get("candidate_name") else [])
+    refs = [x for x in (rv.get("name"), case.get("passport_name"), mo.get("applicant_full_name")) if x]
+    name_note = ""
+    if len({clean_name(n) for n in name_cands}) > 1 and refs:
+        best = max(name_cands, key=lambda n: max(fuzz.token_sort_ratio(clean_name(n), clean_name(r)) for r in refs))
+        others = [n for n in name_cands if clean_name(n) != clean_name(best)]
+        name_note = f"OCR read '{others[0]}' on another document; '{best}' matches the revert/passport"
+        doc_name = best
+    else:
+        doc_name = (name_cands[0] if name_cands else "") or rv.get("name", "")
     regno_rev = re.sub(r"\D", "", rv.get("registration_no", ""))
     regno_doc = re.sub(r"\D", "", ce.get("register_no", ""))
     regno = rv.get("registration_no") or re.sub(r"/.*$", "", ce.get("register_no", ""))
     year = year_of(rv.get("year_of_passing")) or year_of(ce.get("exam_month_year")) or year_of(ce.get("last_appearance"))
     rv_degree = rv.get("degree") or rv.get("branch", "")
-    level = ce.get("degree_level") or level_from_text(rv_degree)
-    dshort = short_key(ce.get("degree_short")) or short_from_text(rv_degree)
-    title_doc = re.sub(r"(?i)^degree of\s+", "", ce.get("degree_title", "") or rv.get("degree", "")).strip()
+    # the university's own statement of the degree outranks OCR of a header abbreviation; the certificate's
+    # printed title is kept when it was actually read from the degree itself
+    cert_title_from_degree = (certs.get("source") or {}).get("degree_title") == "degree"
+    use_rv_degree = bool(rv.get("degree")) and not cert_title_from_degree
+    level = (level_from_text(rv_degree) if use_rv_degree else "") or ce.get("degree_level") or level_from_text(rv_degree)
+    dshort = (short_from_text(rv_degree) if use_rv_degree else "") or short_key(ce.get("degree_short")) or short_from_text(rv_degree)
+    if rv.get("degree") and ce.get("degree_short") and short_from_text(rv["degree"]) and \
+            short_key(ce["degree_short"]) != short_from_text(rv["degree"]):
+        flags.append({"level": "warn", "field": "q_cert_title",
+                      "msg": f"Degree differs: revert '{rv['degree']}' vs documents '{ce.get('degree_title') or ce['degree_short']}'"})
+    title_doc = re.sub(r"(?i)^degree of\s+", "", (rv.get("degree", "") if use_rv_degree else "")
+                       or ce.get("degree_title", "") or rv.get("degree", "")).strip()
     title_doc = re.sub(r"\s+", " ", title_doc)
     letters = [c for c in title_doc if c.isalpha()]
     mostly_upper = letters and sum(c.isupper() for c in letters) / len(letters) > 0.6
     title_display = title_doc.title().replace(" In ", " in ").replace(" Of ", " of ") if mostly_upper else title_doc
-    major = ce.get("major") or re.sub(r"(?i)^\s*[A-Z.]+\s+|\(.*?\)", "", rv.get("branch", "")).strip()
+    rv_major = ""
+    if rv.get("degree"):
+        m = re.search(r"(?i)\bin\s+(.+)$", rv["degree"]) or re.search(r"\(([^)]+)\)", rv["degree"])
+        rv_major = m.group(1).strip() if m else ""
+    major = (rv_major if use_rv_degree else "") or ce.get("major") or rv_major or \
+        re.sub(r"(?i)^\s*[A-Z.]+\s+|\(.*?\)", "", rv.get("branch", "")).strip()
     status = rv.get("status", "")
     genuine = bool(re.search(r"(?i)\bgenuine\b", status)) and not re.search(r"(?i)not\s+genuine|fake", status)
+    for k in sorted(ce_low):
+        flags.append({"level": "warn", "field": "q_applicant_name" if k == "candidate_name" else "q_cert_title",
+                      "msg": f"Low OCR confidence for '{k}' — check against the document image"})
 
     if rv.get("name") and doc_name and clean_name(rv["name"]) != clean_name(doc_name):
         flags.append({"level": "warn", "field": "q_applicant_name",
@@ -180,10 +211,12 @@ def build(case: dict, facts: dict) -> tuple[dict, list[dict], str]:
     elif not status:
         flags.append({"level": "warn", "field": "o_genuine", "msg": "Revert does not state a verification status"})
     elif not genuine:
-        flags.append({"level": "error", "field": "o_genuine", "msg": f"Revert status is '{status}'"})
+        flags.append({"level": "error", "field": "o_genuine",
+                      "msg": f"Revert status is '{status}'" + ("" if re.search(r"(?i)genuine|fake|forged", status)
+                                                                else " — it does not state that the document is genuine")})
 
-    title_src = ce_src if ce.get("degree_title") else rv_src
-    level_src = ce_src if ce.get("degree_level") else rv_src
+    title_src = rv_src if use_rv_degree or not ce.get("degree_title") else ce_src
+    level_src = rv_src if use_rv_degree or not ce.get("degree_level") else ce_src
     table_rev = facts.get("revert", {}).get("method", "").startswith("table")
     verified_date = (dd_mm_yyyy(rv.get("verified_date")) if table_rev else "") or dd_mm_yyyy(rmail.get("date", ""))
     verified_src = rv_src if table_rev and rv.get("verified_date") else "Date of the university's reply e-mail"
@@ -194,7 +227,11 @@ def build(case: dict, facts: dict) -> tuple[dict, list[dict], str]:
     pursuit = "Engineering Qualification" if acc.get("technical") or re.search(r"(?i)engineering|technology", title_doc + major) \
         else ("Management Qualification" if re.search(r"(?i)management|business", title_doc) else "Academic Qualification")
     inst_type = "University Only" if univ else ("Institute Only" if college else "")
-    full_time = re.search(r"(?i)full[\s-]*time|\bregular\b", rv.get("branch", "") + " " + rv.get("mode_of_study", ""))
+    mode_text = rv.get("branch", "") + " " + rv.get("mode_of_study", "")
+    full_time = re.search(r"(?i)full[\s-]*time|\bregular\b", mode_text)
+    study_mode = "Full Time - On Campus" if full_time else (
+        "Part Time" if re.search(r"(?i)part[\s-]*time", mode_text) else
+        "Distance / Online" if re.search(r"(?i)distance|online|correspondence|open", mode_text) else "")
     lateral = ce.get("first_semester", "").lstrip("0") in ("3",) or "lateral" in (ce.get("notes", "").lower())
     transfer_note = "Transcript starts at Semester 03 → lateral entry (after diploma), not a transfer" if lateral else ""
     subj = max(SUBJECTS, key=lambda s: fuzz.ratio(s.lower(), major.lower())) if major else ""
@@ -206,7 +243,8 @@ def build(case: dict, facts: dict) -> tuple[dict, list[dict], str]:
     put("q_inst_type", inst_type, "Rule: university named on documents", "ops convention for affiliated colleges")
     put("q_university", univ, univ_src)
     put("q_college", college, rv_src if rv.get("institution") else ce_src)
-    put("q_applicant_name", doc_name, ce_src if ce.get("candidate_name") else rv_src)
+    put("q_applicant_name", doc_name, ce_src if ce.get("candidate_name") else rv_src, name_note,
+        "review" if "candidate_name" in ce_low else "")
     put("q_year", year, rv_src if rv.get("year_of_passing") else ce_src)
     put("q_cert_title", title_display, title_src)
     put("q_study_level", level, level_src)
@@ -219,7 +257,7 @@ def build(case: dict, facts: dict) -> tuple[dict, list[dict], str]:
         f"documents are in {ce.get('document_language') or 'English'}")
 
     # ---------- 3. Name check ----------
-    put("n_doc_name", doc_name, ce_src)
+    put("n_doc_name", doc_name, ce_src, name_note)
     match, note = name_match(doc_name, case.get("passport_name") or mo.get("applicant_full_name", ""))
     put("n_match", match, "Engine: degree name vs passport name", note,
         "" if match.startswith("Yes") else "review")
@@ -237,8 +275,8 @@ def build(case: dict, facts: dict) -> tuple[dict, list[dict], str]:
     end = mm_yyyy(rv.get("year_of_passing")) or mm_yyyy(ce.get("last_appearance")) or mm_yyyy(ce.get("exam_month_year"))
     put("v_end", end, rv_src if rv.get("year_of_passing") else ce_src)
     put("v_pursuit", pursuit, "Rule: programme type")
-    put("v_mode", "Full Time - On Campus" if full_time else "", rv_src, rv.get("mode_of_study") or rv.get("branch", ""))
-    put("v_mode_status", "Mentioned in Verified response" if full_time else "", rv_src)
+    put("v_mode", study_mode, rv_src, rv.get("mode_of_study") or rv.get("branch", ""))
+    put("v_mode_status", "Mentioned in Verified response" if study_mode else "", rv_src)
     put("v_branch", DEFAULTS["v_branch"] if country else "", "Ops convention (precedent case)")
     put("v_exam_location", DEFAULTS["v_exam_location"] if country else "", "Ops convention (precedent case)")
     put("v_country_study", country_name, univ_src)

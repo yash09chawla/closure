@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Research tools</title>
+<link rel="icon" href="/static/img/logo.png">
+<link rel="stylesheet" href="/static/css/hvops.css">
+<style>
+.rcols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:900px){.rcols{grid-template-columns:1fr}}
+.rbox{padding:16px 18px}
+.rbox h2{font-size:16px;margin:0 0 4px}
+.rbox .grid2{margin-top:12px}
+.rbox .fg.full{grid-column:1/-1}
+.res{margin-top:14px;font-size:13px;border-top:1px solid #e3e3e3;padding-top:10px;display:none}
+.res.on{display:block}
+.res .kv{display:grid;grid-template-columns:150px 1fr;gap:4px 10px}
+.res .kv b{color:#555;font-weight:600}
+.res table{border-collapse:collapse;width:100%;margin-top:8px;font-size:12px}
+.res td,.res th{border:1px solid #ddd;padding:4px 6px;text-align:left;vertical-align:top;word-break:break-all}
+.ok{color:#11691f;font-weight:600}.no{color:#a11;font-weight:600}
+.log{background:#f7f7f7;border-radius:4px;padding:6px 8px;font-size:11.5px;color:#555;margin-top:8px;white-space:pre-wrap}
+.privacy{background:#eef6ee;border:1px solid #b9d8b9;border-radius:6px;padding:8px 12px;font-size:12.5px;margin-bottom:14px}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a class="brand" href="/"><img src="/static/img/logo.png" alt=""> HV OPS</a>
+  <div class="menu"><a href="/" style="color:inherit;text-decoration:none"><span>Closure queue</span></a><span class="on">Research tools</span></div>
+  <div class="right"></div>
+</nav>
+<div class="page">
+  <div class="hero"><h1>Research tools — accreditation &amp; passing criteria</h1></div>
+  <div class="privacy">🔒 These two services take <b>general, public information only</b> (institution, degree, major, mode, duration,
+    regulation year). Never enter a candidate's name, register number or date of birth. The server blocks requests that
+    contain personal data, and every request sent to OpenAI is logged in <code>data/audit/outbound.jsonl</code>.</div>
+  <div class="rcols">
+    <div class="card rbox">
+      <h2>Accreditation (UGC / AICTE)</h2>
+      <p class="eh-sub">Searches the official UGC university lists and the AICTE 2025-26 approved-institution list. Produces
+        an evidence PDF with browser screenshots (URL visible) and every source URL.</p>
+      <div class="grid2">
+        <div class="fg full"><label>University / institution name *</label><input class="fc" id="a_university" placeholder="e.g. Anna University"></div>
+        <div class="fg full"><label>Affiliated college (optional)</label><input class="fc" id="a_college" placeholder="e.g. St. Xavier's College of Engineering"></div>
+        <div class="fg"><label>Programme (optional)</label><input class="fc" id="a_programme" placeholder="e.g. B.E. Civil Engineering"></div>
+        <div class="fg"><label>State (optional)</label><input class="fc" id="a_state" placeholder="e.g. Tamil Nadu"></div>
+      </div>
+      <div style="margin-top:12px"><button class="btn-red" id="a_btn" onclick="runAcc()">Run accreditation check</button></div>
+      <div class="res" id="a_res"></div>
+    </div>
+    <div class="card rbox">
+      <h2>Passing criteria (official institute website)</h2>
+      <p class="eh-sub">Finds the regulation on the institute's own website only, highlights the passing clause and produces an
+        evidence PDF (URL, screenshot, verbatim clause).</p>
+      <div class="grid2">
+        <div class="fg full"><label>University / institute *</label><input class="fc" id="p_institute" placeholder="e.g. Anna University"></div>
+        <div class="fg"><label>Degree *</label><input class="fc" id="p_degree" placeholder="e.g. B.E. / Bachelor of Engineering"></div>
+        <div class="fg"><label>Major / branch</label><input class="fc" id="p_major" placeholder="e.g. Civil Engineering"></div>
+        <div class="fg"><label>Study mode</label><select class="fc" id="p_mode"><option>Full-time</option><option>Part-time</option><option>Distance</option><option>Online</option></select></div>
+        <div class="fg"><label>Duration (years)</label><input class="fc" id="p_duration" placeholder="e.g. 4"></div>
+        <div class="fg"><label>Regulation / scheme</label><input class="fc" id="p_regulation" placeholder="e.g. 2017"></div>
+        <div class="fg"><label>Year of completion</label><input class="fc" id="p_passing_year" placeholder="e.g. 2024"></div>
+        <div class="fg full"><label>Official website (optional — taken from UGC if known)</label><input class="fc" id="p_site" placeholder="e.g. https://www.annauniv.edu"></div>
+        <div class="fg full"><label><input type="checkbox" id="p_aff"> Studied at an affiliated college</label></div>
+      </div>
+      <div style="margin-top:12px"><button class="btn-red" id="p_btn" onclick="runPass()">Find passing criteria</button></div>
+      <div class="res" id="p_res"></div>
+    </div>
+  </div>
+</div>
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const link = u => u ? `<a href="${esc(u)}" target="_blank">${esc(u)}</a>` : "—";
+
+async function post(url, body, btn, box) {
+  const label = btn.textContent;
+  btn.disabled = true; btn.textContent = "Working…";
+  box.classList.add("on"); box.innerHTML = `<span class="eh-sub">Searching official sources…</span>`;
+  try {
+    const r = await fetch(url, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body)});
+    const j = await r.json();
+    if (!r.ok) throw new Error(j.detail || r.statusText);
+    return j;
+  } catch (e) { box.innerHTML = `<span class="no">✗ ${esc(e.message)}</span>`; return null; }
+  finally { btn.disabled = false; btn.textContent = label; }
+}
+function sourcesTable(src) {
+  if (!src || !src.length) return "";
+  return `<table><tr><th>Source</th><th>URL</th><th>Result</th></tr>` + src.map(s =>
+    `<tr><td>${esc(s.name)}</td><td>${link(s.url)}</td><td class="${s.found ? "ok" : "no"}">${esc(s.result)}</td></tr>`).join("") + `</table>`;
+}
+async function runAcc() {
+  const body = {university: $("#a_university").value, college: $("#a_college").value, programme: $("#a_programme").value, state: $("#a_state").value};
+  const box = $("#a_res");
+  const j = await post("/api/research/accreditation", body, $("#a_btn"), box);
+  if (!j) return;
+  box.innerHTML = `<div class="kv">
+    <b>Status</b><span class="${j.status === "Accredited" ? "ok" : "no"}">${esc(j.status)}</span>
+    <b>Body</b><span>${esc(j.body)}</span>
+    <b>Official name</b><span>${esc(j.canonical_university)}</span>
+    <b>Proof URL</b><span>${link(j.url)}</span>
+    <b>Evidence PDF</b><span>${j.pdf_url ? `<a href="${j.pdf_url}" target="_blank">Open PDF</a>` : "—"}</span>
+    <b>Time / cost</b><span>${j.seconds}s · $${((j.meta || {}).usd || 0).toFixed(3)}</span></div>
+    ${sourcesTable(j.sources)}<div class="log">${esc((j.log || []).join("\n"))}</div>`;
+}
+async function runPass() {
+  const body = {institute: $("#p_institute").value, degree: $("#p_degree").value, major: $("#p_major").value, mode: $("#p_mode").value,
+    duration_years: $("#p_duration").value, regulation: $("#p_regulation").value, passing_year: $("#p_passing_year").value,
+    official_website: $("#p_site").value, affiliated_college: $("#p_aff").checked};
+  const box = $("#p_res");
+  const j = await post("/api/research/passing-criteria", body, $("#p_btn"), box);
+  if (!j) return;
+  if (!j.found) { box.innerHTML = `<span class="no">✗ Not found: ${esc(j.reason)}</span><div class="log">${esc((j.log || []).join("\n"))}</div>`; return; }
+  box.innerHTML = `<div class="kv">
+    <b>Passing criteria</b><span>${esc(j.criteria)}</span>
+    <b>Clause</b><span>${esc(j.clause_heading)}${j.page ? ` (page ${j.page})` : ""}</span>
+    <b>Regulation</b><span>${esc(j.regulation || j.document_title)}</span>
+    <b>Document</b><span>${link(j.url)}</span>
+    <b>Numbers confirmed</b><span class="${j.verified ? "ok" : "no"}">${j.verified ? "Yes — found in the document text" : "No — check manually"}</span>
+    <b>Evidence PDF</b><span>${j.pdf_url ? `<a href="${j.pdf_url}" target="_blank">Open PDF</a>` : "—"}</span>
+    <b>Time / cost</b><span>${j.seconds}s · ${j.cached ? "knowledge cache ($0)" : "$" + ((j.meta || {}).usd || 0).toFixed(3)}</span></div>
+    ${sourcesTable(j.sources)}<div class="log">${esc((j.log || []).join("\n"))}</div>`;
+}
+</script>
+</body>
+</html>
